@@ -67,8 +67,8 @@ export default function Sidebar() {
                 title={item.name}
                 className={`group relative w-10 h-10 sm:w-11 sm:h-11 rounded-2xl flex items-center justify-center transition-all duration-200 shrink-0 ${
                   isActive
-                    ? "bg-[#E2FD52] text-slate-950 shadow-md scale-105"
-                    : "bg-white/10 text-white/90 hover:bg-white/20 hover:text-white hover:scale-105"
+                    ? "bg-[#E2FD52] text-slate-950 shadow-md shadow-lime-400/25 scale-105"
+                    : "bg-white/18 text-white hover:bg-white/30 hover:text-white backdrop-blur-md border border-white/25 shadow-2xs hover:scale-105"
                 }`}
               >
                 <Icon className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:scale-110 ${isActive ? "stroke-[2.5]" : ""}`} />
@@ -84,7 +84,7 @@ export default function Sidebar() {
       </div>
 
       {/* Bottom Actions (Profile & Settings) */}
-      <div className="flex flex-col items-center gap-1.5 sm:gap-2 w-full shrink-0 pt-2 border-t border-white/10">
+      <div className="flex flex-col items-center gap-1.5 sm:gap-2 w-full shrink-0 pt-2 border-t border-white/15">
         {bottomNavItems.map((item) => {
           const Icon = item.icon;
           const isActive = pathname.startsWith(item.href);
@@ -96,8 +96,8 @@ export default function Sidebar() {
               title={item.name}
               className={`group relative w-10 h-10 sm:w-11 sm:h-11 rounded-2xl flex items-center justify-center transition-all duration-200 shrink-0 ${
                 isActive
-                  ? "bg-[#E2FD52] text-slate-950 shadow-md scale-105"
-                  : "bg-white/10 text-white/90 hover:bg-white/20 hover:text-white hover:scale-105"
+                  ? "bg-[#E2FD52] text-slate-950 shadow-md shadow-lime-400/25 scale-105"
+                  : "bg-white/18 text-white hover:bg-white/30 hover:text-white backdrop-blur-md border border-white/25 shadow-2xs hover:scale-105"
               }`}
             >
               <Icon className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:scale-110" />

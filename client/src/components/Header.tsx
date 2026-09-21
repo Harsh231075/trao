@@ -23,7 +23,7 @@ export default function Header({ onOpenCreateKit }: HeaderProps) {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search your kits, questions, topics..."
-          className="w-full pl-10 pr-4 py-1.5 sm:py-2 bg-slate-50 hover:bg-slate-100/70 focus:bg-white text-slate-800 text-xs sm:text-sm placeholder-slate-400 rounded-full border border-slate-200/80 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+          className="w-full pl-10 pr-12 py-2 bg-white/95 focus:bg-white text-slate-800 text-xs sm:text-sm placeholder-slate-400 rounded-full border border-slate-200/90 shadow-2xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
         />
         <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
           <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[9px] font-medium text-slate-400 bg-white border border-slate-200 rounded shadow-2xs">
@@ -33,24 +33,24 @@ export default function Header({ onOpenCreateKit }: HeaderProps) {
       </div>
 
       {/* Right Controls: Notifications, Messages, User Profile */}
-      <div className="flex items-center justify-between sm:justify-end gap-2.5 sm:gap-3 shrink-0">
+      <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-2.5 shrink-0">
         {/* Notification Bell */}
         <button
           type="button"
-          className="relative p-2 rounded-full text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+          className="relative w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-full bg-white/90 hover:bg-white border border-slate-200/80 text-slate-600 hover:text-slate-900 flex items-center justify-center shadow-2xs transition-all"
           title="Notifications"
         >
-          <Bell className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+          <Bell className="w-4 h-4" />
           <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white" />
         </button>
 
         {/* Messages / Mail */}
         <button
           type="button"
-          className="relative p-2 rounded-full text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+          className="relative w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-full bg-white/90 hover:bg-white border border-slate-200/80 text-slate-600 hover:text-slate-900 flex items-center justify-center shadow-2xs transition-all"
           title="Messages"
         >
-          <Mail className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+          <Mail className="w-4 h-4" />
           <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white" />
         </button>
 
@@ -58,9 +58,9 @@ export default function Header({ onOpenCreateKit }: HeaderProps) {
         <div className="relative">
           <button
             onClick={() => setShowProfileMenu(!showProfileMenu)}
-            className="flex items-center gap-2 p-1 pl-1.5 hover:bg-slate-50 rounded-full border border-slate-200/60 transition-all text-left"
+            className="flex items-center gap-2 p-1 pl-1.5 pr-2.5 bg-white/90 hover:bg-white rounded-full border border-slate-200/80 shadow-2xs transition-all text-left"
           >
-            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-500 text-white flex items-center justify-center font-bold text-xs shadow-sm overflow-hidden ring-1 ring-blue-100">
+            <div className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-500 text-white flex items-center justify-center font-bold text-xs shadow-xs overflow-hidden ring-1 ring-blue-100">
               <span>HS</span>
             </div>
             <div className="hidden lg:block pr-1">

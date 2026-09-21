@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --background: #2563eb;
+  --background: #387ef2;
   --foreground: #0f172a;
-  --canvas-bg: #ffffff;
+  --canvas-bg: rgba(255, 255, 255, 0.88);
 }
 
 @theme inline {
@@ -25,11 +25,11 @@ html, body {
 }
 
 body {
-  background-color: #1e40af;
+  background-color: #387ef2;
   background-image: 
-    radial-gradient(at 0% 0%, hsla(224, 76%, 55%, 1) 0, transparent 50%), 
-    radial-gradient(at 100% 100%, hsla(217, 91%, 60%, 1) 0, transparent 50%),
-    radial-gradient(at 50% 50%, hsla(221, 83%, 53%, 1) 0, transparent 60%);
+    radial-gradient(at 10% 15%, rgba(165, 205, 255, 0.45) 0, transparent 55%), 
+    radial-gradient(at 90% 85%, rgba(125, 185, 255, 0.35) 0, transparent 50%),
+    linear-gradient(135deg, #4f8ffb 0%, #387ef2 50%, #256eed 100%);
   color: #0f172a;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;

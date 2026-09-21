@@ -31,18 +31,22 @@ export default function RootLayout({
     >
       <body
         suppressHydrationWarning
-        className="h-screen max-h-screen overflow-hidden flex flex-col bg-blue-600 select-none"
+        className="h-screen max-h-screen overflow-hidden flex flex-col select-none"
       >
-        {/* Outer Frame: Vibrant Royal Blue background matching Image 2 */}
+        {/* Outer Frame: Soft, Luminous Sky-Royal Gradient matching the reference tablet */}
         <div
           suppressHydrationWarning
-          className="w-full h-screen max-h-screen p-2 sm:p-3 md:p-4 lg:p-5 flex flex-row gap-2 sm:gap-3 md:gap-4 box-border overflow-hidden"
+          className="w-full h-screen max-h-screen p-2 sm:p-3 md:p-4 lg:p-5 flex flex-row gap-2 sm:gap-3 md:gap-4 box-border overflow-hidden relative"
         >
+          {/* Subtle Ambient Glow behind sidebar & canvas */}
+          <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-300/30 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-indigo-300/20 rounded-full blur-3xl pointer-events-none" />
+
           {/* Fixed Left Navigation Rail */}
           <Sidebar />
 
-          {/* Main White Elevated Canvas - Only its interior is scrollable */}
-          <main className="flex-1 h-full max-h-full bg-white rounded-[24px] sm:rounded-[30px] shadow-[0_20px_60px_rgba(15,23,42,0.22)] border border-white/40 overflow-hidden flex flex-col min-w-0">
+          {/* Main Elevated Canvas - Frosted Translucent White with Blur matching reference mockup */}
+          <main className="flex-1 h-full max-h-full bg-white/85 backdrop-blur-2xl rounded-[26px] sm:rounded-[32px] shadow-[0_25px_70px_rgba(20,50,140,0.18)] border border-white/70 overflow-hidden flex flex-col min-w-0 relative z-10">
             <div className="flex-1 h-full overflow-y-auto p-3.5 sm:p-4 lg:p-5 select-text">
               {children}
             </div>
