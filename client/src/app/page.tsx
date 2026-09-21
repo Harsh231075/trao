@@ -122,13 +122,13 @@ export default function DashboardPage() {
             </div>
           </div>
           <div>
-            <p className="text-xs sm:text-[13px] font-bold text-blue-600">Questions Practiced</p>
+            <p className="text-xs sm:text-[13px] font-black text-blue-600 tracking-tight">Questions Practiced</p>
             <div className="flex items-end gap-1.5 h-4.5 mt-2">
-              <span className="w-2.5 h-2 bg-blue-200 rounded-xs" />
-              <span className="w-2.5 h-3 bg-blue-300 rounded-xs" />
-              <span className="w-2.5 h-3.5 bg-blue-400 rounded-xs" />
-              <span className="w-2.5 h-4 bg-blue-500 rounded-xs" />
-              <span className="w-2.5 h-4.5 bg-blue-600 rounded-xs" />
+              <span className="w-2.5 h-2 bg-blue-300 rounded-xs" />
+              <span className="w-2.5 h-3 bg-blue-400 rounded-xs" />
+              <span className="w-2.5 h-3.5 bg-blue-500 rounded-xs" />
+              <span className="w-2.5 h-4 bg-blue-600 rounded-xs" />
+              <span className="w-2.5 h-4.5 bg-blue-700 rounded-xs" />
             </div>
           </div>
         </div>
@@ -142,8 +142,8 @@ export default function DashboardPage() {
             </div>
           </div>
           <div>
-            <p className="text-xs sm:text-[13px] font-bold text-slate-800">Coverage Gaps</p>
-            <p className="text-xs font-semibold text-rose-500 mt-2">
+            <p className="text-xs sm:text-[13px] font-black text-slate-900 tracking-tight">Coverage Gaps</p>
+            <p className="text-xs font-extrabold text-rose-600 mt-2">
               Second pass queued
             </p>
           </div>
@@ -158,8 +158,8 @@ export default function DashboardPage() {
             </div>
           </div>
           <div>
-            <p className="text-xs sm:text-[13px] font-extrabold text-slate-950">Flashcards Due</p>
-            <p className="text-xs font-bold text-slate-800/80 mt-2">
+            <p className="text-xs sm:text-[13px] font-black text-slate-950 tracking-tight">Flashcards Due</p>
+            <p className="text-xs font-extrabold text-slate-900 mt-2">
               6 mastered • 14 remaining
             </p>
           </div>
@@ -174,8 +174,8 @@ export default function DashboardPage() {
             </div>
           </div>
           <div>
-            <p className="text-xs sm:text-[13px] font-bold text-blue-100">Active Prep Kits</p>
-            <p className="text-xs font-semibold text-blue-200 mt-2 flex items-center gap-1.5">
+            <p className="text-xs sm:text-[13px] font-black text-white tracking-tight">Active Prep Kits</p>
+            <p className="text-xs font-bold text-blue-100 mt-2 flex items-center gap-1.5">
               <Clock className="w-3.5 h-3.5" />
               <span>AI Pipeline ready</span>
             </p>
