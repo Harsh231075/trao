@@ -139,11 +139,8 @@ export default function DashboardPage() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-3.5">
         {/* Card 1: 128 Questions Practiced */}
         <div className="bg-white/95 backdrop-blur-sm p-3.5 sm:p-4 rounded-2xl sm:rounded-3xl border border-[#d8e8fe] shadow-2xs hover:shadow-xs transition-all relative overflow-hidden group min-h-[114px] sm:min-h-[122px] flex flex-col justify-between">
-          <div className="flex items-start justify-between">
+          <div>
             <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight leading-none">128</h3>
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100 shadow-2xs">
-              <Activity className="w-4 h-4" />
-            </div>
           </div>
           <div>
             <p className="text-xs font-semibold text-blue-600">Questions Practiced</p>
@@ -159,11 +156,8 @@ export default function DashboardPage() {
 
         {/* Card 2: 03 Coverage Gaps */}
         <div className="bg-white/95 backdrop-blur-sm p-3.5 sm:p-4 rounded-2xl sm:rounded-3xl border border-[#d8e8fe] shadow-2xs hover:shadow-xs transition-all relative overflow-hidden group min-h-[114px] sm:min-h-[122px] flex flex-col justify-between">
-          <div className="flex items-start justify-between">
+          <div>
             <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight leading-none">03</h3>
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-rose-50 text-rose-500 flex items-center justify-center border border-rose-100 shadow-2xs">
-              <AlertTriangle className="w-4 h-4" />
-            </div>
           </div>
           <div>
             <p className="text-xs font-semibold text-slate-700">Coverage Gaps</p>
@@ -175,11 +169,8 @@ export default function DashboardPage() {
 
         {/* Card 3: 14 Flashcards Due (Vibrant Lime/Yellow Card) */}
         <div className="bg-[#eefc57] text-slate-900 p-3.5 sm:p-4 rounded-2xl sm:rounded-3xl shadow-2xs hover:shadow-xs transition-all relative overflow-hidden group border-0 min-h-[114px] sm:min-h-[122px] flex flex-col justify-between">
-          <div className="flex items-start justify-between">
+          <div>
             <h3 className="text-2xl sm:text-3xl font-bold text-slate-950 tracking-tight leading-none">14</h3>
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-black/10 text-slate-900 flex items-center justify-center shadow-2xs">
-              <FileText className="w-4 h-4" />
-            </div>
           </div>
           <div>
             <p className="text-xs font-semibold text-slate-900">Flashcards Due</p>
@@ -191,17 +182,13 @@ export default function DashboardPage() {
 
         {/* Card 4: 05 Active Prep Kits (Royal Blue Card) */}
         <div className="bg-[#2563eb] text-white p-3.5 sm:p-4 rounded-2xl sm:rounded-3xl shadow-2xs hover:shadow-xs transition-all relative overflow-hidden group border-0 min-h-[114px] sm:min-h-[122px] flex flex-col justify-between">
-          <div className="flex items-start justify-between">
+          <div>
             <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight leading-none">05</h3>
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/20 text-white flex items-center justify-center backdrop-blur-xs shadow-2xs">
-              <Sparkles className="w-4 h-4" />
-            </div>
           </div>
           <div>
             <p className="text-xs font-semibold text-blue-100">Active Prep Kits</p>
-            <p className="text-[11px] sm:text-xs font-medium text-blue-200 mt-1.5 flex items-center gap-1.5">
-              <Clock className="w-3.5 h-3.5" />
-              <span>AI Pipeline ready</span>
+            <p className="text-[11px] sm:text-xs font-medium text-blue-200 mt-1.5">
+              AI Pipeline ready
             </p>
           </div>
         </div>

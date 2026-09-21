@@ -14,8 +14,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PrepAI - Interview Preparation Platform",
+  title: "Trao - AI Interview Preparation Platform",
   description: "AI-powered interview kits, personalized practice, and preparation companion.",
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export default function RootLayout({
