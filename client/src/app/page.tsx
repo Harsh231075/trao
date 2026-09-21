@@ -37,7 +37,7 @@ interface InterviewQueueItem {
 export default function DashboardPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Active Prep Kits in Queue: Exactly 3 rows to fit single-glance desktop view
+  // Active Prep Kits in Queue
   const [queueItems] = useState<InterviewQueueItem[]>([
     {
       id: 1,
@@ -74,6 +74,30 @@ export default function DashboardPage() {
       focusReqs: "APIs & Idempotency • Node.js • Postgres",
       vitals: { label1: "REQ", val1: "10 Must", label2: "COV", val2: "100%" },
       status: "Complete",
+    },
+    {
+      id: 4,
+      company: "Meta",
+      role: "Software Engineer — Infra",
+      avatar: "M",
+      avatarBg: "bg-blue-600 text-white",
+      timeline: "18 Days",
+      timelineDate: "Interview: Oct 09",
+      focusReqs: "Graph APIs • React • Algorithms",
+      vitals: { label1: "REQ", val1: "9 Must", label2: "COV", val2: "74%", isAlert: true },
+      status: "In Progress",
+    },
+    {
+      id: 5,
+      company: "Notion",
+      role: "Product Engineer",
+      avatar: "N",
+      avatarBg: "bg-slate-800 text-white",
+      timeline: "28 Days",
+      timelineDate: "Interview: Oct 19",
+      focusReqs: "TypeScript • Collab UX • Perf Optim.",
+      vitals: { label1: "REQ", val1: "7 Must", label2: "COV", val2: "55%", isWarning: true },
+      status: "Ready",
     },
   ]);
 
@@ -188,7 +212,7 @@ export default function DashboardPage() {
         {/* Left 8 Cols: Active Interview Kits Queue + Separated AI Summary Banner */}
         <div className="lg:col-span-8 flex flex-col justify-between gap-3 h-full">
           {/* Top Card: Active Interview Kits Queue */}
-          <div className="bg-[#dce9fd] border border-[#bfdbfe]/80 rounded-2xl sm:rounded-3xl p-4 sm:p-4.5 shadow-2xs flex-1 flex flex-col justify-between min-h-[330px] sm:min-h-[360px]">
+          <div className="bg-[#dce9fd] border border-[#bfdbfe]/80 rounded-2xl sm:rounded-3xl p-4 sm:p-4.5 shadow-2xs flex-1 flex flex-col gap-2">
             {/* Header sitting on #dce9fd */}
             <div className="flex items-center justify-between px-1 mb-2 shrink-0">
               <h2 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">
@@ -202,107 +226,129 @@ export default function DashboardPage() {
               </Link>
             </div>
 
-            {/* Column Headers directly on #dce9fd */}
-            <div className="grid grid-cols-12 gap-2 text-[10px] sm:text-[11px] font-extrabold text-blue-600 tracking-wider uppercase px-4 pb-2 shrink-0">
-              <div className="col-span-4 sm:col-span-3">COMPANY &amp; ROLE</div>
-              <div className="col-span-2">TIMELINE</div>
-              <div className="col-span-3 hidden sm:block">FOCUS &amp; REQUIREMENTS</div>
-              <div className="col-span-3 sm:col-span-2">COVERAGE</div>
-              <div className="col-span-2 sm:col-span-1 text-center">STATUS</div>
-              <div className="col-span-1 text-right">ACTION</div>
-            </div>
-
-            {/* Pure White Table Card holding the 3 rows */}
-            <div className="bg-white rounded-xl sm:rounded-2xl shadow-2xs divide-y divide-slate-100 overflow-hidden flex-1 flex flex-col justify-around my-1 min-h-[250px] sm:min-h-[270px]">
-              {queueItems.map((item) => (
-                <div
-                  key={item.id}
-                  className="grid grid-cols-12 gap-2.5 items-center px-4 sm:px-6 py-4 sm:py-5 hover:bg-slate-50/70 transition-colors text-xs flex-1"
-                >
-                  {/* Company & Role */}
-                  <div className="col-span-4 sm:col-span-3 flex items-center gap-3">
-                    <div
-                      className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full ${item.avatarBg} flex items-center justify-center font-black text-xs sm:text-sm text-white shadow-xs shrink-0 ring-2 ring-white`}
-                    >
-                      {item.avatar}
-                    </div>
-                    <div className="min-w-0">
-                      <p className="font-bold text-slate-900 truncate leading-tight text-xs sm:text-sm">
-                        {item.company}
-                      </p>
-                      <p className="text-[10px] sm:text-xs text-slate-500 font-medium truncate mt-0.5">
-                        {item.role}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Timeline (Days Available) */}
-                  <div className="col-span-2 text-slate-800 text-xs">
-                    <p className="font-bold text-slate-900 text-xs sm:text-sm leading-tight">{item.timeline}</p>
-                    <p className="text-[10px] sm:text-[11px] text-slate-400 font-normal mt-0.5">{item.timelineDate}</p>
-                  </div>
-
-                  {/* Focus & Requirements */}
-                  <div className="col-span-3 hidden sm:block font-semibold text-slate-800 text-xs sm:text-[13px] truncate">
-                    {item.focusReqs}
-                  </div>
-
-                  {/* Coverage Metrics (Must-Haves & Question Coverage) */}
-                  <div className="col-span-3 sm:col-span-2 text-xs space-y-1">
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-slate-400 font-medium w-7 text-[11px]">REQ</span>
-                      <span
-                        className={`font-bold ${item.vitals.isAlert
-                            ? "text-rose-500"
-                            : item.vitals.isWarning
-                              ? "text-blue-600"
-                              : "text-emerald-600"
-                          }`}
-                      >
-                        {item.vitals.val1}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-slate-400 font-medium w-7 text-[11px]">COV</span>
-                      <span
-                        className={`font-bold ${item.vitals.isAlert
-                            ? "text-rose-500"
-                            : item.vitals.isWarning
-                              ? "text-blue-600"
-                              : "text-emerald-600"
-                          }`}
-                      >
-                        {item.vitals.val2}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Status Pill with CheckCircle2 */}
-                  <div className="col-span-2 sm:col-span-1 flex justify-center">
-                    <span
-                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold shadow-2xs ${item.status === "In Progress"
-                          ? "bg-[#fee2e2]/80 text-[#dc2626] border border-[#fecaca]/70"
-                          : item.status === "Ready"
-                            ? "bg-[#e0f2fe]/80 text-[#0284c7] border border-[#bae6fd]/70"
-                            : "bg-[#dcfce7]/80 text-[#16a34a] border border-[#bbf7d0]/70"
-                        }`}
-                    >
-                      <CheckCircle2 className="w-3.5 h-3.5 stroke-[2.2]" />
-                      <span>{item.status}</span>
-                    </span>
-                  </div>
-
-                  {/* Action Circular Button */}
-                  <div className="col-span-1 flex justify-end">
-                    <button
-                      type="button"
-                      className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-all shadow-2xs"
-                    >
-                      <MoreVertical className="w-4 h-4" />
-                    </button>
-                  </div>
+            {/* Column Headers & Table Rows in synchronized horizontal scroll container */}
+            <div className="overflow-x-auto scrollbar-thin -mx-1 px-1">
+              <div className="min-w-[880px] flex flex-col gap-1">
+                {/* Fixed Column Headers directly on #dce9fd */}
+                <div className="grid grid-cols-[200px_110px_minmax(180px,1fr)_100px_122px_56px] gap-3 items-center px-5 sm:px-6 pb-2 text-[10px] sm:text-[11px] font-extrabold text-blue-600 tracking-wider uppercase shrink-0">
+                  <div>COMPANY &amp; ROLE</div>
+                  <div>TIMELINE</div>
+                  <div>FOCUS &amp; REQUIREMENTS</div>
+                  <div>COVERAGE</div>
+                  <div className="text-center">STATUS</div>
+                  <div className="text-right">ACTION</div>
                 </div>
-              ))}
+
+                {/* Pure White Table Card holding the 3 rows */}
+                <div className="bg-white rounded-xl sm:rounded-2xl shadow-2xs divide-y divide-slate-100 overflow-hidden border border-white/80 my-1">
+                  {queueItems.map((item) => (
+                    <div
+                      key={item.id}
+                      className="grid grid-cols-[200px_110px_minmax(180px,1fr)_100px_122px_56px] gap-3 items-center px-5 sm:px-6 h-[74px] hover:bg-slate-50/70 transition-colors text-xs"
+                    >
+                      {/* 1. Company & Role (Stacked) */}
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div
+                          className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full ${item.avatarBg} flex items-center justify-center font-black text-xs sm:text-sm text-white shadow-xs shrink-0 ring-2 ring-white`}
+                        >
+                          {item.avatar}
+                        </div>
+                        <div className="min-w-0 flex flex-col justify-center">
+                          <p className="font-bold text-slate-900 truncate leading-tight text-xs sm:text-sm">
+                            {item.company}
+                          </p>
+                          <p className="text-[10px] sm:text-xs text-slate-500 font-medium truncate mt-0.5">
+                            {item.role}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* 2. Timeline (Stacked) */}
+                      <div className="flex flex-col justify-center min-w-0 text-slate-800 text-xs">
+                        <p className="font-bold text-slate-900 text-xs sm:text-sm leading-tight truncate">
+                          {item.timeline}
+                        </p>
+                        <p className="text-[10px] sm:text-[11px] text-slate-400 font-normal mt-0.5 truncate">
+                          {item.timelineDate}
+                        </p>
+                      </div>
+
+                      {/* 3. Focus & Requirements (Constrained with ellipsis) */}
+                      <div className="min-w-0 pr-2">
+                        <p
+                          className="font-medium text-slate-700 text-xs sm:text-[13px] truncate"
+                          title={item.focusReqs}
+                        >
+                          {item.focusReqs}
+                        </p>
+                      </div>
+
+                      {/* 4. Coverage Metrics (Vertically aligned REQ/COV) */}
+                      <div className="flex flex-col justify-center space-y-1 text-xs min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="text-slate-400 font-semibold w-7 text-[10px] sm:text-[11px] shrink-0">
+                            REQ
+                          </span>
+                          <span
+                            className={`font-bold text-xs ${
+                              item.vitals.isAlert
+                                ? "text-rose-500"
+                                : item.vitals.isWarning
+                                  ? "text-blue-600"
+                                  : "text-emerald-600"
+                            }`}
+                          >
+                            {item.vitals.val1}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-slate-400 font-semibold w-7 text-[10px] sm:text-[11px] shrink-0">
+                            COV
+                          </span>
+                          <span
+                            className={`font-bold text-xs ${
+                              item.vitals.isAlert
+                                ? "text-rose-500"
+                                : item.vitals.isWarning
+                                  ? "text-blue-600"
+                                  : "text-emerald-600"
+                            }`}
+                          >
+                            {item.vitals.val2}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* 5. Status (Fixed-width badge) */}
+                      <div className="flex items-center justify-center">
+                        <span
+                          className={`w-[110px] h-7 inline-flex items-center justify-center gap-1.5 rounded-full text-[11px] font-semibold shadow-2xs shrink-0 ${
+                            item.status === "In Progress"
+                              ? "bg-[#fee2e2]/80 text-[#dc2626] border border-[#fecaca]/70"
+                              : item.status === "Ready"
+                                ? "bg-[#e0f2fe]/80 text-[#0284c7] border border-[#bae6fd]/70"
+                                : "bg-[#dcfce7]/80 text-[#16a34a] border border-[#bbf7d0]/70"
+                          }`}
+                        >
+                          <CheckCircle2 className="w-3.5 h-3.5 stroke-[2.2] shrink-0" />
+                          <span className="truncate">{item.status}</span>
+                        </span>
+                      </div>
+
+                      {/* 6. Action (Fixed-width menu button) */}
+                      <div className="flex items-center justify-end">
+                        <button
+                          type="button"
+                          className="w-8 h-8 rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-all shadow-2xs shrink-0"
+                          title="Actions"
+                        >
+                          <MoreVertical className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
 
