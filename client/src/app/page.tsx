@@ -414,79 +414,85 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Requirement Coverage Distribution - Matched 1:1 to Open Arch Gauge Reference Image */}
-          <div className="bg-[#dce9fd] border border-[#bfdbfe]/80 rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
-            <h3 className="font-bold text-slate-900 text-xs sm:text-sm tracking-tight px-1 mb-1">
+          {/* Requirement Coverage Distribution - Matched 1:1 to Open Arch Gauge Reference Image (Enlarged & High-Legibility) */}
+          <div className="bg-[#dce9fd] border border-[#bfdbfe]/80 rounded-2xl sm:rounded-3xl p-4 sm:p-5 shadow-2xs flex flex-col justify-between">
+            <h3 className="font-bold text-slate-900 text-sm sm:text-[15px] tracking-tight px-1 mb-1">
               Requirement Coverage Distribution
             </h3>
 
-            {/* Gauge Area with Open Horseshoe Arch and Floating Callouts */}
-            <div className="relative w-full max-w-[280px] mx-auto flex items-center justify-center my-auto py-2">
+            {/* Gauge Area with Enlarged Open Horseshoe Arch and Floating Callouts */}
+            <div className="relative w-full max-w-[340px] sm:max-w-[370px] mx-auto flex items-center justify-center my-auto py-2 sm:py-3">
               <svg
-                className="w-full h-auto max-h-[170px]"
-                viewBox="0 0 240 160"
+                className="w-full h-auto min-h-[190px] sm:min-h-[210px] max-h-[240px]"
+                viewBox="0 0 260 180"
                 fill="none"
               >
                 {/* Yellow Arc (13%) - curves from 1:30 to 4:00 */}
                 <path
-                  d="M 175.6 83.2 A 56 56 0 0 1 161.6 127.5"
+                  d="M 195.5 90.0 A 66 66 0 0 1 188.8 128.0"
                   stroke="#eefc57"
-                  strokeWidth="16"
+                  strokeWidth="19"
                   strokeLinecap="round"
                 />
 
                 {/* Blue Arc (82%) - curves from 7:30 all the way over top to 1:30 */}
                 <path
-                  d="M 77.1 126.0 A 56 56 0 1 1 175.6 83.2"
+                  d="M 79.4 140.4 A 66 66 0 1 1 195.5 90.0"
                   stroke="#2f70f5"
-                  strokeWidth="16"
+                  strokeWidth="19"
                   strokeLinecap="round"
                 />
 
                 {/* Black Arc Pill (5%) - dark pill at bottom right */}
                 <path
-                  d="M 169.9 115.4 A 56 56 0 0 1 161.6 127.5"
+                  d="M 188.8 128.0 A 66 66 0 0 1 179.0 142.2"
                   stroke="#0f172a"
-                  strokeWidth="16"
+                  strokeWidth="19"
                   strokeLinecap="round"
                 />
 
                 {/* Decorative Pin Dots matching reference mockup */}
-                <circle cx="66" cy="75.5" r="3.2" fill="#22d3ee" stroke="#ffffff" strokeWidth="1.2" />
-                <circle cx="168" cy="112" r="2.5" fill="#a3e635" stroke="#ffffff" strokeWidth="1" />
-                <circle cx="162.5" cy="119" r="2" fill="#94a3b8" />
+                <circle cx="66.2" cy="80.9" r="3.8" fill="#22d3ee" stroke="#ffffff" strokeWidth="1.5" />
+                <circle cx="189.8" cy="125.9" r="3" fill="#a3e635" stroke="#ffffff" strokeWidth="1.2" />
+                <circle cx="180" cy="132" r="2.5" fill="#94a3b8" />
               </svg>
 
               {/* Center Number & Label inside the Horseshoe Opening */}
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none pb-1">
-                <span className="text-3xl sm:text-4xl font-black text-slate-900 leading-none tracking-tight">
+                <span className="text-4xl sm:text-5xl font-black text-slate-900 leading-none tracking-tight">
                   128
                 </span>
-                <span className="text-xs font-semibold text-slate-700 mt-1">
+                <span className="text-xs sm:text-sm font-bold text-slate-700 mt-1">
                   Questions
                 </span>
               </div>
 
               {/* Left Callout: 82% Technical */}
-              <div className="absolute left-0 sm:left-1 top-[44%] -translate-y-1/2 text-left pointer-events-none">
-                <span className="block text-[#2f70f5] font-bold text-sm sm:text-base leading-tight">82%</span>
-                <span className="block text-slate-800 font-semibold text-[10px] sm:text-[11px] leading-tight mt-0.5">
+              <div className="absolute left-0.5 sm:left-1.5 top-[44%] -translate-y-1/2 text-left pointer-events-none">
+                <span className="block text-[#2f70f5] font-black text-base sm:text-lg lg:text-xl leading-tight">
+                  82%
+                </span>
+                <span className="block text-slate-800 font-bold text-xs sm:text-[13px] leading-tight mt-0.5">
                   Technical
                 </span>
               </div>
 
               {/* Top-Right Callout: 13% Behavioural */}
-              <div className="absolute right-0 sm:right-1 top-[18%] -translate-y-1/2 text-left pointer-events-none">
-                <span className="block text-[#2f70f5] font-bold text-sm sm:text-base leading-tight">13%</span>
-                <span className="block text-slate-800 font-semibold text-[10px] sm:text-[11px] leading-tight mt-0.5">
+              <div className="absolute right-0.5 sm:right-1.5 top-[16%] -translate-y-1/2 text-left pointer-events-none">
+                <span className="block text-[#2f70f5] font-black text-base sm:text-lg lg:text-xl leading-tight">
+                  13%
+                </span>
+                <span className="block text-slate-800 font-bold text-xs sm:text-[13px] leading-tight mt-0.5">
                   Behavioural
                 </span>
               </div>
 
               {/* Bottom-Right Callout: 5% Company-Fit */}
-              <div className="absolute right-0 sm:right-1 bottom-[10%] translate-y-0 text-left pointer-events-none">
-                <span className="block text-[#ef4444] font-bold text-sm sm:text-base leading-tight">5%</span>
-                <span className="block text-slate-800 font-semibold text-[10px] sm:text-[11px] leading-tight mt-0.5">
+              <div className="absolute right-0.5 sm:right-1.5 bottom-[10%] translate-y-0 text-left pointer-events-none">
+                <span className="block text-[#ef4444] font-black text-base sm:text-lg lg:text-xl leading-tight">
+                  5%
+                </span>
+                <span className="block text-slate-800 font-bold text-xs sm:text-[13px] leading-tight mt-0.5">
                   Company-Fit
                 </span>
               </div>
