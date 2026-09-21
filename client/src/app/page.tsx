@@ -18,6 +18,7 @@ import {
   ListTodo,
   SlidersHorizontal,
   ExternalLink,
+  ArrowUpRight,
 } from "lucide-react";
 
 interface InterviewQueueItem {
@@ -174,14 +175,15 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Main Grid: Left 8 Cols (Table Queue) & Right 4 Cols (Quick Actions + Distribution) */}
+      {/* Main Grid: Left 8 Cols (Table Queue + Separate AI Summary) & Right 4 Cols (Quick Actions + Distribution) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 items-stretch">
-        {/* Left 8 Cols: Active Interview Kits Queue (Stretches to full height matching right column) */}
-        <div className="lg:col-span-8 flex flex-col h-full">
-          <div className="bg-[#dce9fd] border border-[#bfdbfe]/80 rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 shadow-2xs flex-1 flex flex-col justify-between h-full">
+        {/* Left 8 Cols: Active Interview Kits Queue + Separated AI Summary Banner */}
+        <div className="lg:col-span-8 flex flex-col justify-between gap-3 h-full">
+          {/* Top Card: Active Interview Kits Queue */}
+          <div className="bg-[#dce9fd] border border-[#bfdbfe]/80 rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 shadow-2xs flex-1 flex flex-col justify-between">
             {/* Header sitting on #dce9fd */}
             <div className="flex items-center justify-between px-1 mb-2 shrink-0">
-              <h2 className="text-sm font-bold text-slate-900 tracking-tight">
+              <h2 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">
                 Active Interview Kits Queue
               </h2>
               <Link
@@ -193,7 +195,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Column Headers directly on #dce9fd */}
-            <div className="grid grid-cols-12 gap-2 text-[10px] font-extrabold text-blue-600 tracking-wider uppercase px-3 pb-1 shrink-0">
+            <div className="grid grid-cols-12 gap-2 text-[10px] sm:text-[11px] font-extrabold text-blue-600 tracking-wider uppercase px-4 pb-2 shrink-0">
               <div className="col-span-4 sm:col-span-3">COMPANY &amp; ROLE</div>
               <div className="col-span-2">TIMELINE</div>
               <div className="col-span-3 hidden sm:block">FOCUS &amp; REQUIREMENTS</div>
@@ -202,65 +204,67 @@ export default function DashboardPage() {
               <div className="col-span-1 text-right">ACTION</div>
             </div>
 
-            {/* Pure White Table Card holding the 3 rows stretching to fill space */}
-            <div className="bg-white rounded-xl shadow-2xs divide-y divide-slate-100 overflow-hidden flex-1 flex flex-col justify-around my-2 min-h-[220px]">
+            {/* Pure White Table Card holding the 3 rows */}
+            <div className="bg-white rounded-xl sm:rounded-2xl shadow-2xs divide-y divide-slate-100 overflow-hidden flex-1 flex flex-col justify-around my-0.5">
               {queueItems.map((item) => (
                 <div
                   key={item.id}
-                  className="grid grid-cols-12 gap-2 items-center px-3 sm:px-3.5 py-3 sm:py-3.5 hover:bg-slate-50/70 transition-colors text-xs flex-1"
+                  className="grid grid-cols-12 gap-2 items-center px-4 sm:px-5 py-3 sm:py-3.5 hover:bg-slate-50/70 transition-colors text-xs flex-1"
                 >
                   {/* Company & Role */}
-                  <div className="col-span-4 sm:col-span-3 flex items-center gap-2">
+                  <div className="col-span-4 sm:col-span-3 flex items-center gap-2.5">
                     <div
-                      className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full ${item.avatarBg} flex items-center justify-center font-black text-[10px] sm:text-xs shadow-2xs shrink-0 ring-1 ring-white`}
+                      className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full ${item.avatarBg} flex items-center justify-center font-black text-xs sm:text-sm text-white shadow-xs shrink-0 ring-2 ring-white`}
                     >
                       {item.avatar}
                     </div>
                     <div className="min-w-0">
-                      <p className="font-bold text-slate-900 truncate leading-tight text-[11px] sm:text-xs">
+                      <p className="font-bold text-slate-900 truncate leading-tight text-xs sm:text-[13px]">
                         {item.company}
                       </p>
-                      <p className="text-[10px] text-slate-500 font-medium truncate">
+                      <p className="text-[10px] sm:text-[11px] text-slate-500 font-medium truncate mt-0.5">
                         {item.role}
                       </p>
                     </div>
                   </div>
 
                   {/* Timeline (Days Available) */}
-                  <div className="col-span-2 font-semibold text-slate-700 text-[11px]">
-                    <p className="leading-tight">{item.timeline}</p>
-                    <p className="text-[9px] text-slate-400 font-normal">{item.timelineDate}</p>
+                  <div className="col-span-2 text-slate-800 text-xs">
+                    <p className="font-bold leading-tight">{item.timeline}</p>
+                    <p className="text-[10px] text-slate-400 font-normal mt-0.5">{item.timelineDate}</p>
                   </div>
 
                   {/* Focus & Requirements */}
-                  <div className="col-span-3 hidden sm:block font-semibold text-slate-800 text-[11px] truncate">
+                  <div className="col-span-3 hidden sm:block font-semibold text-slate-800 text-xs sm:text-[12px] truncate">
                     {item.focusReqs}
                   </div>
 
                   {/* Coverage Metrics (Must-Haves & Question Coverage) */}
-                  <div className="col-span-3 sm:col-span-2 text-[10px] space-y-0.5">
-                    <div className="flex items-center gap-1">
-                      <span className="text-slate-400 font-medium">{item.vitals.label1}</span>
+                  <div className="col-span-3 sm:col-span-2 text-[10px] sm:text-[11px] space-y-0.5">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-slate-400 font-medium w-6">REQ</span>
                       <span
-                        className={`font-bold ${item.vitals.isAlert
+                        className={`font-bold ${
+                          item.vitals.isAlert
                             ? "text-rose-500"
                             : item.vitals.isWarning
-                              ? "text-blue-600"
-                              : "text-emerald-600"
-                          }`}
+                            ? "text-blue-600"
+                            : "text-emerald-600"
+                        }`}
                       >
                         {item.vitals.val1}
                       </span>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <span className="text-slate-400 font-medium">{item.vitals.label2}</span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-slate-400 font-medium w-6">COV</span>
                       <span
-                        className={`font-bold ${item.vitals.isAlert
+                        className={`font-bold ${
+                          item.vitals.isAlert
                             ? "text-rose-500"
                             : item.vitals.isWarning
-                              ? "text-blue-600"
-                              : "text-emerald-600"
-                          }`}
+                            ? "text-blue-600"
+                            : "text-emerald-600"
+                        }`}
                       >
                         {item.vitals.val2}
                       </span>
@@ -270,14 +274,15 @@ export default function DashboardPage() {
                   {/* Status Pill with CheckCircle2 */}
                   <div className="col-span-2 sm:col-span-1 flex justify-center">
                     <span
-                      className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold ${item.status === "In Progress"
-                          ? "bg-[#fee2e2] text-[#dc2626]"
+                      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-semibold shadow-2xs ${
+                        item.status === "In Progress"
+                          ? "bg-[#fee2e2]/80 text-[#dc2626] border border-[#fecaca]/70"
                           : item.status === "Ready"
-                            ? "bg-[#e0f2fe] text-[#0284c7]"
-                            : "bg-[#dcfce7] text-[#16a34a]"
-                        }`}
+                          ? "bg-[#e0f2fe]/80 text-[#0284c7] border border-[#bae6fd]/70"
+                          : "bg-[#dcfce7]/80 text-[#16a34a] border border-[#bbf7d0]/70"
+                      }`}
                     >
-                      <CheckCircle2 className="w-3 h-3" />
+                      <CheckCircle2 className="w-3.5 h-3.5 stroke-[2.2]" />
                       <span>{item.status}</span>
                     </span>
                   </div>
@@ -286,37 +291,44 @@ export default function DashboardPage() {
                   <div className="col-span-1 flex justify-end">
                     <button
                       type="button"
-                      className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-slate-200 bg-white hover:bg-slate-50 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-colors shadow-2xs"
+                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-all shadow-2xs"
                     >
-                      <MoreVertical className="w-3 h-3" />
+                      <MoreVertical className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 </div>
               ))}
             </div>
+          </div>
 
-            {/* Bottom AI Summary Banner matching Trao Assessment Research & Generation */}
-            <div className="bg-[#2563EB] text-white p-2.5 sm:p-3 rounded-xl shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 mt-auto shrink-0">
-              <div className="flex items-center gap-2">
-                <div className="w-6 h-6 rounded-lg bg-white/20 flex items-center justify-center text-white shrink-0">
-                  <Sparkles className="w-3.5 h-3.5" />
-                </div>
-                <div>
-                  <h4 className="text-[11px] font-bold text-white leading-tight">AI Research &amp; Coverage Engine</h4>
-                  <p className="text-[10px] text-blue-100 font-medium leading-tight">
-                    Crawl completed for Google hiring handbooks. Second pass generated 4 targeted questions for missing requirements.
-                  </p>
-                </div>
+          {/* Bottom Card: AI Summary Banner - Separated & Styled exactly as the reference mockup */}
+          <div className="bg-gradient-to-r from-blue-600 via-blue-600 to-indigo-700 text-white px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl sm:rounded-full shadow-md border border-blue-400/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 shrink-0">
+            <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+              {/* ✨ AI Summary with golden yellow sparkle */}
+              <div className="flex items-center gap-1.5 shrink-0">
+                <Sparkles className="w-4 h-4 text-[#facc15] fill-[#facc15]/30 stroke-[2.5]" />
+                <span className="text-[#facc15] font-extrabold text-xs sm:text-sm tracking-tight whitespace-nowrap">
+                  AI Summary
+                </span>
               </div>
 
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className="px-3 py-1 bg-blue-900/50 hover:bg-blue-950/70 border border-white/20 text-white font-semibold text-[10px] rounded-lg flex items-center justify-center gap-1 transition-colors shrink-0 self-end sm:self-auto"
-              >
-                <span>Review Pipeline</span>
-                <ExternalLink className="w-3 h-3" />
-              </button>
+              {/* Subtle Vertical Divider */}
+              <div className="h-5 w-px bg-white/30 hidden sm:block shrink-0" />
+
+              {/* Message Description */}
+              <p className="text-white text-[11px] sm:text-xs font-normal sm:font-medium leading-snug">
+                Crawl completed for Google hiring handbooks. Second pass generated 4 targeted questions for missing requirements.
+              </p>
             </div>
+
+            {/* Dark Pill Action Button matching image */}
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="px-4 py-1.5 bg-[#172554]/90 hover:bg-[#172554] border border-white/20 text-white font-semibold text-[11px] sm:text-xs rounded-full flex items-center justify-center gap-1.5 transition-all shadow-xs shrink-0 self-end sm:self-auto hover:scale-102 active:scale-98 cursor-pointer"
+            >
+              <span>Review Pipeline</span>
+              <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />
+            </button>
           </div>
         </div>
 
