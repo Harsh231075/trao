@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { Search, Bell, Mail, ChevronDown, SlidersHorizontal, Plus } from "lucide-react";
+import { useState } from "react";
+import { Search, Bell, Mail, ChevronDown } from "lucide-react";
 
 interface HeaderProps {
   onOpenCreateKit?: () => void;
@@ -32,7 +32,7 @@ export default function Header({ onOpenCreateKit }: HeaderProps) {
         </div>
       </div>
 
-      {/* Right Controls: Notifications, Messages, User Profile, CTA */}
+      {/* Right Controls: Notifications, Messages, User Profile */}
       <div className="flex items-center justify-between md:justify-end gap-3 sm:gap-4 shrink-0">
         {/* Notification Bell */}
         <button
@@ -61,7 +61,6 @@ export default function Header({ onOpenCreateKit }: HeaderProps) {
             className="flex items-center gap-2.5 p-1.5 pl-2 hover:bg-slate-50 rounded-full border border-slate-200/60 transition-all text-left"
           >
             <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-500 text-white flex items-center justify-center font-bold text-sm shadow-sm overflow-hidden ring-2 ring-blue-100">
-              {/* Profile Avatar Initials / Image */}
               <span>HS</span>
             </div>
             <div className="hidden lg:block pr-1">
@@ -90,28 +89,6 @@ export default function Header({ onOpenCreateKit }: HeaderProps) {
               </div>
             </div>
           )}
-        </div>
-
-        {/* Action Button & Filters */}
-        <div className="flex items-center gap-2">
-          {onOpenCreateKit && (
-            <button
-              onClick={onOpenCreateKit}
-              className="flex items-center gap-1.5 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold rounded-full shadow-sm hover:shadow-md transition-all active:scale-95"
-            >
-              <Plus className="w-4 h-4 stroke-[2.5]" />
-              <span className="hidden sm:inline">Create New Interview Kit</span>
-              <span className="sm:hidden">New Kit</span>
-            </button>
-          )}
-
-          <button
-            type="button"
-            className="p-2.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200/80 rounded-full transition-colors"
-            title="Filter Settings"
-          >
-            <SlidersHorizontal className="w-4 h-4" />
-          </button>
         </div>
       </div>
     </header>
