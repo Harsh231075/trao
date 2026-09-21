@@ -109,7 +109,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div suppressHydrationWarning className="space-y-6">
       {/* Top Universal Header */}
       <Header onOpenCreateKit={() => setIsModalOpen(true)} />
 

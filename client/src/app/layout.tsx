@@ -26,11 +26,18 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-screen flex flex-col justify-center bg-blue-600">
+      <body
+        suppressHydrationWarning
+        className="min-h-screen flex flex-col justify-center bg-blue-600"
+      >
         {/* Outer Frame: Vibrant Royal Blue background matching Image 2 */}
-        <div className="w-full min-h-screen p-2 sm:p-4 md:p-5 lg:p-6 flex flex-row gap-2 sm:gap-4 md:gap-5 box-border">
+        <div
+          suppressHydrationWarning
+          className="w-full min-h-screen p-2 sm:p-4 md:p-5 lg:p-6 flex flex-row gap-2 sm:gap-4 md:gap-5 box-border"
+        >
           {/* Left Navigation Rail */}
           <Sidebar />
 
