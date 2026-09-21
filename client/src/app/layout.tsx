@@ -43,7 +43,7 @@ export default function RootLayout({
 
           {/* Main White Elevated Canvas - Only its interior is scrollable */}
           <main className="flex-1 h-full max-h-full bg-white rounded-[24px] sm:rounded-[30px] shadow-[0_20px_60px_rgba(15,23,42,0.22)] border border-white/40 overflow-hidden flex flex-col min-w-0">
-            <div className="flex-1 h-full overflow-y-auto p-4 sm:p-6 lg:p-8 select-text">
+            <div className="flex-1 h-full overflow-y-auto p-3.5 sm:p-4 lg:p-5 select-text">
               {children}
             </div>
           </main>
