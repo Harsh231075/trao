@@ -114,68 +114,68 @@ export default function DashboardPage() {
       {/* Top 4 Stat Cards matching Image 2 Layout with Trao Assessment Metrics */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-3.5">
         {/* Card 1: 128 Questions Practiced */}
-        <div className="bg-white/95 backdrop-blur-sm p-4 sm:p-4.5 rounded-2xl sm:rounded-3xl border border-[#d8e8fe] shadow-2xs hover:shadow-xs transition-all relative overflow-hidden group min-h-[118px] sm:min-h-[128px] flex flex-col justify-between">
+        <div className="bg-white/95 backdrop-blur-sm p-3.5 sm:p-4 rounded-2xl sm:rounded-3xl border border-[#d8e8fe] shadow-2xs hover:shadow-xs transition-all relative overflow-hidden group min-h-[114px] sm:min-h-[122px] flex flex-col justify-between">
           <div className="flex items-start justify-between">
-            <h3 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-none">128</h3>
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100 shadow-2xs">
+            <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight leading-none">128</h3>
+            <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100 shadow-2xs">
               <Activity className="w-4 h-4" />
             </div>
           </div>
           <div>
-            <p className="text-xs sm:text-[13px] font-black text-blue-600 tracking-tight">Questions Practiced</p>
-            <div className="flex items-end gap-1.5 h-4.5 mt-2">
-              <span className="w-2.5 h-2 bg-blue-300 rounded-xs" />
-              <span className="w-2.5 h-3 bg-blue-400 rounded-xs" />
-              <span className="w-2.5 h-3.5 bg-blue-500 rounded-xs" />
-              <span className="w-2.5 h-4 bg-blue-600 rounded-xs" />
-              <span className="w-2.5 h-4.5 bg-blue-700 rounded-xs" />
+            <p className="text-xs font-semibold text-blue-600">Questions Practiced</p>
+            <div className="flex items-end gap-1.5 h-3.5 mt-2">
+              <span className="w-2 h-2 bg-blue-200 rounded-xs" />
+              <span className="w-2 h-2.5 bg-blue-300 rounded-xs" />
+              <span className="w-2 h-3 bg-blue-400 rounded-xs" />
+              <span className="w-2 h-3.5 bg-blue-500 rounded-xs" />
+              <span className="w-2 h-4 bg-blue-600 rounded-xs" />
             </div>
           </div>
         </div>
 
         {/* Card 2: 03 Coverage Gaps */}
-        <div className="bg-white/95 backdrop-blur-sm p-4 sm:p-4.5 rounded-2xl sm:rounded-3xl border border-[#d8e8fe] shadow-2xs hover:shadow-xs transition-all relative overflow-hidden group min-h-[118px] sm:min-h-[128px] flex flex-col justify-between">
+        <div className="bg-white/95 backdrop-blur-sm p-3.5 sm:p-4 rounded-2xl sm:rounded-3xl border border-[#d8e8fe] shadow-2xs hover:shadow-xs transition-all relative overflow-hidden group min-h-[114px] sm:min-h-[122px] flex flex-col justify-between">
           <div className="flex items-start justify-between">
-            <h3 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-none">03</h3>
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-rose-50 text-rose-500 flex items-center justify-center border border-rose-100 shadow-2xs">
+            <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight leading-none">03</h3>
+            <div className="w-8 h-8 rounded-xl bg-rose-50 text-rose-500 flex items-center justify-center border border-rose-100 shadow-2xs">
               <AlertTriangle className="w-4 h-4" />
             </div>
           </div>
           <div>
-            <p className="text-xs sm:text-[13px] font-black text-slate-900 tracking-tight">Coverage Gaps</p>
-            <p className="text-xs font-extrabold text-rose-600 mt-2">
+            <p className="text-xs font-semibold text-slate-700">Coverage Gaps</p>
+            <p className="text-[11px] sm:text-xs font-medium text-rose-500 mt-1.5">
               Second pass queued
             </p>
           </div>
         </div>
 
         {/* Card 3: 14 Flashcards Due (Vibrant Lime/Yellow Card) */}
-        <div className="bg-[#eefc57] text-slate-900 p-4 sm:p-4.5 rounded-2xl sm:rounded-3xl shadow-2xs hover:shadow-xs transition-all relative overflow-hidden group border-0 min-h-[118px] sm:min-h-[128px] flex flex-col justify-between">
+        <div className="bg-[#eefc57] text-slate-900 p-3.5 sm:p-4 rounded-2xl sm:rounded-3xl shadow-2xs hover:shadow-xs transition-all relative overflow-hidden group border-0 min-h-[114px] sm:min-h-[122px] flex flex-col justify-between">
           <div className="flex items-start justify-between">
-            <h3 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight leading-none">14</h3>
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-black/10 text-slate-900 flex items-center justify-center shadow-2xs">
+            <h3 className="text-2xl sm:text-3xl font-bold text-slate-950 tracking-tight leading-none">14</h3>
+            <div className="w-8 h-8 rounded-xl bg-black/10 text-slate-900 flex items-center justify-center shadow-2xs">
               <FileText className="w-4 h-4" />
             </div>
           </div>
           <div>
-            <p className="text-xs sm:text-[13px] font-black text-slate-950 tracking-tight">Flashcards Due</p>
-            <p className="text-xs font-extrabold text-slate-900 mt-2">
+            <p className="text-xs font-semibold text-slate-900">Flashcards Due</p>
+            <p className="text-[11px] sm:text-xs font-medium text-slate-800/80 mt-1.5">
               6 mastered • 14 remaining
             </p>
           </div>
         </div>
 
         {/* Card 4: 05 Active Prep Kits (Royal Blue Card) */}
-        <div className="bg-[#2563eb] text-white p-4 sm:p-4.5 rounded-2xl sm:rounded-3xl shadow-2xs hover:shadow-xs transition-all relative overflow-hidden group border-0 min-h-[118px] sm:min-h-[128px] flex flex-col justify-between">
+        <div className="bg-[#2563eb] text-white p-3.5 sm:p-4 rounded-2xl sm:rounded-3xl shadow-2xs hover:shadow-xs transition-all relative overflow-hidden group border-0 min-h-[114px] sm:min-h-[122px] flex flex-col justify-between">
           <div className="flex items-start justify-between">
-            <h3 className="text-3xl sm:text-4xl font-black text-white tracking-tight leading-none">05</h3>
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/20 text-white flex items-center justify-center backdrop-blur-xs shadow-2xs">
+            <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight leading-none">05</h3>
+            <div className="w-8 h-8 rounded-xl bg-white/20 text-white flex items-center justify-center backdrop-blur-xs shadow-2xs">
               <Sparkles className="w-4 h-4" />
             </div>
           </div>
           <div>
-            <p className="text-xs sm:text-[13px] font-black text-white tracking-tight">Active Prep Kits</p>
-            <p className="text-xs font-bold text-blue-100 mt-2 flex items-center gap-1.5">
+            <p className="text-xs font-semibold text-blue-100">Active Prep Kits</p>
+            <p className="text-[11px] sm:text-xs font-medium text-blue-200 mt-1.5 flex items-center gap-1.5">
               <Clock className="w-3.5 h-3.5" />
               <span>AI Pipeline ready</span>
             </p>
