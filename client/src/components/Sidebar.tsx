@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -13,6 +13,8 @@ import {
   BarChart3,
   User,
   Settings,
+  Menu,
+  X,
 } from "lucide-react";
 
 interface NavItem {
@@ -37,9 +39,113 @@ const bottomNavItems: NavItem[] = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   return (
-    <aside className="w-16 sm:w-18 md:w-20 shrink-0 h-full max-h-full flex flex-col items-center justify-between py-2 sm:py-3 text-white select-none relative z-20 overflow-visible">
+    <>
+      {/* Mobile Floating Hamburger Toggle */}
+      <div className="sm:hidden fixed top-3.5 left-3.5 z-40">
+        <button
+          onClick={() => setIsMobileOpen(!isMobileOpen)}
+          className="w-10 h-10 rounded-2xl bg-slate-900/90 text-white backdrop-blur-md flex items-center justify-center shadow-lg border border-white/20 active:scale-95 transition-all"
+          title="Toggle Navigation Menu"
+        >
+          {isMobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
+      </div>
+
+      {/* Mobile Slide-Over Navigation Drawer */}
+      {isMobileOpen && (
+        <div className="sm:hidden fixed inset-0 z-50 flex">
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm transition-opacity"
+            onClick={() => setIsMobileOpen(false)}
+          />
+
+          {/* Drawer Panel */}
+          <div className="relative w-72 max-w-[82vw] bg-slate-900 text-white h-full p-5 flex flex-col justify-between shadow-2xl z-10 border-r border-white/10 animate-in slide-in-from-left duration-200">
+            <div>
+              {/* Header */}
+              <div className="flex items-center justify-between pb-5 border-b border-white/10">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-white text-blue-600 flex items-center justify-center font-black text-xl shadow-md">
+                    <span>T</span>
+                  </div>
+                  <div>
+                    <h2 className="font-extrabold text-base text-white tracking-tight">Trao</h2>
+                    <p className="text-[10px] text-blue-300">AI Prep Kit Platform</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setIsMobileOpen(false)}
+                  className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Navigation Items */}
+              <nav className="mt-5 flex flex-col gap-1.5">
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-3 mb-1">
+                  Navigation
+                </p>
+                {mainNavItems.map((item) => {
+                  const Icon = item.icon;
+                  const isActive =
+                    item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setIsMobileOpen(false)}
+                      className={`flex items-center gap-3.5 px-3.5 py-3 rounded-2xl text-sm font-bold transition-all ${
+                        isActive
+                          ? "bg-blue-600 text-white shadow-md shadow-blue-500/30"
+                          : "text-slate-300 hover:bg-white/10 hover:text-white"
+                      }`}
+                    >
+                      <Icon className="w-5 h-5 stroke-[2.2]" />
+                      <span>{item.name}</span>
+                    </Link>
+                  );
+                })}
+              </nav>
+            </div>
+
+            {/* Account Links */}
+            <div className="pt-4 border-t border-white/10 flex flex-col gap-1.5">
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-3 mb-1">
+                Account
+              </p>
+              {bottomNavItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = pathname.startsWith(item.href);
+
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setIsMobileOpen(false)}
+                    className={`flex items-center gap-3.5 px-3.5 py-2.5 rounded-2xl text-sm font-bold transition-all ${
+                      isActive
+                        ? "bg-blue-600 text-white shadow-md"
+                        : "text-slate-300 hover:bg-white/10 hover:text-white"
+                    }`}
+                  >
+                    <Icon className="w-5 h-5 stroke-[2.2]" />
+                    <span>{item.name}</span>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Desktop Rail Sidebar */}
+      <aside className="hidden sm:flex w-16 sm:w-18 md:w-20 shrink-0 h-full max-h-full flex-col items-center justify-between py-2 sm:py-3 text-white select-none relative z-20 overflow-visible">
       {/* Brand Logo + Main Navigation */}
       <div className="flex flex-col items-center gap-3 sm:gap-4 w-full">
         {/* Logo */}
@@ -175,5 +281,6 @@ export default function Sidebar() {
         })}
       </div>
     </aside>
-  );
+  </>
+);
 }
