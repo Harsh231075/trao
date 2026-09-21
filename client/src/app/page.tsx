@@ -188,7 +188,7 @@ export default function DashboardPage() {
         {/* Left 8 Cols: Active Interview Kits Queue + Separated AI Summary Banner */}
         <div className="lg:col-span-8 flex flex-col justify-between gap-3 h-full">
           {/* Top Card: Active Interview Kits Queue */}
-          <div className="bg-[#dce9fd] border border-[#bfdbfe]/80 rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 shadow-2xs flex-1 flex flex-col justify-between">
+          <div className="bg-[#dce9fd] border border-[#bfdbfe]/80 rounded-2xl sm:rounded-3xl p-4 sm:p-4.5 shadow-2xs flex-1 flex flex-col justify-between min-h-[330px] sm:min-h-[360px]">
             {/* Header sitting on #dce9fd */}
             <div className="flex items-center justify-between px-1 mb-2 shrink-0">
               <h2 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">
@@ -213,24 +213,24 @@ export default function DashboardPage() {
             </div>
 
             {/* Pure White Table Card holding the 3 rows */}
-            <div className="bg-white rounded-xl sm:rounded-2xl shadow-2xs divide-y divide-slate-100 overflow-hidden flex-1 flex flex-col justify-around my-0.5">
+            <div className="bg-white rounded-xl sm:rounded-2xl shadow-2xs divide-y divide-slate-100 overflow-hidden flex-1 flex flex-col justify-around my-1 min-h-[250px] sm:min-h-[270px]">
               {queueItems.map((item) => (
                 <div
                   key={item.id}
-                  className="grid grid-cols-12 gap-2 items-center px-4 sm:px-5 py-3 sm:py-3.5 hover:bg-slate-50/70 transition-colors text-xs flex-1"
+                  className="grid grid-cols-12 gap-2.5 items-center px-4 sm:px-6 py-4 sm:py-5 hover:bg-slate-50/70 transition-colors text-xs flex-1"
                 >
                   {/* Company & Role */}
-                  <div className="col-span-4 sm:col-span-3 flex items-center gap-2.5">
+                  <div className="col-span-4 sm:col-span-3 flex items-center gap-3">
                     <div
-                      className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full ${item.avatarBg} flex items-center justify-center font-black text-xs sm:text-sm text-white shadow-xs shrink-0 ring-2 ring-white`}
+                      className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full ${item.avatarBg} flex items-center justify-center font-black text-xs sm:text-sm text-white shadow-xs shrink-0 ring-2 ring-white`}
                     >
                       {item.avatar}
                     </div>
                     <div className="min-w-0">
-                      <p className="font-bold text-slate-900 truncate leading-tight text-xs sm:text-[13px]">
+                      <p className="font-bold text-slate-900 truncate leading-tight text-xs sm:text-sm">
                         {item.company}
                       </p>
-                      <p className="text-[10px] sm:text-[11px] text-slate-500 font-medium truncate mt-0.5">
+                      <p className="text-[10px] sm:text-xs text-slate-500 font-medium truncate mt-0.5">
                         {item.role}
                       </p>
                     </div>
@@ -238,41 +238,39 @@ export default function DashboardPage() {
 
                   {/* Timeline (Days Available) */}
                   <div className="col-span-2 text-slate-800 text-xs">
-                    <p className="font-bold leading-tight">{item.timeline}</p>
-                    <p className="text-[10px] text-slate-400 font-normal mt-0.5">{item.timelineDate}</p>
+                    <p className="font-bold text-slate-900 text-xs sm:text-sm leading-tight">{item.timeline}</p>
+                    <p className="text-[10px] sm:text-[11px] text-slate-400 font-normal mt-0.5">{item.timelineDate}</p>
                   </div>
 
                   {/* Focus & Requirements */}
-                  <div className="col-span-3 hidden sm:block font-semibold text-slate-800 text-xs sm:text-[12px] truncate">
+                  <div className="col-span-3 hidden sm:block font-semibold text-slate-800 text-xs sm:text-[13px] truncate">
                     {item.focusReqs}
                   </div>
 
                   {/* Coverage Metrics (Must-Haves & Question Coverage) */}
-                  <div className="col-span-3 sm:col-span-2 text-[10px] sm:text-[11px] space-y-0.5">
+                  <div className="col-span-3 sm:col-span-2 text-xs space-y-1">
                     <div className="flex items-center gap-1.5">
-                      <span className="text-slate-400 font-medium w-6">REQ</span>
+                      <span className="text-slate-400 font-medium w-7 text-[11px]">REQ</span>
                       <span
-                        className={`font-bold ${
-                          item.vitals.isAlert
+                        className={`font-bold ${item.vitals.isAlert
                             ? "text-rose-500"
                             : item.vitals.isWarning
-                            ? "text-blue-600"
-                            : "text-emerald-600"
-                        }`}
+                              ? "text-blue-600"
+                              : "text-emerald-600"
+                          }`}
                       >
                         {item.vitals.val1}
                       </span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <span className="text-slate-400 font-medium w-6">COV</span>
+                      <span className="text-slate-400 font-medium w-7 text-[11px]">COV</span>
                       <span
-                        className={`font-bold ${
-                          item.vitals.isAlert
+                        className={`font-bold ${item.vitals.isAlert
                             ? "text-rose-500"
                             : item.vitals.isWarning
-                            ? "text-blue-600"
-                            : "text-emerald-600"
-                        }`}
+                              ? "text-blue-600"
+                              : "text-emerald-600"
+                          }`}
                       >
                         {item.vitals.val2}
                       </span>
@@ -282,13 +280,12 @@ export default function DashboardPage() {
                   {/* Status Pill with CheckCircle2 */}
                   <div className="col-span-2 sm:col-span-1 flex justify-center">
                     <span
-                      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-semibold shadow-2xs ${
-                        item.status === "In Progress"
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold shadow-2xs ${item.status === "In Progress"
                           ? "bg-[#fee2e2]/80 text-[#dc2626] border border-[#fecaca]/70"
                           : item.status === "Ready"
-                          ? "bg-[#e0f2fe]/80 text-[#0284c7] border border-[#bae6fd]/70"
-                          : "bg-[#dcfce7]/80 text-[#16a34a] border border-[#bbf7d0]/70"
-                      }`}
+                            ? "bg-[#e0f2fe]/80 text-[#0284c7] border border-[#bae6fd]/70"
+                            : "bg-[#dcfce7]/80 text-[#16a34a] border border-[#bbf7d0]/70"
+                        }`}
                     >
                       <CheckCircle2 className="w-3.5 h-3.5 stroke-[2.2]" />
                       <span>{item.status}</span>
@@ -299,9 +296,9 @@ export default function DashboardPage() {
                   <div className="col-span-1 flex justify-end">
                     <button
                       type="button"
-                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-all shadow-2xs"
+                      className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-all shadow-2xs"
                     >
-                      <MoreVertical className="w-3.5 h-3.5" />
+                      <MoreVertical className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
@@ -310,10 +307,10 @@ export default function DashboardPage() {
           </div>
 
           {/* Bottom Card: AI Summary Banner - Matched exactly to the reference image */}
-          <div className="w-full bg-gradient-to-r from-[#3575f6] via-[#5d98fa] to-[#9bc4fc] text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-full shadow-[0_4px_16px_rgba(53,117,246,0.18)] border border-white/40 flex items-center justify-between gap-3 shrink-0">
-            <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+          <div className="w-full bg-gradient-to-r from-[#3575f6] via-[#5d98fa] to-[#9bc4fc] text-white px-5 sm:px-6 py-3 sm:py-3.5 rounded-full shadow-[0_4px_16px_rgba(53,117,246,0.18)] border border-white/40 flex items-center justify-between gap-3 shrink-0">
+            <div className="flex items-center gap-3 min-w-0">
               {/* ✨ AI Summary with golden yellow sparkle */}
-              <div className="flex items-center gap-1.5 shrink-0">
+              <div className="flex items-center gap-2 shrink-0">
                 <Sparkles className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#facc15] fill-[#facc15] stroke-[1.5] shrink-0" />
                 <span className="text-[#facc15] font-bold text-xs sm:text-sm tracking-tight whitespace-nowrap">
                   AI Summary
@@ -321,10 +318,10 @@ export default function DashboardPage() {
               </div>
 
               {/* Vertical Divider */}
-              <div className="h-5 sm:h-6 w-px bg-white/40 shrink-0" />
+              <div className="h-6 w-px bg-white/40 shrink-0" />
 
               {/* Message Description */}
-              <p className="text-white text-[11px] sm:text-[12.5px] font-medium leading-snug truncate">
+              <p className="text-white text-xs sm:text-[13px] font-medium leading-snug truncate">
                 Crawl completed for Google hiring handbooks. Second pass generated 4 targeted questions.
               </p>
             </div>
@@ -332,7 +329,7 @@ export default function DashboardPage() {
             {/* Dark Royal Blue Pill Action Button matching image */}
             <button
               onClick={() => setIsModalOpen(true)}
-              className="px-4 sm:px-5 py-1.5 sm:py-2 bg-[#1849be] hover:bg-[#133d9f] text-white font-semibold text-xs sm:text-[13px] rounded-full flex items-center justify-center gap-1.5 transition-all shadow-xs shrink-0 hover:scale-102 active:scale-98 cursor-pointer"
+              className="px-5 py-2 sm:py-2.5 bg-[#1849be] hover:bg-[#133d9f] text-white font-semibold text-xs sm:text-[13px] rounded-full flex items-center justify-center gap-1.5 transition-all shadow-xs shrink-0 hover:scale-102 active:scale-98 cursor-pointer"
             >
               <span>Review AI Insights</span>
               <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]" />
@@ -341,90 +338,90 @@ export default function DashboardPage() {
         </div>
 
         {/* Right 4 Cols: Quick Actions & Requirement Coverage Distribution */}
-        <div className="lg:col-span-4 flex flex-col justify-between gap-2 sm:gap-2.5 h-full min-h-0">
+        <div className="lg:col-span-4 flex flex-col justify-between gap-3 h-full">
           {/* Quick Actions Card */}
-          <div className="bg-[#dce9fd] border border-[#bfdbfe]/80 rounded-2xl sm:rounded-3xl p-2.5 sm:p-3 shadow-2xs shrink-0">
+          <div className="bg-[#dce9fd] border border-[#bfdbfe]/80 rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 shadow-2xs space-y-2 shrink-0">
             <h3 className="font-bold text-slate-900 text-xs sm:text-sm tracking-tight px-1 mb-1.5">
               Quick Actions
             </h3>
 
-            <div className="space-y-1 sm:space-y-1.5">
+            <div className="space-y-1.5 sm:space-y-2">
               {/* Action 1: Practice Mode */}
               <Link
                 href="/practice"
-                className="bg-white p-2 sm:p-2.5 rounded-xl shadow-2xs hover:shadow-xs transition-all flex items-center justify-between group border border-transparent hover:border-blue-200"
+                className="bg-white p-2.5 sm:p-3 rounded-xl sm:rounded-2xl shadow-2xs hover:shadow-xs transition-all flex items-center justify-between group border border-transparent hover:border-blue-200"
               >
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shadow-2xs">
-                    <ListTodo className="w-3.5 h-3.5" />
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shadow-2xs">
+                    <ListTodo className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-[11px] font-bold text-slate-900 leading-tight">
+                    <h4 className="text-xs sm:text-[13px] font-bold text-slate-900 leading-tight">
                       Practise Flashcards
                     </h4>
-                    <p className="text-[9px] sm:text-[10px] text-slate-500 font-medium">
+                    <p className="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-0.5">
                       14 cards • Confidence-weighted
                     </p>
                   </div>
                 </div>
-                <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-600 transition-colors" />
+                <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-blue-600 transition-colors" />
               </Link>
 
               {/* Action 2: Builder & Section Regeneration */}
               <Link
                 href="/kits"
-                className="bg-white p-2 sm:p-2.5 rounded-xl shadow-2xs hover:shadow-xs transition-all flex items-center justify-between group border border-transparent hover:border-blue-200"
+                className="bg-white p-2.5 sm:p-3 rounded-xl sm:rounded-2xl shadow-2xs hover:shadow-xs transition-all flex items-center justify-between group border border-transparent hover:border-blue-200"
               >
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shadow-2xs">
-                    <FileText className="w-3.5 h-3.5" />
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shadow-2xs">
+                    <FileText className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-[11px] font-bold text-slate-900 leading-tight">
+                    <h4 className="text-xs sm:text-[13px] font-bold text-slate-900 leading-tight">
                       Edit Kit &amp; Regenerate
                     </h4>
-                    <p className="text-[9px] sm:text-[10px] text-slate-500 font-medium">
+                    <p className="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-0.5">
                       Preserve pinned &amp; manual edits
                     </p>
                   </div>
                 </div>
-                <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-600 transition-colors" />
+                <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-blue-600 transition-colors" />
               </Link>
 
               {/* Action 3: Day-by-Day Schedule */}
               <Link
                 href="/schedule"
-                className="bg-white p-2 sm:p-2.5 rounded-xl shadow-2xs hover:shadow-xs transition-all flex items-center justify-between group border border-transparent hover:border-blue-200"
+                className="bg-white p-2.5 sm:p-3 rounded-xl sm:rounded-2xl shadow-2xs hover:shadow-xs transition-all flex items-center justify-between group border border-transparent hover:border-blue-200"
               >
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shadow-2xs">
-                    <Calendar className="w-3.5 h-3.5" />
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shadow-2xs">
+                    <Calendar className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-[11px] font-bold text-slate-900 leading-tight">
+                    <h4 className="text-xs sm:text-[13px] font-bold text-slate-900 leading-tight">
                       Day-by-Day Schedule
                     </h4>
-                    <p className="text-[9px] sm:text-[10px] text-slate-500 font-medium">
+                    <p className="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-0.5">
                       Arithmetic topic allocation
                     </p>
                   </div>
                 </div>
-                <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-600 transition-colors" />
+                <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-blue-600 transition-colors" />
               </Link>
             </div>
           </div>
 
-          {/* Requirement Coverage Distribution - Matched 1:1 to Open Arch Gauge Reference Image (Enlarged & High-Legibility) */}
-          <div className="bg-[#dce9fd] border border-[#bfdbfe]/80 rounded-2xl sm:rounded-3xl p-3 sm:p-3.5 shadow-2xs flex-1 flex flex-col justify-between min-h-0">
+          {/* Requirement Coverage Distribution - Matched 1:1 to Open Arch Gauge Reference Image */}
+          <div className="bg-[#dce9fd] border border-[#bfdbfe]/80 rounded-2xl sm:rounded-3xl p-4 sm:p-4.5 shadow-2xs flex-1 flex flex-col justify-between min-h-[250px] sm:min-h-[280px]">
             <h3 className="font-bold text-slate-900 text-xs sm:text-sm tracking-tight px-1 mb-1 shrink-0">
               Requirement Coverage Distribution
             </h3>
 
-            {/* Gauge Area with Enlarged Open Horseshoe Arch and Floating Callouts */}
-            <div className="relative w-full max-w-[320px] sm:max-w-[350px] mx-auto flex items-center justify-center my-auto py-1">
+            {/* Gauge Area with Open Horseshoe Arch and Floating Callouts */}
+            <div className="relative w-full max-w-[330px] sm:max-w-[360px] mx-auto flex items-center justify-center my-auto py-1 sm:py-2">
               <svg
-                className="w-full h-auto max-h-[160px] sm:max-h-[175px]"
-                viewBox="0 0 260 156"
+                className="w-full h-auto min-h-[175px] sm:min-h-[195px] max-h-[215px]"
+                viewBox="0 0 260 160"
                 fill="none"
               >
                 {/* Yellow Arc (13%) - curves from 1:30 to 4:00 */}
@@ -459,40 +456,40 @@ export default function DashboardPage() {
 
               {/* Center Number & Label inside the Horseshoe Opening */}
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none pb-1">
-                <span className="text-3xl sm:text-4xl font-black text-slate-900 leading-none tracking-tight">
+                <span className="text-4xl sm:text-5xl font-black text-slate-900 leading-none tracking-tight">
                   128
                 </span>
-                <span className="text-[11px] sm:text-xs font-bold text-slate-700 mt-0.5">
+                <span className="text-xs sm:text-sm font-bold text-slate-700 mt-1">
                   Questions
                 </span>
               </div>
 
               {/* Left Callout: 82% Technical */}
               <div className="absolute left-0.5 sm:left-1 top-[44%] -translate-y-1/2 text-left pointer-events-none">
-                <span className="block text-[#2f70f5] font-black text-base sm:text-lg leading-tight">
+                <span className="block text-[#2f70f5] font-black text-base sm:text-lg lg:text-xl leading-tight">
                   82%
                 </span>
-                <span className="block text-slate-800 font-bold text-[11px] sm:text-xs leading-tight mt-0.5">
+                <span className="block text-slate-800 font-bold text-xs sm:text-[13px] leading-tight mt-0.5">
                   Technical
                 </span>
               </div>
 
               {/* Top-Right Callout: 13% Behavioural */}
               <div className="absolute right-0.5 sm:right-1 top-[16%] -translate-y-1/2 text-left pointer-events-none">
-                <span className="block text-[#2f70f5] font-black text-base sm:text-lg leading-tight">
+                <span className="block text-[#2f70f5] font-black text-base sm:text-lg lg:text-xl leading-tight">
                   13%
                 </span>
-                <span className="block text-slate-800 font-bold text-[11px] sm:text-xs leading-tight mt-0.5">
+                <span className="block text-slate-800 font-bold text-xs sm:text-[13px] leading-tight mt-0.5">
                   Behavioural
                 </span>
               </div>
 
               {/* Bottom-Right Callout: 5% Company-Fit */}
               <div className="absolute right-0.5 sm:right-1 bottom-[8%] translate-y-0 text-left pointer-events-none">
-                <span className="block text-[#ef4444] font-black text-base sm:text-lg leading-tight">
+                <span className="block text-[#ef4444] font-black text-base sm:text-lg lg:text-xl leading-tight">
                   5%
                 </span>
-                <span className="block text-slate-800 font-bold text-[11px] sm:text-xs leading-tight mt-0.5">
+                <span className="block text-slate-800 font-bold text-xs sm:text-[13px] leading-tight mt-0.5">
                   Company-Fit
                 </span>
               </div>
