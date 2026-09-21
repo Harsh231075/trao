@@ -68,13 +68,13 @@ export default function Sidebar() {
                   <Link
                     href={item.href}
                     title={item.name}
-                    className="relative w-full h-11 sm:h-12 bg-white rounded-l-2xl sm:rounded-l-3xl flex items-center justify-center text-blue-600 shadow-xs z-30 -mr-px group"
+                    className="relative w-full h-11 sm:h-12 bg-white/70 backdrop-blur-3xl backdrop-saturate-150 rounded-l-2xl sm:rounded-l-3xl flex items-center justify-center text-blue-600 shadow-xs z-30 -mr-px group border-y border-l border-white/60"
                   >
                     <Icon className="w-5 h-5 text-blue-600 stroke-[2.5] transition-transform group-hover:scale-110" />
 
                     {/* Top Inverted Corner Notch */}
                     <svg
-                      className="absolute -top-5 right-0 w-5 h-5 pointer-events-none text-white fill-current z-30"
+                      className="absolute -top-5 right-0 w-5 h-5 pointer-events-none text-white/70 fill-current z-30"
                       viewBox="0 0 20 20"
                     >
                       <path d="M20 0 L20 20 L0 20 Q20 20 20 0 Z" />
@@ -82,7 +82,7 @@ export default function Sidebar() {
 
                     {/* Bottom Inverted Corner Notch */}
                     <svg
-                      className="absolute -bottom-5 right-0 w-5 h-5 pointer-events-none text-white fill-current z-30"
+                      className="absolute -bottom-5 right-0 w-5 h-5 pointer-events-none text-white/70 fill-current z-30"
                       viewBox="0 0 20 20"
                     >
                       <path d="M0 0 L20 0 L20 20 Q20 0 0 0 Z" />
@@ -129,13 +129,13 @@ export default function Sidebar() {
                 <Link
                   href={item.href}
                   title={item.name}
-                  className="relative w-full h-11 sm:h-12 bg-white rounded-l-2xl sm:rounded-l-3xl flex items-center justify-center text-blue-600 shadow-xs z-30 -mr-px group"
+                  className="relative w-full h-11 sm:h-12 bg-white/70 backdrop-blur-3xl backdrop-saturate-150 rounded-l-2xl sm:rounded-l-3xl flex items-center justify-center text-blue-600 shadow-xs z-30 -mr-px group border-y border-l border-white/60"
                 >
                   <Icon className="w-5 h-5 text-blue-600 stroke-[2.5] transition-transform group-hover:scale-110" />
 
                   {/* Top Inverted Corner Notch */}
                   <svg
-                    className="absolute -top-5 right-0 w-5 h-5 pointer-events-none text-white fill-current z-30"
+                    className="absolute -top-5 right-0 w-5 h-5 pointer-events-none text-white/70 fill-current z-30"
                     viewBox="0 0 20 20"
                   >
                     <path d="M20 0 L20 20 L0 20 Q20 20 20 0 Z" />
@@ -143,7 +143,7 @@ export default function Sidebar() {
 
                   {/* Bottom Inverted Corner Notch */}
                   <svg
-                    className="absolute -bottom-5 right-0 w-5 h-5 pointer-events-none text-white fill-current z-30"
+                    className="absolute -bottom-5 right-0 w-5 h-5 pointer-events-none text-white/70 fill-current z-30"
                     viewBox="0 0 20 20"
                   >
                     <path d="M0 0 L20 0 L20 20 Q20 0 0 0 Z" />
