@@ -48,7 +48,7 @@ export default function RootLayout({
 
           {/* Main Elevated Canvas - Heavily Blurred Frosted Glass White (Glassmorphism) */}
           <main className="flex-1 h-full max-h-full bg-white/70 backdrop-blur-3xl backdrop-saturate-150 rounded-[26px] sm:rounded-[32px] shadow-[0_25px_80px_rgba(20,50,140,0.18)] border border-white/75 overflow-hidden flex flex-col min-w-0 relative z-10">
-            <div className="flex-1 h-full overflow-y-auto lg:overflow-hidden p-3 sm:p-3.5 lg:p-4 select-text flex flex-col">
+            <div className="flex-1 h-full overflow-y-auto p-3.5 sm:p-4 lg:p-5 select-text">
               {children}
             </div>
           </main>
