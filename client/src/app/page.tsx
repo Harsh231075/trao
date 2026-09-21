@@ -414,90 +414,81 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Requirement Coverage Distribution Donut Card */}
-          <div className="bg-[#dce9fd] border border-[#bfdbfe]/80 rounded-2xl sm:rounded-3xl p-3 sm:p-3.5 shadow-2xs space-y-2">
-            <h3 className="font-bold text-slate-900 text-xs sm:text-sm tracking-tight px-1">
+          {/* Requirement Coverage Distribution - Matched 1:1 to Open Arch Gauge Reference Image */}
+          <div className="bg-[#dce9fd] border border-[#bfdbfe]/80 rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
+            <h3 className="font-bold text-slate-900 text-xs sm:text-sm tracking-tight px-1 mb-1">
               Requirement Coverage Distribution
             </h3>
 
-            <div className="bg-white rounded-xl p-3 shadow-2xs flex flex-col items-center justify-center">
-              <div className="relative w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center">
-                <svg className="w-28 h-28 sm:w-32 sm:h-32 transform -rotate-90" viewBox="0 0 36 36">
-                  {/* Base Track */}
-                  <path
-                    className="text-slate-100"
-                    strokeWidth="3.5"
-                    stroke="currentColor"
-                    fill="none"
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                  />
-                  {/* Technical 82% (Blue arc) */}
-                  <path
-                    className="text-[#2563eb]"
-                    strokeDasharray="82, 100"
-                    strokeWidth="3.8"
-                    strokeLinecap="round"
-                    stroke="currentColor"
-                    fill="none"
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                  />
-                  {/* Behavioural 13% (Yellow arc) */}
-                  <path
-                    className="text-[#facc15]"
-                    strokeDasharray="13, 100"
-                    strokeDashoffset="-82"
-                    strokeWidth="3.8"
-                    strokeLinecap="round"
-                    stroke="currentColor"
-                    fill="none"
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                  />
-                  {/* Domain / Company-Fit 5% (Dark/Red arc) */}
-                  <path
-                    className="text-slate-950"
-                    strokeDasharray="5, 100"
-                    strokeDashoffset="-95"
-                    strokeWidth="3.8"
-                    strokeLinecap="round"
-                    stroke="currentColor"
-                    fill="none"
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                  />
-                </svg>
+            {/* Gauge Area with Open Horseshoe Arch and Floating Callouts */}
+            <div className="relative w-full max-w-[280px] mx-auto flex items-center justify-center my-auto py-2">
+              <svg
+                className="w-full h-auto max-h-[170px]"
+                viewBox="0 0 240 160"
+                fill="none"
+              >
+                {/* Yellow Arc (13%) - curves from 1:30 to 4:00 */}
+                <path
+                  d="M 175.6 83.2 A 56 56 0 0 1 161.6 127.5"
+                  stroke="#eefc57"
+                  strokeWidth="16"
+                  strokeLinecap="round"
+                />
 
-                {/* Center Number matching Image 2 */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                  <span className="text-xl sm:text-2xl font-extrabold text-slate-900 leading-none">
-                    128
-                  </span>
-                  <span className="text-[9px] sm:text-[10px] font-semibold text-slate-500 mt-0.5">
-                    Questions
-                  </span>
-                </div>
+                {/* Blue Arc (82%) - curves from 7:30 all the way over top to 1:30 */}
+                <path
+                  d="M 77.1 126.0 A 56 56 0 1 1 175.6 83.2"
+                  stroke="#2f70f5"
+                  strokeWidth="16"
+                  strokeLinecap="round"
+                />
+
+                {/* Black Arc Pill (5%) - dark pill at bottom right */}
+                <path
+                  d="M 169.9 115.4 A 56 56 0 0 1 161.6 127.5"
+                  stroke="#0f172a"
+                  strokeWidth="16"
+                  strokeLinecap="round"
+                />
+
+                {/* Decorative Pin Dots matching reference mockup */}
+                <circle cx="66" cy="75.5" r="3.2" fill="#22d3ee" stroke="#ffffff" strokeWidth="1.2" />
+                <circle cx="168" cy="112" r="2.5" fill="#a3e635" stroke="#ffffff" strokeWidth="1" />
+                <circle cx="162.5" cy="119" r="2" fill="#94a3b8" />
+              </svg>
+
+              {/* Center Number & Label inside the Horseshoe Opening */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none pb-1">
+                <span className="text-3xl sm:text-4xl font-black text-slate-900 leading-none tracking-tight">
+                  128
+                </span>
+                <span className="text-xs font-semibold text-slate-700 mt-1">
+                  Questions
+                </span>
               </div>
 
-              {/* Percentage callouts */}
-              <div className="w-full flex items-center justify-between text-[10px] sm:text-xs font-bold pt-2 px-1">
-                <div className="text-left">
-                  <span className="block text-[#2563eb] text-xs sm:text-sm leading-tight">82%</span>
-                  <span className="text-[9px] sm:text-[10px] text-slate-500 font-medium">
-                    Technical
-                  </span>
-                </div>
+              {/* Left Callout: 82% Technical */}
+              <div className="absolute left-0 sm:left-1 top-[44%] -translate-y-1/2 text-left pointer-events-none">
+                <span className="block text-[#2f70f5] font-bold text-sm sm:text-base leading-tight">82%</span>
+                <span className="block text-slate-800 font-semibold text-[10px] sm:text-[11px] leading-tight mt-0.5">
+                  Technical
+                </span>
+              </div>
 
-                <div className="text-center">
-                  <span className="block text-[#ca8a04] text-xs sm:text-sm leading-tight">13%</span>
-                  <span className="text-[9px] sm:text-[10px] text-slate-500 font-medium">
-                    Behavioural
-                  </span>
-                </div>
+              {/* Top-Right Callout: 13% Behavioural */}
+              <div className="absolute right-0 sm:right-1 top-[18%] -translate-y-1/2 text-left pointer-events-none">
+                <span className="block text-[#2f70f5] font-bold text-sm sm:text-base leading-tight">13%</span>
+                <span className="block text-slate-800 font-semibold text-[10px] sm:text-[11px] leading-tight mt-0.5">
+                  Behavioural
+                </span>
+              </div>
 
-                <div className="text-right">
-                  <span className="block text-rose-600 text-xs sm:text-sm leading-tight">5%</span>
-                  <span className="text-[9px] sm:text-[10px] text-slate-500 font-medium">
-                    Company-Fit
-                  </span>
-                </div>
+              {/* Bottom-Right Callout: 5% Company-Fit */}
+              <div className="absolute right-0 sm:right-1 bottom-[10%] translate-y-0 text-left pointer-events-none">
+                <span className="block text-[#ef4444] font-bold text-sm sm:text-base leading-tight">5%</span>
+                <span className="block text-slate-800 font-semibold text-[10px] sm:text-[11px] leading-tight mt-0.5">
+                  Company-Fit
+                </span>
               </div>
             </div>
           </div>
