@@ -144,10 +144,10 @@ export default function DashboardPage() {
 
       {/* Top 4 Stat Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Card 1: Interview Kits */}
-        <div className="bg-slate-50/70 hover:bg-white p-5 rounded-2xl border border-slate-150/80 hover:shadow-md transition-all relative overflow-hidden group">
+        {/* Card 1: Interview Kits (Soft Blue) */}
+        <div className="bg-blue-50/80 hover:bg-blue-100/60 p-5 rounded-2xl shadow-2xs hover:shadow-md transition-all relative overflow-hidden group border-0">
           <div className="flex items-start justify-between">
-            <div className="w-10 h-10 rounded-xl bg-blue-100/70 text-blue-600 flex items-center justify-center shadow-2xs">
+            <div className="w-10 h-10 rounded-xl bg-white text-blue-600 flex items-center justify-center shadow-xs">
               <FileText className="w-5 h-5" />
             </div>
             {/* Mini Blue Bar Chart Graphic */}
@@ -161,16 +161,16 @@ export default function DashboardPage() {
           <div className="mt-3">
             <h3 className="text-3xl font-extrabold text-slate-900 tracking-tight">{kits.length}</h3>
             <p className="text-xs font-semibold text-slate-600 mt-0.5">Interview Kits</p>
-            <p className="text-xs font-medium text-emerald-600 mt-1 flex items-center gap-1">
+            <p className="text-xs font-semibold text-blue-700 mt-1 flex items-center gap-1">
               <span>↑ 2 this month</span>
             </p>
           </div>
         </div>
 
-        {/* Card 2: Questions Practiced */}
-        <div className="bg-slate-50/70 hover:bg-white p-5 rounded-2xl border border-slate-150/80 hover:shadow-md transition-all relative overflow-hidden group">
+        {/* Card 2: Questions Practiced (Soft Emerald/Mint) */}
+        <div className="bg-emerald-50/80 hover:bg-emerald-100/60 p-5 rounded-2xl shadow-2xs hover:shadow-md transition-all relative overflow-hidden group border-0">
           <div className="flex items-start justify-between">
-            <div className="w-10 h-10 rounded-xl bg-emerald-100/70 text-emerald-600 flex items-center justify-center shadow-2xs">
+            <div className="w-10 h-10 rounded-xl bg-white text-emerald-600 flex items-center justify-center shadow-xs">
               <Target className="w-5 h-5" />
             </div>
             {/* Mini Green Bar Chart Graphic */}
@@ -184,38 +184,38 @@ export default function DashboardPage() {
           <div className="mt-3">
             <h3 className="text-3xl font-extrabold text-slate-900 tracking-tight">128</h3>
             <p className="text-xs font-semibold text-slate-600 mt-0.5">Questions Practiced</p>
-            <p className="text-xs font-medium text-emerald-600 mt-1 flex items-center gap-1">
+            <p className="text-xs font-semibold text-emerald-700 mt-1 flex items-center gap-1">
               <span>↑ 24 this week</span>
             </p>
           </div>
         </div>
 
-        {/* Card 3: Days Until Next Interview */}
-        <div className="bg-gradient-to-br from-amber-50/50 via-orange-50/30 to-yellow-50/50 hover:bg-white p-5 rounded-2xl border border-amber-150/80 hover:shadow-md transition-all relative overflow-hidden group">
+        {/* Card 3: Days Until Next Interview (Soft Warm Amber/Peach) */}
+        <div className="bg-amber-50/80 hover:bg-amber-100/60 p-5 rounded-2xl shadow-2xs hover:shadow-md transition-all relative overflow-hidden group border-0">
           <div className="flex items-start justify-between">
-            <div className="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center shadow-2xs">
+            <div className="w-10 h-10 rounded-xl bg-white text-amber-600 flex items-center justify-center shadow-xs">
               <Calendar className="w-5 h-5" />
             </div>
             {/* Subtle calendar badge */}
-            <span className="text-[11px] font-bold text-orange-600 bg-orange-100/80 px-2 py-0.5 rounded-full">
+            <span className="text-[11px] font-bold text-amber-800 bg-white/90 px-2 py-0.5 rounded-full shadow-2xs">
               Next: Google
             </span>
           </div>
           <div className="mt-3">
             <h3 className="text-3xl font-extrabold text-slate-900 tracking-tight">5</h3>
             <p className="text-xs font-semibold text-slate-600 mt-0.5">Days Until Next Interview</p>
-            <p className="text-xs font-semibold text-amber-600 mt-1">Stay consistent!</p>
+            <p className="text-xs font-semibold text-amber-800 mt-1">Stay consistent!</p>
           </div>
         </div>
 
-        {/* Card 4: Overall Preparation */}
-        <div className="bg-slate-50/70 hover:bg-white p-5 rounded-2xl border border-slate-150/80 hover:shadow-md transition-all relative overflow-hidden group">
+        {/* Card 4: Overall Preparation (Soft Purple/Lavender) */}
+        <div className="bg-purple-50/80 hover:bg-purple-100/60 p-5 rounded-2xl shadow-2xs hover:shadow-md transition-all relative overflow-hidden group border-0">
           <div className="flex items-start justify-between">
             {/* Circular Purple Donut Gauge */}
             <div className="relative w-10 h-10 flex items-center justify-center">
               <svg className="w-10 h-10 transform -rotate-90" viewBox="0 0 36 36">
                 <path
-                  className="text-purple-100"
+                  className="text-purple-200"
                   strokeWidth="4"
                   stroke="currentColor"
                   fill="none"
@@ -231,7 +231,7 @@ export default function DashboardPage() {
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                 />
               </svg>
-              <span className="absolute text-[10px] font-bold text-purple-700">72</span>
+              <span className="absolute text-[10px] font-extrabold text-purple-700">72</span>
             </div>
 
             {/* Sparkline Wave */}
@@ -249,7 +249,7 @@ export default function DashboardPage() {
           <div className="mt-3">
             <h3 className="text-3xl font-extrabold text-slate-900 tracking-tight">72%</h3>
             <p className="text-xs font-semibold text-slate-600 mt-0.5">Overall Preparation</p>
-            <p className="text-xs font-medium text-emerald-600 mt-1 flex items-center gap-1">
+            <p className="text-xs font-semibold text-purple-700 mt-1 flex items-center gap-1">
               <span>↑ 18% this week</span>
             </p>
           </div>
