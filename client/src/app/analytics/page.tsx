@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
 import Header from "@/components/Header";
-import { BarChart3, TrendingUp, CheckCircle, Target, Award } from "lucide-react";
+import { Award } from "lucide-react";
 
 export default function AnalyticsPage() {
   const skills = [
