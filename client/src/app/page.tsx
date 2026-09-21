@@ -78,47 +78,49 @@ export default function DashboardPage() {
   ]);
 
   return (
-    <div suppressHydrationWarning className="space-y-3 sm:space-y-3.5">
+    <div suppressHydrationWarning className="h-full flex flex-col justify-between gap-2 sm:gap-2.5 min-h-0">
       {/* Top Universal Header */}
-      <Header onOpenCreateKit={() => setIsModalOpen(true)} />
+      <div className="shrink-0">
+        <Header onOpenCreateKit={() => setIsModalOpen(true)} />
+      </div>
 
       {/* Greeting & Header Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 shrink-0">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-1.5">
+          <h1 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight flex items-center gap-1.5 leading-tight">
             Good Morning, Harsh 👋
           </h1>
-          <p className="text-xs text-slate-500">
+          <p className="text-[11px] sm:text-xs text-slate-500">
             Trao AI Interview Prep Kit — Turn job descriptions into structured preparation plans.
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs sm:text-sm rounded-full shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 transition-all active:scale-95 cursor-pointer"
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs sm:text-sm rounded-full shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 transition-all active:scale-95 cursor-pointer"
           >
-            <Plus className="w-4 h-4 stroke-[2.5]" />
+            <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
             <span>Create Interview Kit</span>
           </button>
           <button
             type="button"
-            className="p-2.5 rounded-full border border-slate-200/90 bg-white/90 text-slate-600 hover:bg-slate-50 transition-colors shadow-2xs"
+            className="p-2 rounded-full border border-slate-200/90 bg-white/90 text-slate-600 hover:bg-slate-50 transition-colors shadow-2xs"
             title="Filter Settings"
           >
-            <SlidersHorizontal className="w-4 h-4" />
+            <SlidersHorizontal className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
 
       {/* Top 4 Stat Cards matching Image 2 Layout with Trao Assessment Metrics */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-3.5">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-2.5 shrink-0">
         {/* Card 1: 128 Questions Practiced */}
-        <div className="bg-white/95 backdrop-blur-sm p-3.5 sm:p-4 rounded-2xl sm:rounded-3xl border border-[#d8e8fe] shadow-2xs hover:shadow-xs transition-all relative overflow-hidden group min-h-[114px] sm:min-h-[122px] flex flex-col justify-between">
+        <div className="bg-white/95 backdrop-blur-sm p-3 sm:p-3.5 rounded-2xl border border-[#d8e8fe] shadow-2xs hover:shadow-xs transition-all relative overflow-hidden group min-h-[96px] sm:min-h-[104px] flex flex-col justify-between">
           <div className="flex items-start justify-between">
             <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight leading-none">128</h3>
-            <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100 shadow-2xs">
-              <Activity className="w-4 h-4" />
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100 shadow-2xs">
+              <Activity className="w-3.5 h-3.5" />
             </div>
           </div>
           <div>
@@ -134,48 +136,48 @@ export default function DashboardPage() {
         </div>
 
         {/* Card 2: 03 Coverage Gaps */}
-        <div className="bg-white/95 backdrop-blur-sm p-3.5 sm:p-4 rounded-2xl sm:rounded-3xl border border-[#d8e8fe] shadow-2xs hover:shadow-xs transition-all relative overflow-hidden group min-h-[114px] sm:min-h-[122px] flex flex-col justify-between">
+        <div className="bg-white/95 backdrop-blur-sm p-3 sm:p-3.5 rounded-2xl border border-[#d8e8fe] shadow-2xs hover:shadow-xs transition-all relative overflow-hidden group min-h-[96px] sm:min-h-[104px] flex flex-col justify-between">
           <div className="flex items-start justify-between">
             <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight leading-none">03</h3>
-            <div className="w-8 h-8 rounded-xl bg-rose-50 text-rose-500 flex items-center justify-center border border-rose-100 shadow-2xs">
-              <AlertTriangle className="w-4 h-4" />
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-rose-50 text-rose-500 flex items-center justify-center border border-rose-100 shadow-2xs">
+              <AlertTriangle className="w-3.5 h-3.5" />
             </div>
           </div>
           <div>
             <p className="text-xs font-semibold text-slate-700">Coverage Gaps</p>
-            <p className="text-[11px] sm:text-xs font-medium text-rose-500 mt-1.5">
+            <p className="text-[11px] sm:text-xs font-medium text-rose-500 mt-1">
               Second pass queued
             </p>
           </div>
         </div>
 
         {/* Card 3: 14 Flashcards Due (Vibrant Lime/Yellow Card) */}
-        <div className="bg-[#eefc57] text-slate-900 p-3.5 sm:p-4 rounded-2xl sm:rounded-3xl shadow-2xs hover:shadow-xs transition-all relative overflow-hidden group border-0 min-h-[114px] sm:min-h-[122px] flex flex-col justify-between">
+        <div className="bg-[#eefc57] text-slate-900 p-3 sm:p-3.5 rounded-2xl shadow-2xs hover:shadow-xs transition-all relative overflow-hidden group border-0 min-h-[96px] sm:min-h-[104px] flex flex-col justify-between">
           <div className="flex items-start justify-between">
             <h3 className="text-2xl sm:text-3xl font-bold text-slate-950 tracking-tight leading-none">14</h3>
-            <div className="w-8 h-8 rounded-xl bg-black/10 text-slate-900 flex items-center justify-center shadow-2xs">
-              <FileText className="w-4 h-4" />
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-black/10 text-slate-900 flex items-center justify-center shadow-2xs">
+              <FileText className="w-3.5 h-3.5" />
             </div>
           </div>
           <div>
             <p className="text-xs font-semibold text-slate-900">Flashcards Due</p>
-            <p className="text-[11px] sm:text-xs font-medium text-slate-800/80 mt-1.5">
+            <p className="text-[11px] sm:text-xs font-medium text-slate-800/80 mt-1">
               6 mastered • 14 remaining
             </p>
           </div>
         </div>
 
         {/* Card 4: 05 Active Prep Kits (Royal Blue Card) */}
-        <div className="bg-[#2563eb] text-white p-3.5 sm:p-4 rounded-2xl sm:rounded-3xl shadow-2xs hover:shadow-xs transition-all relative overflow-hidden group border-0 min-h-[114px] sm:min-h-[122px] flex flex-col justify-between">
+        <div className="bg-[#2563eb] text-white p-3 sm:p-3.5 rounded-2xl shadow-2xs hover:shadow-xs transition-all relative overflow-hidden group border-0 min-h-[96px] sm:min-h-[104px] flex flex-col justify-between">
           <div className="flex items-start justify-between">
             <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight leading-none">05</h3>
-            <div className="w-8 h-8 rounded-xl bg-white/20 text-white flex items-center justify-center backdrop-blur-xs shadow-2xs">
-              <Sparkles className="w-4 h-4" />
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-white/20 text-white flex items-center justify-center backdrop-blur-xs shadow-2xs">
+              <Sparkles className="w-3.5 h-3.5" />
             </div>
           </div>
           <div>
             <p className="text-xs font-semibold text-blue-100">Active Prep Kits</p>
-            <p className="text-[11px] sm:text-xs font-medium text-blue-200 mt-1.5 flex items-center gap-1.5">
+            <p className="text-[11px] sm:text-xs font-medium text-blue-200 mt-1 flex items-center gap-1.5">
               <Clock className="w-3.5 h-3.5" />
               <span>AI Pipeline ready</span>
             </p>
@@ -341,21 +343,21 @@ export default function DashboardPage() {
         </div>
 
         {/* Right 4 Cols: Quick Actions & Requirement Coverage Distribution */}
-        <div className="lg:col-span-4 flex flex-col justify-between gap-3 h-full">
+        <div className="lg:col-span-4 flex flex-col justify-between gap-2 sm:gap-2.5 h-full min-h-0">
           {/* Quick Actions Card */}
-          <div className="bg-[#dce9fd] border border-[#bfdbfe]/80 rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 shadow-2xs space-y-2">
-            <h3 className="font-bold text-slate-900 text-xs sm:text-sm tracking-tight px-1">
+          <div className="bg-[#dce9fd] border border-[#bfdbfe]/80 rounded-2xl sm:rounded-3xl p-2.5 sm:p-3 shadow-2xs shrink-0">
+            <h3 className="font-bold text-slate-900 text-xs sm:text-sm tracking-tight px-1 mb-1.5">
               Quick Actions
             </h3>
 
-            <div className="space-y-1.5 sm:space-y-2">
+            <div className="space-y-1 sm:space-y-1.5">
               {/* Action 1: Practice Mode */}
               <Link
                 href="/practice"
-                className="bg-white p-2.5 sm:p-3 rounded-xl shadow-2xs hover:shadow-xs transition-all flex items-center justify-between group border border-transparent hover:border-blue-200"
+                className="bg-white p-2 sm:p-2.5 rounded-xl shadow-2xs hover:shadow-xs transition-all flex items-center justify-between group border border-transparent hover:border-blue-200"
               >
-                <div className="flex items-center gap-2.5">
-                  <div className="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shadow-2xs">
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shadow-2xs">
                     <ListTodo className="w-3.5 h-3.5" />
                   </div>
                   <div>
@@ -373,10 +375,10 @@ export default function DashboardPage() {
               {/* Action 2: Builder & Section Regeneration */}
               <Link
                 href="/kits"
-                className="bg-white p-2.5 sm:p-3 rounded-xl shadow-2xs hover:shadow-xs transition-all flex items-center justify-between group border border-transparent hover:border-blue-200"
+                className="bg-white p-2 sm:p-2.5 rounded-xl shadow-2xs hover:shadow-xs transition-all flex items-center justify-between group border border-transparent hover:border-blue-200"
               >
-                <div className="flex items-center gap-2.5">
-                  <div className="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shadow-2xs">
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shadow-2xs">
                     <FileText className="w-3.5 h-3.5" />
                   </div>
                   <div>
@@ -394,10 +396,10 @@ export default function DashboardPage() {
               {/* Action 3: Day-by-Day Schedule */}
               <Link
                 href="/schedule"
-                className="bg-white p-2.5 sm:p-3 rounded-xl shadow-2xs hover:shadow-xs transition-all flex items-center justify-between group border border-transparent hover:border-blue-200"
+                className="bg-white p-2 sm:p-2.5 rounded-xl shadow-2xs hover:shadow-xs transition-all flex items-center justify-between group border border-transparent hover:border-blue-200"
               >
-                <div className="flex items-center gap-2.5">
-                  <div className="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shadow-2xs">
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shadow-2xs">
                     <Calendar className="w-3.5 h-3.5" />
                   </div>
                   <div>
@@ -415,16 +417,16 @@ export default function DashboardPage() {
           </div>
 
           {/* Requirement Coverage Distribution - Matched 1:1 to Open Arch Gauge Reference Image (Enlarged & High-Legibility) */}
-          <div className="bg-[#dce9fd] border border-[#bfdbfe]/80 rounded-2xl sm:rounded-3xl p-4 sm:p-5 shadow-2xs flex flex-col justify-between">
-            <h3 className="font-bold text-slate-900 text-sm sm:text-[15px] tracking-tight px-1 mb-1">
+          <div className="bg-[#dce9fd] border border-[#bfdbfe]/80 rounded-2xl sm:rounded-3xl p-3 sm:p-3.5 shadow-2xs flex-1 flex flex-col justify-between min-h-0">
+            <h3 className="font-bold text-slate-900 text-xs sm:text-sm tracking-tight px-1 mb-1 shrink-0">
               Requirement Coverage Distribution
             </h3>
 
             {/* Gauge Area with Enlarged Open Horseshoe Arch and Floating Callouts */}
-            <div className="relative w-full max-w-[340px] sm:max-w-[370px] mx-auto flex items-center justify-center my-auto py-2 sm:py-3">
+            <div className="relative w-full max-w-[320px] sm:max-w-[350px] mx-auto flex items-center justify-center my-auto py-1">
               <svg
-                className="w-full h-auto min-h-[190px] sm:min-h-[210px] max-h-[240px]"
-                viewBox="0 0 260 180"
+                className="w-full h-auto max-h-[160px] sm:max-h-[175px]"
+                viewBox="0 0 260 156"
                 fill="none"
               >
                 {/* Yellow Arc (13%) - curves from 1:30 to 4:00 */}
@@ -459,40 +461,40 @@ export default function DashboardPage() {
 
               {/* Center Number & Label inside the Horseshoe Opening */}
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none pb-1">
-                <span className="text-4xl sm:text-5xl font-black text-slate-900 leading-none tracking-tight">
+                <span className="text-3xl sm:text-4xl font-black text-slate-900 leading-none tracking-tight">
                   128
                 </span>
-                <span className="text-xs sm:text-sm font-bold text-slate-700 mt-1">
+                <span className="text-[11px] sm:text-xs font-bold text-slate-700 mt-0.5">
                   Questions
                 </span>
               </div>
 
               {/* Left Callout: 82% Technical */}
-              <div className="absolute left-0.5 sm:left-1.5 top-[44%] -translate-y-1/2 text-left pointer-events-none">
-                <span className="block text-[#2f70f5] font-black text-base sm:text-lg lg:text-xl leading-tight">
+              <div className="absolute left-0.5 sm:left-1 top-[44%] -translate-y-1/2 text-left pointer-events-none">
+                <span className="block text-[#2f70f5] font-black text-base sm:text-lg leading-tight">
                   82%
                 </span>
-                <span className="block text-slate-800 font-bold text-xs sm:text-[13px] leading-tight mt-0.5">
+                <span className="block text-slate-800 font-bold text-[11px] sm:text-xs leading-tight mt-0.5">
                   Technical
                 </span>
               </div>
 
               {/* Top-Right Callout: 13% Behavioural */}
-              <div className="absolute right-0.5 sm:right-1.5 top-[16%] -translate-y-1/2 text-left pointer-events-none">
-                <span className="block text-[#2f70f5] font-black text-base sm:text-lg lg:text-xl leading-tight">
+              <div className="absolute right-0.5 sm:right-1 top-[16%] -translate-y-1/2 text-left pointer-events-none">
+                <span className="block text-[#2f70f5] font-black text-base sm:text-lg leading-tight">
                   13%
                 </span>
-                <span className="block text-slate-800 font-bold text-xs sm:text-[13px] leading-tight mt-0.5">
+                <span className="block text-slate-800 font-bold text-[11px] sm:text-xs leading-tight mt-0.5">
                   Behavioural
                 </span>
               </div>
 
               {/* Bottom-Right Callout: 5% Company-Fit */}
-              <div className="absolute right-0.5 sm:right-1.5 bottom-[10%] translate-y-0 text-left pointer-events-none">
-                <span className="block text-[#ef4444] font-black text-base sm:text-lg lg:text-xl leading-tight">
+              <div className="absolute right-0.5 sm:right-1 bottom-[8%] translate-y-0 text-left pointer-events-none">
+                <span className="block text-[#ef4444] font-black text-base sm:text-lg leading-tight">
                   5%
                 </span>
-                <span className="block text-slate-800 font-bold text-xs sm:text-[13px] leading-tight mt-0.5">
+                <span className="block text-slate-800 font-bold text-[11px] sm:text-xs leading-tight mt-0.5">
                   Company-Fit
                 </span>
               </div>
