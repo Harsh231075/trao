@@ -16,7 +16,6 @@ import {
   Clock,
   Activity,
   ListTodo,
-  Layers,
   SlidersHorizontal,
   ExternalLink,
 } from "lucide-react";
@@ -176,12 +175,12 @@ export default function DashboardPage() {
       </div>
 
       {/* Main Grid: Left 8 Cols (Table Queue) & Right 4 Cols (Quick Actions + Distribution) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4">
-        {/* Left 8 Cols: Active Interview Kits Queue */}
-        <div className="lg:col-span-8 space-y-3">
-          <div className="bg-[#dce9fd] border border-[#bfdbfe]/80 rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 shadow-2xs space-y-2.5">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 items-stretch">
+        {/* Left 8 Cols: Active Interview Kits Queue (Stretches to full height matching right column) */}
+        <div className="lg:col-span-8 flex flex-col h-full">
+          <div className="bg-[#dce9fd] border border-[#bfdbfe]/80 rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 shadow-2xs flex-1 flex flex-col justify-between h-full">
             {/* Header sitting on #dce9fd */}
-            <div className="flex items-center justify-between px-1">
+            <div className="flex items-center justify-between px-1 mb-2 shrink-0">
               <h2 className="text-sm font-bold text-slate-900 tracking-tight">
                 Active Interview Kits Queue
               </h2>
@@ -194,7 +193,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Column Headers directly on #dce9fd */}
-            <div className="grid grid-cols-12 gap-2 text-[10px] font-extrabold text-blue-600 tracking-wider uppercase px-3 pt-0.5">
+            <div className="grid grid-cols-12 gap-2 text-[10px] font-extrabold text-blue-600 tracking-wider uppercase px-3 pb-1 shrink-0">
               <div className="col-span-4 sm:col-span-3">COMPANY &amp; ROLE</div>
               <div className="col-span-2">TIMELINE</div>
               <div className="col-span-3 hidden sm:block">FOCUS &amp; REQUIREMENTS</div>
@@ -203,12 +202,12 @@ export default function DashboardPage() {
               <div className="col-span-1 text-right">ACTION</div>
             </div>
 
-            {/* Pure White Table Card holding the 3 rows */}
-            <div className="bg-white rounded-xl shadow-2xs divide-y divide-slate-100 overflow-hidden">
+            {/* Pure White Table Card holding the 3 rows stretching to fill space */}
+            <div className="bg-white rounded-xl shadow-2xs divide-y divide-slate-100 overflow-hidden flex-1 flex flex-col justify-around my-2 min-h-[220px]">
               {queueItems.map((item) => (
                 <div
                   key={item.id}
-                  className="grid grid-cols-12 gap-2 items-center px-3 py-2 sm:py-2.5 hover:bg-slate-50/70 transition-colors text-xs"
+                  className="grid grid-cols-12 gap-2 items-center px-3 sm:px-3.5 py-3 sm:py-3.5 hover:bg-slate-50/70 transition-colors text-xs flex-1"
                 >
                   {/* Company & Role */}
                   <div className="col-span-4 sm:col-span-3 flex items-center gap-2">
@@ -243,13 +242,12 @@ export default function DashboardPage() {
                     <div className="flex items-center gap-1">
                       <span className="text-slate-400 font-medium">{item.vitals.label1}</span>
                       <span
-                        className={`font-bold ${
-                          item.vitals.isAlert
+                        className={`font-bold ${item.vitals.isAlert
                             ? "text-rose-500"
                             : item.vitals.isWarning
-                            ? "text-blue-600"
-                            : "text-emerald-600"
-                        }`}
+                              ? "text-blue-600"
+                              : "text-emerald-600"
+                          }`}
                       >
                         {item.vitals.val1}
                       </span>
@@ -257,13 +255,12 @@ export default function DashboardPage() {
                     <div className="flex items-center gap-1">
                       <span className="text-slate-400 font-medium">{item.vitals.label2}</span>
                       <span
-                        className={`font-bold ${
-                          item.vitals.isAlert
+                        className={`font-bold ${item.vitals.isAlert
                             ? "text-rose-500"
                             : item.vitals.isWarning
-                            ? "text-blue-600"
-                            : "text-emerald-600"
-                        }`}
+                              ? "text-blue-600"
+                              : "text-emerald-600"
+                          }`}
                       >
                         {item.vitals.val2}
                       </span>
@@ -273,13 +270,12 @@ export default function DashboardPage() {
                   {/* Status Pill with CheckCircle2 */}
                   <div className="col-span-2 sm:col-span-1 flex justify-center">
                     <span
-                      className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold ${
-                        item.status === "In Progress"
+                      className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold ${item.status === "In Progress"
                           ? "bg-[#fee2e2] text-[#dc2626]"
                           : item.status === "Ready"
-                          ? "bg-[#e0f2fe] text-[#0284c7]"
-                          : "bg-[#dcfce7] text-[#16a34a]"
-                      }`}
+                            ? "bg-[#e0f2fe] text-[#0284c7]"
+                            : "bg-[#dcfce7] text-[#16a34a]"
+                        }`}
                     >
                       <CheckCircle2 className="w-3 h-3" />
                       <span>{item.status}</span>
@@ -300,7 +296,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Bottom AI Summary Banner matching Trao Assessment Research & Generation */}
-            <div className="bg-[#2563EB] text-white p-2.5 sm:p-3 rounded-xl shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div className="bg-[#2563EB] text-white p-2.5 sm:p-3 rounded-xl shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 mt-auto shrink-0">
               <div className="flex items-center gap-2">
                 <div className="w-6 h-6 rounded-lg bg-white/20 flex items-center justify-center text-white shrink-0">
                   <Sparkles className="w-3.5 h-3.5" />
@@ -325,7 +321,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Right 4 Cols: Quick Actions & Requirement Coverage Distribution */}
-        <div className="lg:col-span-4 space-y-3">
+        <div className="lg:col-span-4 flex flex-col justify-between gap-3 h-full">
           {/* Quick Actions Card */}
           <div className="bg-[#dce9fd] border border-[#bfdbfe]/80 rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 shadow-2xs space-y-2">
             <h3 className="font-bold text-slate-900 text-xs sm:text-sm tracking-tight px-1">
