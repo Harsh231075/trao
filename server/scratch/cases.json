@@ -1,0 +1,20 @@
+[
+  {
+    "id": "case_stripe_001",
+    "jd": "Senior Distributed Systems Engineer. Must have experience with Go/Node.js, high-throughput distributed systems, Kafka, and fault tolerance. 6+ years experience.",
+    "company_url": "https://stripe.com",
+    "days": 5
+  },
+  {
+    "id": "case_meta_002",
+    "jd": "Staff Frontend Engineer. Must have deep expertise in React 19, TypeScript, browser rendering optimization, and micro-frontend architecture. Experience leading teams required.",
+    "company_url": "https://meta.com",
+    "days": 3
+  },
+  {
+    "id": "case_invalid_003",
+    "jd": "",
+    "company_url": "https://example.com",
+    "days": 4
+  }
+]

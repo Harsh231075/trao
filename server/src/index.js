@@ -1,49 +1,74 @@
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
+import config from './config/env.js';
+import { connectDB } from './db/connection.js';
+import { errorHandler } from './middleware/errorHandler.js';
 
-dotenv.config();
+// Route imports
+import authRoutes from './routes/auth.routes.js';
+import kitsRoutes from './routes/kits.routes.js';
+import generationRoutes from './routes/generation.routes.js';
+import builderRoutes from './routes/builder.routes.js';
+import practiceRoutes from './routes/practice.routes.js';
+import scheduleRoutes from './routes/schedule.routes.js';
 
 const app = express();
-const PORT = process.env.PORT || 5001;
-const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:3000';
 
 // Middleware
 app.use(cors({
-  origin: CLIENT_URL,
+  origin: config.clientUrl,
   credentials: true,
 }));
-app.use(express.json());
+app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// Routes
+// Root info
 app.get('/', (req, res) => {
   res.json({
-    message: 'Welcome to the Express Server API',
+    name: 'Trao AI Interview Prep Kit API',
     status: 'running',
+    version: '1.0.0',
   });
 });
 
+// Health check
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'ok',
     uptime: process.uptime(),
     timestamp: new Date().toISOString(),
+    environment: config.nodeEnv,
   });
 });
 
+// Mount API routes
+app.use('/api/auth', authRoutes);
+app.use('/api/kits', kitsRoutes);
+app.use('/api/kits', generationRoutes);
+app.use('/api/kits', builderRoutes);
+app.use('/api/kits', practiceRoutes);
+app.use('/api/kits', scheduleRoutes);
+
 // 404 handler
 app.use((req, res) => {
-  res.status(404).json({ error: 'Endpoint not found' });
+  res.status(404).json({ error: `Endpoint not found: ${req.method} ${req.path}`, code: 'NOT_FOUND' });
 });
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error('Server error:', err);
-  res.status(500).json({ error: 'Internal Server Error' });
-});
+// Global error handler
+app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(` Server is running on http://localhost:${PORT}`);
-  console.log(` Client URL allowed: ${CLIENT_URL}`);
-});
+// Start server after DB connection
+async function startServer() {
+  try {
+    await connectDB();
+    app.listen(config.port, () => {
+      console.log(`🚀 Trao Server is running on http://localhost:${config.port}`);
+      console.log(`🔗 Client allowed origin: ${config.clientUrl}`);
+    });
+  } catch (err) {
+    console.error('Failed to start server:', err);
+    process.exit(1);
+  }
+}
+
+startServer();

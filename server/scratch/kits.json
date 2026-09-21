@@ -1,0 +1,598 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-09-21T17:56:32.541Z",
+  "kits": [
+    {
+      "id": "case_stripe_001",
+      "status": "ok",
+      "kit": {
+        "source": {
+          "jd": "Senior Distributed Systems Engineer. Must have experience with Go/Node.js, high-throughput distributed systems, Kafka, and fault tolerance. 6+ years experience.",
+          "company_url": "https://stripe.com",
+          "days_available": 5
+        },
+        "company_brief": {
+          "summary": "A leading technology organization focused on building high-scale developer platforms and web applications.",
+          "what_they_do": "Provides robust software infrastructure, modern developer tooling, and cloud-native solutions for engineering teams worldwide.",
+          "sources": [
+            "https://example.com/about",
+            "https://example.com/careers"
+          ]
+        },
+        "role": {
+          "title": "Software Engineer",
+          "seniority": "mid",
+          "responsibilities": [
+            "Design and build scalable web applications and microservices",
+            "Collaborate with cross-functional teams to define architecture and requirements",
+            "Ensure high code quality through testing, CI/CD, and peer reviews"
+          ],
+          "requirements": [
+            {
+              "id": "req_001",
+              "text": "Proficiency with modern JavaScript/TypeScript and Node.js",
+              "kind": "technical",
+              "priority": "must"
+            },
+            {
+              "id": "req_002",
+              "text": "Experience designing and maintaining RESTful APIs and databases",
+              "kind": "technical",
+              "priority": "must"
+            },
+            {
+              "id": "req_003",
+              "text": "Strong problem-solving and distributed system architecture knowledge",
+              "kind": "technical",
+              "priority": "must"
+            },
+            {
+              "id": "req_004",
+              "text": "Effective communication and cross-team collaboration skills",
+              "kind": "behavioural",
+              "priority": "must"
+            },
+            {
+              "id": "req_005",
+              "text": "Experience with cloud infrastructure (AWS/GCP) and containerization",
+              "kind": "technical",
+              "priority": "nice"
+            }
+          ]
+        },
+        "questions": {
+          "technical": [
+            {
+              "id": "q_tech_001",
+              "text": "How does the Node.js event loop handle asynchronous I/O and microtasks versus macrotasks?",
+              "difficulty": 2,
+              "requirement_ids": [
+                "req_001"
+              ],
+              "answer_outline": "Explain Call Stack, Event Loop phases, Promise microtask queue priority over setTimeout macrotasks.",
+              "source": "generated"
+            },
+            {
+              "id": "q_tech_002",
+              "text": "How would you structure a MongoDB schema with indexing to optimize high-throughput read and write queries?",
+              "difficulty": 3,
+              "requirement_ids": [
+                "req_002"
+              ],
+              "answer_outline": "Compound indexing, prefix matching, query explain plan analysis, denormalization trade-offs.",
+              "source": "generated"
+            },
+            {
+              "id": "q_tech_003",
+              "text": "Explain how you secure REST API endpoints against unauthorized access and injection attacks.",
+              "difficulty": 2,
+              "requirement_ids": [
+                "req_002",
+                "req_003"
+              ],
+              "answer_outline": "JWT auth middleware, input sanitization/validation, rate limiting, CORS configuration.",
+              "source": "generated"
+            }
+          ],
+          "behavioural": [
+            {
+              "id": "q_behav_001",
+              "text": "How does the Node.js event loop handle asynchronous I/O and microtasks versus macrotasks?",
+              "difficulty": 2,
+              "requirement_ids": [
+                "req_001"
+              ],
+              "answer_outline": "Explain Call Stack, Event Loop phases, Promise microtask queue priority over setTimeout macrotasks.",
+              "source": "generated"
+            },
+            {
+              "id": "q_behav_002",
+              "text": "How would you structure a MongoDB schema with indexing to optimize high-throughput read and write queries?",
+              "difficulty": 3,
+              "requirement_ids": [
+                "req_002"
+              ],
+              "answer_outline": "Compound indexing, prefix matching, query explain plan analysis, denormalization trade-offs.",
+              "source": "generated"
+            },
+            {
+              "id": "q_behav_003",
+              "text": "Explain how you secure REST API endpoints against unauthorized access and injection attacks.",
+              "difficulty": 2,
+              "requirement_ids": [
+                "req_002",
+                "req_003"
+              ],
+              "answer_outline": "JWT auth middleware, input sanitization/validation, rate limiting, CORS configuration.",
+              "source": "generated"
+            },
+            {
+              "id": "q_behav_004",
+              "text": "Describe a situation where you had a technical disagreement with a teammate and how you reached alignment.",
+              "difficulty": 2,
+              "requirement_ids": [
+                "req_004"
+              ],
+              "answer_outline": "STAR method: explain context, objective evaluation of trade-offs, consensus building.",
+              "source": "generated_coverage_pass"
+            },
+            {
+              "id": "q_behav_005",
+              "text": "Tell me about a time you had to deliver a critical feature under tight deadlines with ambiguous requirements.",
+              "difficulty": 2,
+              "requirement_ids": [
+                "req_004"
+              ],
+              "answer_outline": "Scope reduction, stakeholder alignment, risk prioritization, transparent communication.",
+              "source": "generated_coverage_pass"
+            }
+          ],
+          "system_design": [
+            {
+              "id": "q_sd_001",
+              "text": "How does the Node.js event loop handle asynchronous I/O and microtasks versus macrotasks?",
+              "difficulty": 2,
+              "requirement_ids": [
+                "req_001"
+              ],
+              "answer_outline": "Explain Call Stack, Event Loop phases, Promise microtask queue priority over setTimeout macrotasks.",
+              "source": "generated"
+            },
+            {
+              "id": "q_sd_002",
+              "text": "How would you structure a MongoDB schema with indexing to optimize high-throughput read and write queries?",
+              "difficulty": 3,
+              "requirement_ids": [
+                "req_002"
+              ],
+              "answer_outline": "Compound indexing, prefix matching, query explain plan analysis, denormalization trade-offs.",
+              "source": "generated"
+            },
+            {
+              "id": "q_sd_003",
+              "text": "Explain how you secure REST API endpoints against unauthorized access and injection attacks.",
+              "difficulty": 2,
+              "requirement_ids": [
+                "req_002",
+                "req_003"
+              ],
+              "answer_outline": "JWT auth middleware, input sanitization/validation, rate limiting, CORS configuration.",
+              "source": "generated"
+            }
+          ],
+          "company_fit": [
+            {
+              "id": "q_cf_001",
+              "text": "How does the Node.js event loop handle asynchronous I/O and microtasks versus macrotasks?",
+              "difficulty": 2,
+              "requirement_ids": [
+                "req_001"
+              ],
+              "answer_outline": "Explain Call Stack, Event Loop phases, Promise microtask queue priority over setTimeout macrotasks.",
+              "source": "generated"
+            },
+            {
+              "id": "q_cf_002",
+              "text": "How would you structure a MongoDB schema with indexing to optimize high-throughput read and write queries?",
+              "difficulty": 3,
+              "requirement_ids": [
+                "req_002"
+              ],
+              "answer_outline": "Compound indexing, prefix matching, query explain plan analysis, denormalization trade-offs.",
+              "source": "generated"
+            },
+            {
+              "id": "q_cf_003",
+              "text": "Explain how you secure REST API endpoints against unauthorized access and injection attacks.",
+              "difficulty": 2,
+              "requirement_ids": [
+                "req_002",
+                "req_003"
+              ],
+              "answer_outline": "JWT auth middleware, input sanitization/validation, rate limiting, CORS configuration.",
+              "source": "generated"
+            }
+          ]
+        },
+        "flashcards": [
+          {
+            "id": "fc_001",
+            "front": "What is the difference between microtasks and macrotasks in Node.js?",
+            "back": "Microtasks (Promise.then, process.nextTick) execute immediately after the current operation before the next event loop phase. Macrotasks (setTimeout, setInterval, setImmediate) execute in dedicated phases.",
+            "requirement_ids": [
+              "req_001"
+            ],
+            "source": "generated"
+          },
+          {
+            "id": "fc_002",
+            "front": "What are the ACID properties in database transactions?",
+            "back": "Atomicity (all or nothing), Consistency (preserves invariants), Isolation (concurrent operations do not interfere), Durability (committed changes persist).",
+            "requirement_ids": [
+              "req_002"
+            ],
+            "source": "generated"
+          },
+          {
+            "id": "fc_003",
+            "front": "Explain the purpose of database indexes and potential trade-offs.",
+            "back": "Indexes (e.g. B-Trees) accelerate query search times dramatically from O(N) to O(log N), but increase write latency and storage overhead.",
+            "requirement_ids": [
+              "req_002",
+              "req_003"
+            ],
+            "source": "generated"
+          }
+        ],
+        "schedule": [
+          {
+            "day": 1,
+            "focus": "Technical",
+            "question_ids": [
+              "q_tech_002",
+              "q_tech_003",
+              "q_sd_001"
+            ],
+            "minutes": 50
+          },
+          {
+            "day": 2,
+            "focus": "Behavioural",
+            "question_ids": [
+              "q_behav_002",
+              "q_behav_001",
+              "q_sd_003"
+            ],
+            "minutes": 50
+          },
+          {
+            "day": 3,
+            "focus": "System Design",
+            "question_ids": [
+              "q_sd_002",
+              "q_behav_003",
+              "q_cf_001"
+            ],
+            "minutes": 50
+          },
+          {
+            "day": 4,
+            "focus": "Company Fit",
+            "question_ids": [
+              "q_cf_002",
+              "q_behav_004",
+              "q_cf_003"
+            ],
+            "minutes": 50
+          },
+          {
+            "day": 5,
+            "focus": "Technical",
+            "question_ids": [
+              "q_tech_001",
+              "q_behav_005"
+            ],
+            "minutes": 30
+          }
+        ],
+        "coverage": {
+          "uncovered_requirement_ids": [],
+          "passes": 2
+        }
+      },
+      "error": null
+    },
+    {
+      "id": "case_meta_002",
+      "status": "ok",
+      "kit": {
+        "source": {
+          "jd": "Staff Frontend Engineer. Must have deep expertise in React 19, TypeScript, browser rendering optimization, and micro-frontend architecture. Experience leading teams required.",
+          "company_url": "https://meta.com",
+          "days_available": 3
+        },
+        "company_brief": {
+          "summary": "A leading technology organization focused on building high-scale developer platforms and web applications.",
+          "what_they_do": "Provides robust software infrastructure, modern developer tooling, and cloud-native solutions for engineering teams worldwide.",
+          "sources": [
+            "https://example.com/about",
+            "https://example.com/careers"
+          ]
+        },
+        "role": {
+          "title": "Software Engineer",
+          "seniority": "mid",
+          "responsibilities": [
+            "Design and build scalable web applications and microservices",
+            "Collaborate with cross-functional teams to define architecture and requirements",
+            "Ensure high code quality through testing, CI/CD, and peer reviews"
+          ],
+          "requirements": [
+            {
+              "id": "req_001",
+              "text": "Proficiency with modern JavaScript/TypeScript and Node.js",
+              "kind": "technical",
+              "priority": "must"
+            },
+            {
+              "id": "req_002",
+              "text": "Experience designing and maintaining RESTful APIs and databases",
+              "kind": "technical",
+              "priority": "must"
+            },
+            {
+              "id": "req_003",
+              "text": "Strong problem-solving and distributed system architecture knowledge",
+              "kind": "technical",
+              "priority": "must"
+            },
+            {
+              "id": "req_004",
+              "text": "Effective communication and cross-team collaboration skills",
+              "kind": "behavioural",
+              "priority": "must"
+            },
+            {
+              "id": "req_005",
+              "text": "Experience with cloud infrastructure (AWS/GCP) and containerization",
+              "kind": "technical",
+              "priority": "nice"
+            }
+          ]
+        },
+        "questions": {
+          "technical": [
+            {
+              "id": "q_tech_001",
+              "text": "How does the Node.js event loop handle asynchronous I/O and microtasks versus macrotasks?",
+              "difficulty": 2,
+              "requirement_ids": [
+                "req_001"
+              ],
+              "answer_outline": "Explain Call Stack, Event Loop phases, Promise microtask queue priority over setTimeout macrotasks.",
+              "source": "generated"
+            },
+            {
+              "id": "q_tech_002",
+              "text": "How would you structure a MongoDB schema with indexing to optimize high-throughput read and write queries?",
+              "difficulty": 3,
+              "requirement_ids": [
+                "req_002"
+              ],
+              "answer_outline": "Compound indexing, prefix matching, query explain plan analysis, denormalization trade-offs.",
+              "source": "generated"
+            },
+            {
+              "id": "q_tech_003",
+              "text": "Explain how you secure REST API endpoints against unauthorized access and injection attacks.",
+              "difficulty": 2,
+              "requirement_ids": [
+                "req_002",
+                "req_003"
+              ],
+              "answer_outline": "JWT auth middleware, input sanitization/validation, rate limiting, CORS configuration.",
+              "source": "generated"
+            }
+          ],
+          "behavioural": [
+            {
+              "id": "q_behav_001",
+              "text": "How does the Node.js event loop handle asynchronous I/O and microtasks versus macrotasks?",
+              "difficulty": 2,
+              "requirement_ids": [
+                "req_001"
+              ],
+              "answer_outline": "Explain Call Stack, Event Loop phases, Promise microtask queue priority over setTimeout macrotasks.",
+              "source": "generated"
+            },
+            {
+              "id": "q_behav_002",
+              "text": "How would you structure a MongoDB schema with indexing to optimize high-throughput read and write queries?",
+              "difficulty": 3,
+              "requirement_ids": [
+                "req_002"
+              ],
+              "answer_outline": "Compound indexing, prefix matching, query explain plan analysis, denormalization trade-offs.",
+              "source": "generated"
+            },
+            {
+              "id": "q_behav_003",
+              "text": "Explain how you secure REST API endpoints against unauthorized access and injection attacks.",
+              "difficulty": 2,
+              "requirement_ids": [
+                "req_002",
+                "req_003"
+              ],
+              "answer_outline": "JWT auth middleware, input sanitization/validation, rate limiting, CORS configuration.",
+              "source": "generated"
+            },
+            {
+              "id": "q_behav_004",
+              "text": "Describe a situation where you had a technical disagreement with a teammate and how you reached alignment.",
+              "difficulty": 2,
+              "requirement_ids": [
+                "req_004"
+              ],
+              "answer_outline": "STAR method: explain context, objective evaluation of trade-offs, consensus building.",
+              "source": "generated_coverage_pass"
+            },
+            {
+              "id": "q_behav_005",
+              "text": "Tell me about a time you had to deliver a critical feature under tight deadlines with ambiguous requirements.",
+              "difficulty": 2,
+              "requirement_ids": [
+                "req_004"
+              ],
+              "answer_outline": "Scope reduction, stakeholder alignment, risk prioritization, transparent communication.",
+              "source": "generated_coverage_pass"
+            }
+          ],
+          "system_design": [
+            {
+              "id": "q_sd_001",
+              "text": "How does the Node.js event loop handle asynchronous I/O and microtasks versus macrotasks?",
+              "difficulty": 2,
+              "requirement_ids": [
+                "req_001"
+              ],
+              "answer_outline": "Explain Call Stack, Event Loop phases, Promise microtask queue priority over setTimeout macrotasks.",
+              "source": "generated"
+            },
+            {
+              "id": "q_sd_002",
+              "text": "How would you structure a MongoDB schema with indexing to optimize high-throughput read and write queries?",
+              "difficulty": 3,
+              "requirement_ids": [
+                "req_002"
+              ],
+              "answer_outline": "Compound indexing, prefix matching, query explain plan analysis, denormalization trade-offs.",
+              "source": "generated"
+            },
+            {
+              "id": "q_sd_003",
+              "text": "Explain how you secure REST API endpoints against unauthorized access and injection attacks.",
+              "difficulty": 2,
+              "requirement_ids": [
+                "req_002",
+                "req_003"
+              ],
+              "answer_outline": "JWT auth middleware, input sanitization/validation, rate limiting, CORS configuration.",
+              "source": "generated"
+            }
+          ],
+          "company_fit": [
+            {
+              "id": "q_cf_001",
+              "text": "How does the Node.js event loop handle asynchronous I/O and microtasks versus macrotasks?",
+              "difficulty": 2,
+              "requirement_ids": [
+                "req_001"
+              ],
+              "answer_outline": "Explain Call Stack, Event Loop phases, Promise microtask queue priority over setTimeout macrotasks.",
+              "source": "generated"
+            },
+            {
+              "id": "q_cf_002",
+              "text": "How would you structure a MongoDB schema with indexing to optimize high-throughput read and write queries?",
+              "difficulty": 3,
+              "requirement_ids": [
+                "req_002"
+              ],
+              "answer_outline": "Compound indexing, prefix matching, query explain plan analysis, denormalization trade-offs.",
+              "source": "generated"
+            },
+            {
+              "id": "q_cf_003",
+              "text": "Explain how you secure REST API endpoints against unauthorized access and injection attacks.",
+              "difficulty": 2,
+              "requirement_ids": [
+                "req_002",
+                "req_003"
+              ],
+              "answer_outline": "JWT auth middleware, input sanitization/validation, rate limiting, CORS configuration.",
+              "source": "generated"
+            }
+          ]
+        },
+        "flashcards": [
+          {
+            "id": "fc_001",
+            "front": "What is the difference between microtasks and macrotasks in Node.js?",
+            "back": "Microtasks (Promise.then, process.nextTick) execute immediately after the current operation before the next event loop phase. Macrotasks (setTimeout, setInterval, setImmediate) execute in dedicated phases.",
+            "requirement_ids": [
+              "req_001"
+            ],
+            "source": "generated"
+          },
+          {
+            "id": "fc_002",
+            "front": "What are the ACID properties in database transactions?",
+            "back": "Atomicity (all or nothing), Consistency (preserves invariants), Isolation (concurrent operations do not interfere), Durability (committed changes persist).",
+            "requirement_ids": [
+              "req_002"
+            ],
+            "source": "generated"
+          },
+          {
+            "id": "fc_003",
+            "front": "Explain the purpose of database indexes and potential trade-offs.",
+            "back": "Indexes (e.g. B-Trees) accelerate query search times dramatically from O(N) to O(log N), but increase write latency and storage overhead.",
+            "requirement_ids": [
+              "req_002",
+              "req_003"
+            ],
+            "source": "generated"
+          }
+        ],
+        "schedule": [
+          {
+            "day": 1,
+            "focus": "Company Fit",
+            "question_ids": [
+              "q_tech_002",
+              "q_cf_002",
+              "q_behav_001",
+              "q_behav_005",
+              "q_cf_001"
+            ],
+            "minutes": 85
+          },
+          {
+            "day": 2,
+            "focus": "Behavioural",
+            "question_ids": [
+              "q_behav_002",
+              "q_tech_001",
+              "q_behav_003",
+              "q_sd_001",
+              "q_cf_003"
+            ],
+            "minutes": 80
+          },
+          {
+            "day": 3,
+            "focus": "System Design",
+            "question_ids": [
+              "q_sd_002",
+              "q_tech_003",
+              "q_behav_004",
+              "q_sd_003"
+            ],
+            "minutes": 65
+          }
+        ],
+        "coverage": {
+          "uncovered_requirement_ids": [],
+          "passes": 2
+        }
+      },
+      "error": null
+    },
+    {
+      "id": "case_invalid_003",
+      "status": "failed",
+      "kit": null,
+      "error": "Missing required fields: job description (jd) or company URL (company_url)"
+    }
+  ]
+}
