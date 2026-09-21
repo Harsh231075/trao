@@ -309,33 +309,33 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Bottom Card: AI Summary Banner - Separated & Styled exactly as the reference mockup */}
-          <div className="bg-gradient-to-r from-blue-600 via-blue-600 to-indigo-700 text-white px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl sm:rounded-full shadow-md border border-blue-400/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 shrink-0">
+          {/* Bottom Card: AI Summary Banner - Matched exactly to the reference image */}
+          <div className="w-full bg-gradient-to-r from-[#3575f6] via-[#5d98fa] to-[#9bc4fc] text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-full shadow-[0_4px_16px_rgba(53,117,246,0.18)] border border-white/40 flex items-center justify-between gap-3 shrink-0">
             <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
               {/* ✨ AI Summary with golden yellow sparkle */}
               <div className="flex items-center gap-1.5 shrink-0">
-                <Sparkles className="w-4 h-4 text-[#facc15] fill-[#facc15]/30 stroke-[2.5]" />
-                <span className="text-[#facc15] font-extrabold text-xs sm:text-sm tracking-tight whitespace-nowrap">
+                <Sparkles className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#facc15] fill-[#facc15] stroke-[1.5] shrink-0" />
+                <span className="text-[#facc15] font-bold text-xs sm:text-sm tracking-tight whitespace-nowrap">
                   AI Summary
                 </span>
               </div>
 
-              {/* Subtle Vertical Divider */}
-              <div className="h-5 w-px bg-white/30 hidden sm:block shrink-0" />
+              {/* Vertical Divider */}
+              <div className="h-5 sm:h-6 w-px bg-white/40 shrink-0" />
 
               {/* Message Description */}
-              <p className="text-white text-[11px] sm:text-xs font-normal sm:font-medium leading-snug">
-                Crawl completed for Google hiring handbooks. Second pass generated 4 targeted questions for missing requirements.
+              <p className="text-white text-[11px] sm:text-[12.5px] font-medium leading-snug truncate">
+                Crawl completed for Google hiring handbooks. Second pass generated 4 targeted questions.
               </p>
             </div>
 
-            {/* Dark Pill Action Button matching image */}
+            {/* Dark Royal Blue Pill Action Button matching image */}
             <button
               onClick={() => setIsModalOpen(true)}
-              className="px-4 py-1.5 bg-[#172554]/90 hover:bg-[#172554] border border-white/20 text-white font-semibold text-[11px] sm:text-xs rounded-full flex items-center justify-center gap-1.5 transition-all shadow-xs shrink-0 self-end sm:self-auto hover:scale-102 active:scale-98 cursor-pointer"
+              className="px-4 sm:px-5 py-1.5 sm:py-2 bg-[#1849be] hover:bg-[#133d9f] text-white font-semibold text-xs sm:text-[13px] rounded-full flex items-center justify-center gap-1.5 transition-all shadow-xs shrink-0 hover:scale-102 active:scale-98 cursor-pointer"
             >
-              <span>Review Pipeline</span>
-              <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />
+              <span>Review AI Insights</span>
+              <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]" />
             </button>
           </div>
         </div>
