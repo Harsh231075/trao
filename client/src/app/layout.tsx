@@ -31,19 +31,19 @@ export default function RootLayout({
     >
       <body
         suppressHydrationWarning
-        className="min-h-screen flex flex-col justify-center bg-blue-600"
+        className="h-screen max-h-screen overflow-hidden flex flex-col bg-blue-600 select-none"
       >
         {/* Outer Frame: Vibrant Royal Blue background matching Image 2 */}
         <div
           suppressHydrationWarning
-          className="w-full min-h-screen p-2 sm:p-4 md:p-5 lg:p-6 flex flex-row gap-2 sm:gap-4 md:gap-5 box-border"
+          className="w-full h-screen max-h-screen p-2 sm:p-3 md:p-4 lg:p-5 flex flex-row gap-2 sm:gap-3 md:gap-4 box-border overflow-hidden"
         >
-          {/* Left Navigation Rail */}
+          {/* Fixed Left Navigation Rail */}
           <Sidebar />
 
-          {/* Main White Elevated Canvas */}
-          <main className="flex-1 bg-white rounded-[26px] sm:rounded-[32px] shadow-[0_20px_60px_rgba(15,23,42,0.22)] border border-white/40 overflow-hidden flex flex-col">
-            <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+          {/* Main White Elevated Canvas - Only its interior is scrollable */}
+          <main className="flex-1 h-full max-h-full bg-white rounded-[24px] sm:rounded-[30px] shadow-[0_20px_60px_rgba(15,23,42,0.22)] border border-white/40 overflow-hidden flex flex-col min-w-0">
+            <div className="flex-1 h-full overflow-y-auto p-4 sm:p-6 lg:p-8 select-text">
               {children}
             </div>
           </main>
