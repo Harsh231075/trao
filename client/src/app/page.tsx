@@ -16,59 +16,64 @@ import {
   Clock,
   Activity,
   ListTodo,
+  Layers,
   SlidersHorizontal,
   ExternalLink,
 } from "lucide-react";
 
 interface InterviewQueueItem {
   id: number;
-  name: string;
-  subtitle: string;
+  company: string;
+  role: string;
   avatar: string;
   avatarBg: string;
-  room: string;
-  condition: string;
+  timeline: string;
+  timelineDate: string;
+  focusReqs: string;
   vitals: { label1: string; val1: string; label2: string; val2: string; isAlert?: boolean; isWarning?: boolean };
-  status: "Critical" | "Watch" | "Stable";
+  status: "In Progress" | "Ready" | "Complete";
 }
 
 export default function DashboardPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Queue Items: Exactly 3 rows as requested to fit in single glance
+  // Active Prep Kits in Queue: Exactly 3 rows to fit single-glance desktop view
   const [queueItems] = useState<InterviewQueueItem[]>([
     {
       id: 1,
-      name: "James Wilson",
-      subtitle: "Male, 72 yrs",
-      avatar: "JW",
-      avatarBg: "bg-amber-100 text-amber-800",
-      room: "ICU-204",
-      condition: "Post-Op CABG",
-      vitals: { label1: "HR", val1: "112", label2: "SpO2", val2: "89%", isAlert: true },
-      status: "Critical",
+      company: "Google",
+      role: "Senior Frontend Engineer",
+      avatar: "G",
+      avatarBg: "bg-red-500 text-white",
+      timeline: "5 Days",
+      timelineDate: "Interview: Sep 26",
+      focusReqs: "React 19 • System Architecture • Mentoring",
+      vitals: { label1: "REQ", val1: "8 Must", label2: "COV", val2: "92%", isAlert: true },
+      status: "In Progress",
     },
     {
       id: 2,
-      name: "Elena Rostova",
-      subtitle: "Female, 29 yrs",
-      avatar: "ER",
-      avatarBg: "bg-purple-100 text-purple-800",
-      room: "ER-102",
-      condition: "Ketoacidosis",
-      vitals: { label1: "HR", val1: "118", label2: "Temp", val2: "101°F", isAlert: true },
-      status: "Critical",
+      company: "OpenAI",
+      role: "Backend Engineer",
+      avatar: "O",
+      avatarBg: "bg-emerald-600 text-white",
+      timeline: "12 Days",
+      timelineDate: "Interview: Oct 03",
+      focusReqs: "Distributed Systems • Python • RAG",
+      vitals: { label1: "REQ", val1: "6 Must", label2: "COV", val2: "100%", isWarning: true },
+      status: "Ready",
     },
     {
       id: 3,
-      name: "Sarah Jenkins",
-      subtitle: "Female, 54 yrs",
-      avatar: "SJ",
-      avatarBg: "bg-rose-100 text-rose-800",
-      room: "W-412",
-      condition: "Acute Pneumonia",
-      vitals: { label1: "HR", val1: "95", label2: "SpO2", val2: "92%", isWarning: true },
-      status: "Watch",
+      company: "Stripe",
+      role: "Full Stack Engineer",
+      avatar: "S",
+      avatarBg: "bg-indigo-600 text-white",
+      timeline: "20 Days",
+      timelineDate: "Interview: Oct 11",
+      focusReqs: "APIs & Idempotency • Node.js • Postgres",
+      vitals: { label1: "REQ", val1: "10 Must", label2: "COV", val2: "100%" },
+      status: "Complete",
     },
   ]);
 
@@ -81,10 +86,10 @@ export default function DashboardPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-1.5">
-            Good Morning, Dr. Roberts 👋
+            Good Morning, Harsh 👋
           </h1>
           <p className="text-xs text-slate-500">
-            Real-time candidate queue, vital metrics &amp; AI insights.
+            Trao AI Interview Prep Kit — Turn job descriptions into structured preparation plans.
           </p>
         </div>
 
@@ -94,7 +99,7 @@ export default function DashboardPage() {
             className="flex items-center gap-1.5 px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs rounded-full shadow-xs hover:shadow-sm transition-all active:scale-95"
           >
             <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
-            <span>New Patient</span>
+            <span>New Interview Kit</span>
           </button>
           <button
             type="button"
@@ -106,9 +111,9 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Top 4 Stat Cards matching Image 2 */}
+      {/* Top 4 Stat Cards matching Image 2 Layout with Trao Assessment Metrics */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
-        {/* Card 1: 128 Active Patients */}
+        {/* Card 1: 128 Questions Practiced */}
         <div className="bg-white p-3 sm:p-3.5 rounded-2xl border border-[#d8e8fe] shadow-2xs hover:shadow-xs transition-all relative overflow-hidden group">
           <div className="flex items-start justify-between">
             <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight leading-none">128</h3>
@@ -116,7 +121,7 @@ export default function DashboardPage() {
               <Activity className="w-3.5 h-3.5" />
             </div>
           </div>
-          <p className="text-[11px] font-semibold text-blue-600 mt-0.5">Active Patients</p>
+          <p className="text-[11px] font-semibold text-blue-600 mt-0.5">Questions Practiced</p>
           <div className="flex items-end gap-1 h-4 mt-2">
             <span className="w-2 h-1.5 bg-blue-200 rounded-xs" />
             <span className="w-2 h-2.5 bg-blue-300 rounded-xs" />
@@ -126,21 +131,21 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Card 2: 07 Urgent Cases */}
+        {/* Card 2: 03 Coverage Gaps */}
         <div className="bg-white p-3 sm:p-3.5 rounded-2xl border border-[#d8e8fe] shadow-2xs hover:shadow-xs transition-all relative overflow-hidden group">
           <div className="flex items-start justify-between">
-            <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight leading-none">07</h3>
+            <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight leading-none">03</h3>
             <div className="w-7 h-7 rounded-lg bg-rose-50 text-rose-500 flex items-center justify-center border border-rose-100">
               <AlertTriangle className="w-3.5 h-3.5" />
             </div>
           </div>
-          <p className="text-[11px] font-semibold text-slate-700 mt-0.5">7 Urgent Cases</p>
+          <p className="text-[11px] font-semibold text-slate-700 mt-0.5">Coverage Gaps</p>
           <p className="text-[10px] font-medium text-rose-500 mt-2">
-            ~ +2 in last hour
+            Second pass queued
           </p>
         </div>
 
-        {/* Card 3: 14 Pending Reviews (Vibrant Lime/Yellow Card) */}
+        {/* Card 3: 14 Flashcards Due (Vibrant Lime/Yellow Card) */}
         <div className="bg-[#eefc57] text-slate-900 p-3 sm:p-3.5 rounded-2xl shadow-2xs hover:shadow-xs transition-all relative overflow-hidden group border-0">
           <div className="flex items-start justify-between">
             <h3 className="text-2xl font-extrabold text-slate-950 tracking-tight leading-none">14</h3>
@@ -148,37 +153,37 @@ export default function DashboardPage() {
               <FileText className="w-3.5 h-3.5" />
             </div>
           </div>
-          <p className="text-[11px] font-bold text-slate-900 mt-0.5">Pending Reviews</p>
+          <p className="text-[11px] font-bold text-slate-900 mt-0.5">Flashcards Due</p>
           <p className="text-[10px] font-semibold text-slate-800/80 mt-2">
-            6 completed • 14 remaining
+            6 mastered • 14 remaining
           </p>
         </div>
 
-        {/* Card 4: 23 Patients on AI Watchlist (Royal Blue Card) */}
+        {/* Card 4: 05 Active Prep Kits (Royal Blue Card) */}
         <div className="bg-[#2563eb] text-white p-3 sm:p-3.5 rounded-2xl shadow-2xs hover:shadow-xs transition-all relative overflow-hidden group border-0">
           <div className="flex items-start justify-between">
-            <h3 className="text-2xl font-extrabold text-white tracking-tight leading-none">23</h3>
+            <h3 className="text-2xl font-extrabold text-white tracking-tight leading-none">05</h3>
             <div className="w-7 h-7 rounded-lg bg-white/20 text-white flex items-center justify-center backdrop-blur-xs">
               <Sparkles className="w-3.5 h-3.5" />
             </div>
           </div>
-          <p className="text-[11px] font-semibold text-blue-100 mt-0.5">Patients on AI Watchlist</p>
+          <p className="text-[11px] font-semibold text-blue-100 mt-0.5">Active Prep Kits</p>
           <p className="text-[10px] font-medium text-blue-200 mt-2 flex items-center gap-1">
             <Clock className="w-3 h-3" />
-            <span>4 new insights</span>
+            <span>AI Pipeline ready</span>
           </p>
         </div>
       </div>
 
-      {/* Main Grid: Left 8 Cols (Table) & Right 4 Cols (Quick Actions + Donut Distribution) */}
+      {/* Main Grid: Left 8 Cols (Table Queue) & Right 4 Cols (Quick Actions + Distribution) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4">
-        {/* Left 8 Cols: Priority Patient Queue (3 rows only to fit single view) */}
+        {/* Left 8 Cols: Active Interview Kits Queue */}
         <div className="lg:col-span-8 space-y-3">
           <div className="bg-[#dce9fd] border border-[#bfdbfe]/80 rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 shadow-2xs space-y-2.5">
             {/* Header sitting on #dce9fd */}
             <div className="flex items-center justify-between px-1">
               <h2 className="text-sm font-bold text-slate-900 tracking-tight">
-                Priority Patient Queue
+                Active Interview Kits Queue
               </h2>
               <Link
                 href="/kits"
@@ -190,10 +195,10 @@ export default function DashboardPage() {
 
             {/* Column Headers directly on #dce9fd */}
             <div className="grid grid-cols-12 gap-2 text-[10px] font-extrabold text-blue-600 tracking-wider uppercase px-3 pt-0.5">
-              <div className="col-span-4 sm:col-span-3">PATIENT</div>
-              <div className="col-span-2">ROOM</div>
-              <div className="col-span-3 hidden sm:block">CONDITION</div>
-              <div className="col-span-3 sm:col-span-2">VITALS</div>
+              <div className="col-span-4 sm:col-span-3">COMPANY &amp; ROLE</div>
+              <div className="col-span-2">TIMELINE</div>
+              <div className="col-span-3 hidden sm:block">FOCUS &amp; REQUIREMENTS</div>
+              <div className="col-span-3 sm:col-span-2">COVERAGE</div>
               <div className="col-span-2 sm:col-span-1 text-center">STATUS</div>
               <div className="col-span-1 text-right">ACTION</div>
             </div>
@@ -205,7 +210,7 @@ export default function DashboardPage() {
                   key={item.id}
                   className="grid grid-cols-12 gap-2 items-center px-3 py-2 sm:py-2.5 hover:bg-slate-50/70 transition-colors text-xs"
                 >
-                  {/* Patient Info */}
+                  {/* Company & Role */}
                   <div className="col-span-4 sm:col-span-3 flex items-center gap-2">
                     <div
                       className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full ${item.avatarBg} flex items-center justify-center font-black text-[10px] sm:text-xs shadow-2xs shrink-0 ring-1 ring-white`}
@@ -214,25 +219,26 @@ export default function DashboardPage() {
                     </div>
                     <div className="min-w-0">
                       <p className="font-bold text-slate-900 truncate leading-tight text-[11px] sm:text-xs">
-                        {item.name}
+                        {item.company}
                       </p>
                       <p className="text-[10px] text-slate-500 font-medium truncate">
-                        {item.subtitle}
+                        {item.role}
                       </p>
                     </div>
                   </div>
 
-                  {/* Room */}
+                  {/* Timeline (Days Available) */}
                   <div className="col-span-2 font-semibold text-slate-700 text-[11px]">
-                    {item.room}
+                    <p className="leading-tight">{item.timeline}</p>
+                    <p className="text-[9px] text-slate-400 font-normal">{item.timelineDate}</p>
                   </div>
 
-                  {/* Condition */}
+                  {/* Focus & Requirements */}
                   <div className="col-span-3 hidden sm:block font-semibold text-slate-800 text-[11px] truncate">
-                    {item.condition}
+                    {item.focusReqs}
                   </div>
 
-                  {/* Vitals */}
+                  {/* Coverage Metrics (Must-Haves & Question Coverage) */}
                   <div className="col-span-3 sm:col-span-2 text-[10px] space-y-0.5">
                     <div className="flex items-center gap-1">
                       <span className="text-slate-400 font-medium">{item.vitals.label1}</span>
@@ -264,13 +270,13 @@ export default function DashboardPage() {
                     </div>
                   </div>
 
-                  {/* Status Pill */}
+                  {/* Status Pill with CheckCircle2 */}
                   <div className="col-span-2 sm:col-span-1 flex justify-center">
                     <span
                       className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold ${
-                        item.status === "Critical"
+                        item.status === "In Progress"
                           ? "bg-[#fee2e2] text-[#dc2626]"
-                          : item.status === "Watch"
+                          : item.status === "Ready"
                           ? "bg-[#e0f2fe] text-[#0284c7]"
                           : "bg-[#dcfce7] text-[#16a34a]"
                       }`}
@@ -293,16 +299,16 @@ export default function DashboardPage() {
               ))}
             </div>
 
-            {/* Bottom AI Summary Banner */}
+            {/* Bottom AI Summary Banner matching Trao Assessment Research & Generation */}
             <div className="bg-[#2563EB] text-white p-2.5 sm:p-3 rounded-xl shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <div className="w-6 h-6 rounded-lg bg-white/20 flex items-center justify-center text-white shrink-0">
                   <Sparkles className="w-3.5 h-3.5" />
                 </div>
                 <div>
-                  <h4 className="text-[11px] font-bold text-white leading-tight">AI Summary</h4>
+                  <h4 className="text-[11px] font-bold text-white leading-tight">AI Research &amp; Coverage Engine</h4>
                   <p className="text-[10px] text-blue-100 font-medium leading-tight">
-                    7 patients need immediate attention. Early intervention can improve outcomes.
+                    Crawl completed for Google hiring handbooks. Second pass generated 4 targeted questions for missing requirements.
                   </p>
                 </div>
               </div>
@@ -311,14 +317,14 @@ export default function DashboardPage() {
                 onClick={() => setIsModalOpen(true)}
                 className="px-3 py-1 bg-blue-900/50 hover:bg-blue-950/70 border border-white/20 text-white font-semibold text-[10px] rounded-lg flex items-center justify-center gap-1 transition-colors shrink-0 self-end sm:self-auto"
               >
-                <span>Review AI Insights</span>
+                <span>Review Pipeline</span>
                 <ExternalLink className="w-3 h-3" />
               </button>
             </div>
           </div>
         </div>
 
-        {/* Right 4 Cols: Quick Actions & Patient Risk Distribution */}
+        {/* Right 4 Cols: Quick Actions & Requirement Coverage Distribution */}
         <div className="lg:col-span-4 space-y-3">
           {/* Quick Actions Card */}
           <div className="bg-[#dce9fd] border border-[#bfdbfe]/80 rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 shadow-2xs space-y-2">
@@ -327,7 +333,7 @@ export default function DashboardPage() {
             </h3>
 
             <div className="space-y-1.5 sm:space-y-2">
-              {/* Action 1 */}
+              {/* Action 1: Practice Mode */}
               <Link
                 href="/practice"
                 className="bg-white p-2.5 sm:p-3 rounded-xl shadow-2xs hover:shadow-xs transition-all flex items-center justify-between group border border-transparent hover:border-blue-200"
@@ -338,19 +344,19 @@ export default function DashboardPage() {
                   </div>
                   <div>
                     <h4 className="text-[11px] font-bold text-slate-900 leading-tight">
-                      Today&apos;s Care Tasks
+                      Practise Flashcards
                     </h4>
                     <p className="text-[9px] sm:text-[10px] text-slate-500 font-medium">
-                      12 tasks pending
+                      14 cards • Confidence-weighted
                     </p>
                   </div>
                 </div>
                 <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-600 transition-colors" />
               </Link>
 
-              {/* Action 2 */}
+              {/* Action 2: Builder & Section Regeneration */}
               <Link
-                href="/practice"
+                href="/kits"
                 className="bg-white p-2.5 sm:p-3 rounded-xl shadow-2xs hover:shadow-xs transition-all flex items-center justify-between group border border-transparent hover:border-blue-200"
               >
                 <div className="flex items-center gap-2.5">
@@ -359,17 +365,17 @@ export default function DashboardPage() {
                   </div>
                   <div>
                     <h4 className="text-[11px] font-bold text-slate-900 leading-tight">
-                      Medication Reviews
+                      Edit Kit &amp; Regenerate
                     </h4>
                     <p className="text-[9px] sm:text-[10px] text-slate-500 font-medium">
-                      5 require signature
+                      Preserve pinned &amp; manual edits
                     </p>
                   </div>
                 </div>
                 <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-600 transition-colors" />
               </Link>
 
-              {/* Action 3 */}
+              {/* Action 3: Day-by-Day Schedule */}
               <Link
                 href="/schedule"
                 className="bg-white p-2.5 sm:p-3 rounded-xl shadow-2xs hover:shadow-xs transition-all flex items-center justify-between group border border-transparent hover:border-blue-200"
@@ -380,10 +386,10 @@ export default function DashboardPage() {
                   </div>
                   <div>
                     <h4 className="text-[11px] font-bold text-slate-900 leading-tight">
-                      Upcoming Appointments
+                      Day-by-Day Schedule
                     </h4>
                     <p className="text-[9px] sm:text-[10px] text-slate-500 font-medium">
-                      Next at 11:30 AM
+                      Arithmetic topic allocation
                     </p>
                   </div>
                 </div>
@@ -392,10 +398,10 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Patient Risk Distribution Donut Card */}
+          {/* Requirement Coverage Distribution Donut Card */}
           <div className="bg-[#dce9fd] border border-[#bfdbfe]/80 rounded-2xl sm:rounded-3xl p-3 sm:p-3.5 shadow-2xs space-y-2">
             <h3 className="font-bold text-slate-900 text-xs sm:text-sm tracking-tight px-1">
-              Patient Risk Distribution
+              Requirement Coverage Distribution
             </h3>
 
             <div className="bg-white rounded-xl p-3 shadow-2xs flex flex-col items-center justify-center">
@@ -409,7 +415,7 @@ export default function DashboardPage() {
                     fill="none"
                     d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                   />
-                  {/* Stable 82% (Blue arc) */}
+                  {/* Technical 82% (Blue arc) */}
                   <path
                     className="text-[#2563eb]"
                     strokeDasharray="82, 100"
@@ -419,7 +425,7 @@ export default function DashboardPage() {
                     fill="none"
                     d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                   />
-                  {/* Watch 13% (Yellow arc) */}
+                  {/* Behavioural 13% (Yellow arc) */}
                   <path
                     className="text-[#facc15]"
                     strokeDasharray="13, 100"
@@ -430,7 +436,7 @@ export default function DashboardPage() {
                     fill="none"
                     d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                   />
-                  {/* Critical 5% (Red/Black arc) */}
+                  {/* Domain / Company-Fit 5% (Dark/Red arc) */}
                   <path
                     className="text-slate-950"
                     strokeDasharray="5, 100"
@@ -449,31 +455,31 @@ export default function DashboardPage() {
                     128
                   </span>
                   <span className="text-[9px] sm:text-[10px] font-semibold text-slate-500 mt-0.5">
-                    Patient
+                    Questions
                   </span>
                 </div>
               </div>
 
-              {/* Percentage callouts matching Image 2 */}
+              {/* Percentage callouts */}
               <div className="w-full flex items-center justify-between text-[10px] sm:text-xs font-bold pt-2 px-1">
                 <div className="text-left">
                   <span className="block text-[#2563eb] text-xs sm:text-sm leading-tight">82%</span>
                   <span className="text-[9px] sm:text-[10px] text-slate-500 font-medium">
-                    Stable
+                    Technical
                   </span>
                 </div>
 
                 <div className="text-center">
                   <span className="block text-[#ca8a04] text-xs sm:text-sm leading-tight">13%</span>
                   <span className="text-[9px] sm:text-[10px] text-slate-500 font-medium">
-                    Watch
+                    Behavioural
                   </span>
                 </div>
 
                 <div className="text-right">
                   <span className="block text-rose-600 text-xs sm:text-sm leading-tight">5%</span>
                   <span className="text-[9px] sm:text-[10px] text-slate-500 font-medium">
-                    Critical
+                    Company-Fit
                   </span>
                 </div>
               </div>

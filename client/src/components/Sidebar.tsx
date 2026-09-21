@@ -46,9 +46,9 @@ export default function Sidebar() {
         <Link
           href="/"
           className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-white text-blue-600 flex items-center justify-center font-black text-xl shadow-lg shadow-blue-900/30 hover:scale-105 transition-transform shrink-0"
-          title="PrepAI"
+          title="Trao - The AI Interview Prep Kit"
         >
-          <span className="font-extrabold text-xl sm:text-2xl tracking-tighter text-blue-600">P</span>
+          <span className="font-extrabold text-xl sm:text-2xl tracking-tighter text-blue-600">T</span>
         </Link>
 
         {/* Main Nav Items */}
