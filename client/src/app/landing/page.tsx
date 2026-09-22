@@ -34,7 +34,63 @@ export default function LandingPage() {
   const [activeStage, setActiveStage] = useState(0);
   const [bentoVisible, setBentoVisible] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [activeSection, setActiveSection] = useState<string>("home");
+
   const bentoRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const navItems = [
+    { id: "home", label: "Home" },
+    { id: "roadmap", label: "AI Pipeline" },
+    { id: "methodology", label: "Methodology" },
+    { id: "faq", label: "FAQ" },
+    { id: "contact", label: "Contact" },
+  ];
+
+  const handleScrollTo = (e: React.MouseEvent, id: string) => {
+    e.preventDefault();
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const container = scrollContainerRef.current;
+      if (!container) return;
+
+      const scrollTop = container.scrollTop;
+      const containerHeight = container.clientHeight;
+      const targetPoint = scrollTop + containerHeight * 0.35;
+
+      let currentSection = "home";
+      for (const item of navItems) {
+        const el = document.getElementById(item.id);
+        if (el) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (targetPoint >= top && targetPoint < top + height) {
+            currentSection = item.id;
+            break;
+          }
+        }
+      }
+      setActiveSection(currentSection);
+    };
+
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.addEventListener("scroll", handleScroll, { passive: true });
+      handleScroll();
+    }
+
+    return () => {
+      if (container) {
+        container.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, []);
 
   const faqs = [
     {
@@ -79,7 +135,7 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className="w-full h-screen overflow-y-auto bg-gradient-to-br from-sky-100/80 via-blue-50/60 to-indigo-50/40 text-slate-800 antialiased selection:bg-blue-500 selection:text-white relative font-sans">
+    <div ref={scrollContainerRef} className="w-full h-screen overflow-y-auto bg-gradient-to-br from-sky-100/80 via-blue-50/60 to-indigo-50/40 text-slate-800 antialiased selection:bg-blue-500 selection:text-white relative font-sans">
 
       {/* ─── AMBIENT SOFT LIGHT BLUE GLOW ORBS ─── */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-gradient-to-b from-blue-300/30 via-sky-200/20 to-transparent blur-[120px] pointer-events-none -z-10" />
@@ -89,44 +145,42 @@ export default function LandingPage() {
       {/* Geometric Mesh Background Pattern */}
       <div className="absolute inset-0 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:28px_28px] opacity-[0.07] pointer-events-none -z-10" />
 
-      {/* ─── FLOATING LIGHT-BLUE FROSTED NAVBAR ─── */}
+      {/* ─── FLOATING LIGHT-BLUE FROSTED NAVBAR WITH SCROLLSPY ─── */}
       <header className="sticky top-4 sm:top-6 z-50 max-w-6xl mx-auto px-4">
-        <nav className="bg-white/80 backdrop-blur-xl border border-white/90 shadow-[0_10px_35px_rgba(59,130,246,0.12)] rounded-full px-5 py-3 flex items-center justify-between transition-all">
+        <nav className="bg-white/80 backdrop-blur-xl border border-white/90 shadow-[0_10px_35px_rgba(59,130,246,0.12)] rounded-full px-5 py-2.5 flex items-center justify-between transition-all">
 
           {/* Left Brand Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            {/* <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-black text-xl shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform">
-              T
-            </div> */}
-            <span className="text-xl font-semibold tracking-tight text-slate-900">
+            <span className="text-xl font-extrabold tracking-tight text-slate-900">
               Trao<span className="text-blue-600">.ai</span>
             </span>
           </Link>
 
-          {/* Center Navigation Links */}
-          <div className="hidden md:flex items-center gap-7 text-xs font-semibold text-slate-600">
-            <Link href="#home" className="text-blue-600 font-bold hover:text-blue-700 transition-colors">
-              Home
-            </Link>
-            <Link href="#about" className="hover:text-blue-600 transition-colors">
-              About us
-            </Link>
-            <Link href="#features" className="hover:text-blue-600 transition-colors">
-              Features
-            </Link>
-            <Link href="#contact" className="hover:text-blue-600 transition-colors">
-              Contact
-            </Link>
-            <Link href="#jobs" className="hover:text-blue-600 transition-colors">
-              Find Job
-            </Link>
+          {/* Center Navigation Links with Active Outline & Pill */}
+          <div className="hidden md:flex items-center gap-1 text-xs font-semibold text-slate-600">
+            {navItems.map((item) => {
+              const isActive = activeSection === item.id;
+              return (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  onClick={(e) => handleScrollTo(e, item.id)}
+                  className={`px-4 py-1.5 rounded-full transition-all duration-300 font-bold cursor-pointer ${isActive
+                    ? "bg-blue-600 text-white shadow-md shadow-blue-500/25 ring-2 ring-blue-400/60 border border-blue-500 scale-[1.03]"
+                    : "text-slate-600 hover:text-blue-600 hover:bg-white/80 border border-transparent"
+                    }`}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
           </div>
 
           {/* Right Action Button */}
           <div className="flex items-center gap-3">
             <Link
               href="/login"
-              className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-medium rounded-full shadow-md shadow-blue-500/20 transition-all hover:scale-105 cursor-pointer"
+              className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold rounded-full shadow-md shadow-blue-500/20 transition-all hover:scale-105 cursor-pointer"
             >
               Join With Us
             </Link>
@@ -957,9 +1011,8 @@ export default function LandingPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 
           {/* CARD 1: SAGE / SKY BLUE TINTED HERO CARD (Top Left) */}
-          <div className={`bg-[#E0F2FE] border border-sky-300/60 p-8 rounded-[32px] flex flex-col justify-between min-h-[310px] shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-[1000ms] ease-out transform ${
-            bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
-          }`}>
+          <div className={`bg-[#E0F2FE] border border-sky-300/60 p-8 rounded-[32px] flex flex-col justify-between min-h-[310px] shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-[1000ms] ease-out transform ${bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
+            }`}>
             <div className="flex items-center justify-between text-slate-700 font-mono text-xs">
               <span className="font-bold tracking-widest text-[11px] text-slate-500 uppercase">01 • THE BEGINNING</span>
             </div>
@@ -974,9 +1027,8 @@ export default function LandingPage() {
           </div>
 
           {/* CARD 2: CREAM / WHITE EXPLAINER CARD (Top Middle) */}
-          <div className={`bg-white border border-slate-200/90 p-8 rounded-[32px] flex flex-col justify-between min-h-[310px] shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-[1000ms] ease-out transform delay-100 ${
-            bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
-          }`}>
+          <div className={`bg-white border border-slate-200/90 p-8 rounded-[32px] flex flex-col justify-between min-h-[310px] shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-[1000ms] ease-out transform delay-100 ${bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
+            }`}>
             <div className="my-auto text-center py-6">
               <h3 className="text-lg sm:text-xl font-normal text-slate-800 leading-relaxed tracking-tight">
                 Targeted interview prep works differently. The targeting vector — company signals &amp; exact JD requirements — binds with high affinity to every practice question.
@@ -988,9 +1040,8 @@ export default function LandingPage() {
           </div>
 
           {/* CARD 3: MIDNIGHT NAVY BRAND ACCENT CARD (Top Right - Clean Editorial Layout) */}
-          <div className={`bg-[#0B172C] border border-blue-900/50 p-8 rounded-[32px] flex flex-col items-center justify-center text-center min-h-[310px] text-white shadow-xl relative overflow-hidden group hover:shadow-2xl hover:-translate-y-1 transition-all duration-[1000ms] ease-out transform delay-200 ${
-            bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
-          }`}>
+          <div className={`bg-[#0B172C] border border-blue-900/50 p-8 rounded-[32px] flex flex-col items-center justify-center text-center min-h-[310px] text-white shadow-xl relative overflow-hidden group hover:shadow-2xl hover:-translate-y-1 transition-all duration-[1000ms] ease-out transform delay-200 ${bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
+            }`}>
             <h3 className="text-3xl font-semibold tracking-tight text-white">Trao Engine</h3>
             <p className="text-xs sm:text-sm text-blue-200/80 mt-3 font-normal max-w-xs leading-relaxed">
               100% Deterministic AI Coverage Engine for Technical &amp; System Design Interviews.
@@ -998,9 +1049,8 @@ export default function LandingPage() {
           </div>
 
           {/* CARD 4: PASTEL INDIGO / LILAC CARD (Bottom Left - Clean Typography) */}
-          <div className={`bg-[#E0E7FF] border border-indigo-200/80 p-8 rounded-[32px] flex flex-col justify-between min-h-[310px] shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-[1000ms] ease-out transform delay-300 ${
-            bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
-          }`}>
+          <div className={`bg-[#E0E7FF] border border-indigo-200/80 p-8 rounded-[32px] flex flex-col justify-between min-h-[310px] shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-[1000ms] ease-out transform delay-300 ${bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
+            }`}>
             <div>
               <div className="flex items-center justify-between text-indigo-700 text-xs font-semibold mb-4">
                 <span className="uppercase tracking-widest text-[10px] text-indigo-500">SPACED TIMELINE</span>
@@ -1015,9 +1065,8 @@ export default function LandingPage() {
           </div>
 
           {/* CARD 5: MINT / EMERALD STAT CARD (98.2%) (Bottom Middle) */}
-          <div className={`bg-[#ECFDF5] border border-emerald-200/80 p-8 rounded-[32px] flex flex-col justify-between min-h-[310px] shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-[1000ms] ease-out transform delay-400 ${
-            bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
-          }`}>
+          <div className={`bg-[#ECFDF5] border border-emerald-200/80 p-8 rounded-[32px] flex flex-col justify-between min-h-[310px] shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-[1000ms] ease-out transform delay-400 ${bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
+            }`}>
             <div className="pt-2">
               <span className="text-5xl sm:text-6xl font-normal text-slate-900 tracking-tight block">
                 98.2%
@@ -1035,9 +1084,8 @@ export default function LandingPage() {
           </div>
 
           {/* CARD 6: WARM IVORY STAT CARD (3.5x) (Bottom Right - Clean Stat Layout) */}
-          <div className={`bg-white border border-slate-200/90 p-8 rounded-[32px] flex flex-col justify-between min-h-[310px] shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-[1000ms] ease-out transform delay-500 ${
-            bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
-          }`}>
+          <div className={`bg-white border border-slate-200/90 p-8 rounded-[32px] flex flex-col justify-between min-h-[310px] shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-[1000ms] ease-out transform delay-500 ${bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
+            }`}>
             <div className="pt-2">
               <span className="text-5xl sm:text-6xl font-normal text-slate-900 tracking-tight block">
                 3.5<span className="text-3xl font-light text-slate-500">x</span>
@@ -1078,11 +1126,10 @@ export default function LandingPage() {
             return (
               <div
                 key={faq.q}
-                className={`bg-white/90 backdrop-blur-xl border rounded-3xl transition-all duration-300 overflow-hidden ${
-                  isOpen
-                    ? "border-blue-300 shadow-lg shadow-blue-500/5 ring-4 ring-blue-50/50"
-                    : "border-slate-200/90 shadow-xs hover:border-blue-200 hover:shadow-md"
-                }`}
+                className={`bg-white/90 backdrop-blur-xl border rounded-3xl transition-all duration-300 overflow-hidden ${isOpen
+                  ? "border-blue-300 shadow-lg shadow-blue-500/5 ring-4 ring-blue-50/50"
+                  : "border-slate-200/90 shadow-xs hover:border-blue-200 hover:shadow-md"
+                  }`}
               >
                 <button
                   onClick={() => setOpenFaq(isOpen ? null : idx)}
@@ -1092,11 +1139,10 @@ export default function LandingPage() {
                     {faq.q}
                   </span>
                   <div
-                    className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 ${
-                      isOpen
-                        ? "bg-blue-600 text-white rotate-180"
-                        : "bg-slate-100 text-slate-500 hover:bg-blue-50 hover:text-blue-600"
-                    }`}
+                    className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 ${isOpen
+                      ? "bg-blue-600 text-white rotate-180"
+                      : "bg-slate-100 text-slate-500 hover:bg-blue-50 hover:text-blue-600"
+                      }`}
                   >
                     <ChevronDown className="w-5 h-5" />
                   </div>
@@ -1114,7 +1160,7 @@ export default function LandingPage() {
       </section>
 
       {/* ─── FLOATING CARD FOOTER (LIGHT & WHITE COMBO THEME) ─── */}
-      <footer className="max-w-7xl mx-auto my-12 px-4 z-10 relative">
+      <footer id="contact" className="max-w-7xl mx-auto my-12 px-4 z-10 relative">
         <div className="bg-white/90 backdrop-blur-2xl rounded-[36px] sm:rounded-[44px] border border-blue-200/80 shadow-[0_20px_70px_rgba(59,130,246,0.08)] text-slate-800 p-8 sm:p-12 relative overflow-hidden">
 
           {/* Ambient Soft Blue Radial Glow */}
