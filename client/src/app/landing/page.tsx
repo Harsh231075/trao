@@ -1057,18 +1057,7 @@ export default function LandingPage() {
                 </p>
               </div>
 
-              {/* 3 Pill Badges */}
-              <div className="flex items-center gap-2 mt-6 flex-wrap">
-                <span className="px-3.5 py-1.5 bg-blue-50 border border-blue-200/80 text-blue-700 text-xs font-semibold rounded-full flex items-center gap-1.5 shadow-xs">
-                  <Sparkles className="w-3.5 h-3.5 text-blue-600" /> Research
-                </span>
-                <span className="px-3.5 py-1.5 bg-blue-50 border border-blue-200/80 text-blue-700 text-xs font-semibold rounded-full flex items-center gap-1.5 shadow-xs">
-                  <Zap className="w-3.5 h-3.5 text-blue-600" /> Synthesis
-                </span>
-                <span className="px-3.5 py-1.5 bg-blue-50 border border-blue-200/80 text-blue-700 text-xs font-semibold rounded-full flex items-center gap-1.5 shadow-xs">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" /> Mastery
-                </span>
-              </div>
+
             </div>
 
             {/* Section 2: Quick Links (5 Cols - 3 Column Subgrid) */}
