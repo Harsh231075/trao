@@ -83,7 +83,7 @@ export async function listKits(req, res, next) {
       const requirements = kitData.role?.requirements || [];
       const mustReqs = requirements.filter(r => r.priority === 'must');
       const coverage = kitData.coverage || {};
-      const uncoveredMust = coverage.uncovered_must_requirements || [];
+      const uncoveredMust = coverage.uncovered_must_requirements || coverage.uncovered_requirement_ids || [];
       const totalQuestions = Object.values(kitData.questions || {}).reduce(
         (sum, arr) => sum + (Array.isArray(arr) ? arr.length : 0), 0
       );

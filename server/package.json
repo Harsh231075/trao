@@ -8,7 +8,8 @@
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
     "dev:nodemon": "nodemon src/index.js",
-    "evaluate": "node src/cli/evaluate.js"
+    "evaluate": "node src/cli/evaluate.js",
+    "seed": "node src/db/seed.js"
   },
   "keywords": [],
   "author": "",

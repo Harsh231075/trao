@@ -113,6 +113,19 @@ export default function LoginPage() {
               </div>
             </div>
 
+            {/* Quick Demo Fill Button */}
+            <button
+              type="button"
+              onClick={() => {
+                setEmail("demo@trao.ai");
+                setPassword("password123");
+              }}
+              className="w-full py-2 px-3 bg-blue-50 hover:bg-blue-100/80 text-blue-700 text-xs font-semibold rounded-xl border border-blue-200/80 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+              <span>Fill Demo Account (demo@trao.ai)</span>
+            </button>
+
             {/* Submit */}
             <button
               type="submit"
