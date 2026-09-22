@@ -115,13 +115,22 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
     const timer = setTimeout(() => {
       setActiveStageScreen((prev) => {
         if (prev < 5) return prev + 1;
-        if (prev === 5) return 6;
+        if (prev === 5 && (kitStatus === "completed" || kitStatus === "partial")) {
+          return 6;
+        }
         return prev;
       });
     }, 2600);
 
     return () => clearTimeout(timer);
-  }, [createdKitId, isOpen, activeStageScreen]);
+  }, [createdKitId, isOpen, activeStageScreen, kitStatus]);
+
+  // Transition to Celebration screen 6 as soon as backend finishes on stage 5
+  useEffect(() => {
+    if (activeStageScreen === 5 && (kitStatus === "completed" || kitStatus === "partial")) {
+      setActiveStageScreen(6);
+    }
+  }, [activeStageScreen, kitStatus]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
