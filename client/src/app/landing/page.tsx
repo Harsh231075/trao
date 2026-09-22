@@ -929,8 +929,9 @@ export default function LandingPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 
           {/* CARD 1: SAGE / SKY BLUE TINTED HERO CARD (Top Left) */}
-          <div className={`bg-[#E0F2FE] border border-sky-300/60 p-8 rounded-[32px] flex flex-col justify-between min-h-[310px] shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-700 ease-out transform ${bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95"
-            }`}>
+          <div className={`bg-[#E0F2FE] border border-sky-300/60 p-8 rounded-[32px] flex flex-col justify-between min-h-[310px] shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-[1000ms] ease-out transform ${
+            bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
+          }`}>
             <div className="flex items-center justify-between text-slate-700 font-mono text-xs">
               <span className="font-bold tracking-widest text-[11px] text-slate-500 uppercase">01 • THE BEGINNING</span>
             </div>
@@ -945,8 +946,9 @@ export default function LandingPage() {
           </div>
 
           {/* CARD 2: CREAM / WHITE EXPLAINER CARD (Top Middle) */}
-          <div className={`bg-white border border-slate-200/90 p-8 rounded-[32px] flex flex-col justify-between min-h-[310px] shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-700 ease-out transform delay-100 ${bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95"
-            }`}>
+          <div className={`bg-white border border-slate-200/90 p-8 rounded-[32px] flex flex-col justify-between min-h-[310px] shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-[1000ms] ease-out transform delay-100 ${
+            bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
+          }`}>
             <div className="my-auto text-center py-6">
               <h3 className="text-lg sm:text-xl font-normal text-slate-800 leading-relaxed tracking-tight">
                 Targeted interview prep works differently. The targeting vector — company signals &amp; exact JD requirements — binds with high affinity to every practice question.
@@ -957,22 +959,20 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* CARD 3: MIDNIGHT NAVY BRAND ACCENT CARD (Top Right) */}
-          <div className={`bg-[#0B172C] border border-blue-900/50 p-8 rounded-[32px] flex flex-col items-center justify-center text-center min-h-[310px] text-white shadow-xl relative overflow-hidden group hover:shadow-2xl hover:-translate-y-1 transition-all duration-700 ease-out transform delay-200 ${bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95"
-            }`}>
-            {/* Styled Brand Graphic */}
-            <div className="w-16 h-16 rounded-full bg-blue-600/20 border border-blue-400/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-              <span className="text-3xl font-black text-blue-400 tracking-tighter">T</span>
-            </div>
-            <h3 className="text-2xl font-bold tracking-tight text-white">Trao Engine</h3>
-            <p className="text-xs text-blue-200/80 mt-2 font-normal max-w-xs leading-relaxed">
+          {/* CARD 3: MIDNIGHT NAVY BRAND ACCENT CARD (Top Right - Clean Editorial Layout) */}
+          <div className={`bg-[#0B172C] border border-blue-900/50 p-8 rounded-[32px] flex flex-col items-center justify-center text-center min-h-[310px] text-white shadow-xl relative overflow-hidden group hover:shadow-2xl hover:-translate-y-1 transition-all duration-[1000ms] ease-out transform delay-200 ${
+            bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
+          }`}>
+            <h3 className="text-3xl font-semibold tracking-tight text-white">Trao Engine</h3>
+            <p className="text-xs sm:text-sm text-blue-200/80 mt-3 font-normal max-w-xs leading-relaxed">
               100% Deterministic AI Coverage Engine for Technical &amp; System Design Interviews.
             </p>
           </div>
 
-          {/* CARD 4: PASTEL INDIGO / LILAC CARD (Bottom Left) */}
-          <div className={`bg-[#E0E7FF] border border-indigo-200/80 p-8 rounded-[32px] flex flex-col justify-between min-h-[310px] shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-700 ease-out transform delay-300 ${bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95"
-            }`}>
+          {/* CARD 4: PASTEL INDIGO / LILAC CARD (Bottom Left - Clean Typography) */}
+          <div className={`bg-[#E0E7FF] border border-indigo-200/80 p-8 rounded-[32px] flex flex-col justify-between min-h-[310px] shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-[1000ms] ease-out transform delay-300 ${
+            bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
+          }`}>
             <div>
               <div className="flex items-center justify-between text-indigo-700 text-xs font-semibold mb-4">
                 <span className="uppercase tracking-widest text-[10px] text-indigo-500">SPACED TIMELINE</span>
@@ -981,18 +981,15 @@ export default function LandingPage() {
                 Every candidate receives a personalized 7-day preparation schedule with spaced flashcards.
               </h3>
             </div>
-            <div className="mt-6 flex items-center justify-between pt-4 border-t border-indigo-200/60">
-              <span className="text-xs text-indigo-700 font-medium">Build smarter, not prettier</span>
-              <Link href="/schedule" className="px-4 py-2 bg-white text-indigo-700 hover:bg-indigo-50 font-bold text-xs rounded-full shadow-sm transition-all flex items-center gap-1.5">
-                <span>Learn More</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
+            <div className="text-[11px] text-indigo-600/80 font-medium pt-3 border-t border-indigo-200/60">
+              Structuring day-by-day practice timelines
             </div>
           </div>
 
           {/* CARD 5: MINT / EMERALD STAT CARD (98.2%) (Bottom Middle) */}
-          <div className={`bg-[#ECFDF5] border border-emerald-200/80 p-8 rounded-[32px] flex flex-col justify-between min-h-[310px] shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-700 ease-out transform delay-400 ${bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95"
-            }`}>
+          <div className={`bg-[#ECFDF5] border border-emerald-200/80 p-8 rounded-[32px] flex flex-col justify-between min-h-[310px] shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-[1000ms] ease-out transform delay-400 ${
+            bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
+          }`}>
             <div className="pt-2">
               <span className="text-5xl sm:text-6xl font-normal text-slate-900 tracking-tight block">
                 98.2%
@@ -1009,9 +1006,10 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* CARD 6: WARM IVORY STAT CARD (3.5x) (Bottom Right) */}
-          <div className={`bg-white border border-slate-200/90 p-8 rounded-[32px] flex flex-col justify-between min-h-[310px] shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-700 ease-out transform delay-500 ${bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95"
-            }`}>
+          {/* CARD 6: WARM IVORY STAT CARD (3.5x) (Bottom Right - Clean Stat Layout) */}
+          <div className={`bg-white border border-slate-200/90 p-8 rounded-[32px] flex flex-col justify-between min-h-[310px] shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-[1000ms] ease-out transform delay-500 ${
+            bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
+          }`}>
             <div className="pt-2">
               <span className="text-5xl sm:text-6xl font-normal text-slate-900 tracking-tight block">
                 3.5<span className="text-3xl font-light text-slate-500">x</span>
@@ -1023,11 +1021,8 @@ export default function LandingPage() {
                 Candidates using Trao pass technical &amp; system design rounds 3.5x faster.
               </p>
             </div>
-            <div className="flex items-center justify-end pt-3 border-t border-slate-100">
-              <Link href="/login" className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-full shadow-md transition-all flex items-center gap-1.5">
-                <span>Learn More</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
+            <div className="text-[11px] text-slate-400 font-medium pt-3 border-t border-slate-100">
+              Accelerated career progression
             </div>
           </div>
 
