@@ -20,28 +20,28 @@ interface CreateKitModalProps {
 const VERTICAL_STEPS = [
   {
     step: 1,
-    title: "Job Details",
-    desc: "Job description, company, role",
+    title: "1. Researching Company",
+    desc: "Scraping tech stack & public signals",
   },
   {
     step: 2,
-    title: "AI Processing",
-    desc: "Analyzing and generating",
+    title: "2. Extracting Requirements",
+    desc: "Parsing MUST vs NICE skills from JD",
   },
   {
     step: 3,
-    title: "Finalizing",
-    desc: "Structuring your kit",
+    title: "3. Generating Questions",
+    desc: "Synthesizing technical & behavioral Qs",
   },
   {
     step: 4,
-    title: "Almost Ready",
-    desc: "Just a moment",
+    title: "4. Checking Coverage",
+    desc: "Verifying 100% requirement audit pass",
   },
   {
     step: 5,
-    title: "Complete",
-    desc: "Your kit is ready!",
+    title: "5. Building Schedule",
+    desc: "Structuring day-by-day study timeline",
   },
 ];
 
