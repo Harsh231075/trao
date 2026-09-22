@@ -71,8 +71,8 @@ function AuthForm({ initialMode = "login" }: { initialMode?: "login" | "register
       <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
 
         {/* ── LEFT SIDE: DEDICATED BLUE VISUAL AREA ── */}
-        <div className="lg:col-span-6 bg-gradient-to-br from-[#1769F5] via-[#16A9E8] to-[#4C5BFF] rounded-[36px] p-8 sm:p-10 lg:p-12 text-white flex flex-col justify-between relative overflow-hidden min-h-[540px] lg:min-h-[600px] shadow-xl">
-          
+        <div className="lg:col-span-6 bg-gradient-to-br from-[#1769F5] via-[#16A9E8] to-[#4C5BFF] rounded-[36px] p-8 sm:p-10 lg:p-12 text-white flex flex-col justify-between relative overflow-hidden min-h-[540px] lg:min-h-[600px] ">
+
           {/* Subtle Abstract Light Shapes */}
           <div className="absolute -top-24 -right-24 w-80 h-80 bg-white/10 rounded-full blur-2xl pointer-events-none" />
 
@@ -102,7 +102,7 @@ function AuthForm({ initialMode = "login" }: { initialMode?: "login" | "register
 
         {/* ── RIGHT SIDE: CARDLESS LOGIN FORM (WITH SPACED PADDING FROM LEFT CARD) ── */}
         <div className="lg:col-span-6 flex flex-col items-center lg:items-start justify-center lg:pl-8 xl:pl-12">
-          
+
           {/* Form wrapper (No outer white box, sits directly on full-screen blue gradient) */}
           <div className="w-full max-w-[440px]">
 

@@ -41,10 +41,10 @@ export default function LandingPage() {
 
   const navItems = [
     { id: "home", label: "Home" },
-    { id: "roadmap", label: "AI Pipeline" },
-    { id: "methodology", label: "Methodology" },
-    { id: "faq", label: "FAQ" },
-    { id: "contact", label: "Contact" },
+    { id: "about", label: "About us", targetId: "methodology" },
+    { id: "features", label: "Features", targetId: "roadmap" },
+    { id: "contact", label: "Contact", targetId: "contact" },
+    { id: "faq", label: "Find Job", targetId: "faq" },
   ];
 
   const handleScrollTo = (e: React.MouseEvent, id: string) => {
@@ -66,7 +66,8 @@ export default function LandingPage() {
 
       let currentSection = "home";
       for (const item of navItems) {
-        const el = document.getElementById(item.id);
+        const targetId = item.targetId || item.id;
+        const el = document.getElementById(targetId);
         if (el) {
           const top = el.offsetTop;
           const height = el.offsetHeight;
@@ -145,30 +146,32 @@ export default function LandingPage() {
       {/* Geometric Mesh Background Pattern */}
       <div className="absolute inset-0 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:28px_28px] opacity-[0.07] pointer-events-none -z-10" />
 
-      {/* ─── FLOATING LIGHT-BLUE FROSTED NAVBAR WITH SCROLLSPY ─── */}
+      {/* ─── FLOATING LIGHT-BLUE FROSTED NAVBAR WITH ACTIVE UNDERLINE ─── */}
       <header className="sticky top-4 sm:top-6 z-50 max-w-6xl mx-auto px-4">
-        <nav className="bg-white/80 backdrop-blur-xl border border-white/90 shadow-[0_10px_35px_rgba(59,130,246,0.12)] rounded-full px-5 py-2.5 flex items-center justify-between transition-all">
+        <nav className="bg-white/80 backdrop-blur-xl border border-white/90 shadow-[0_10px_35px_rgba(59,130,246,0.12)] rounded-full px-5 py-3 flex items-center justify-between transition-all">
 
           {/* Left Brand Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <span className="text-xl font-extrabold tracking-tight text-slate-900">
+            <span className="text-xl font-semibold tracking-tight text-slate-900">
               Trao<span className="text-blue-600">.ai</span>
             </span>
           </Link>
 
-          {/* Center Navigation Links with Active Outline & Pill */}
-          <div className="hidden md:flex items-center gap-1 text-xs font-semibold text-slate-600">
+          {/* Center Navigation Links with Active Underline */}
+          <div className="hidden md:flex items-center gap-7 text-xs font-semibold text-slate-600">
             {navItems.map((item) => {
               const isActive = activeSection === item.id;
+              const targetId = item.targetId || item.id;
               return (
                 <a
                   key={item.id}
-                  href={`#${item.id}`}
-                  onClick={(e) => handleScrollTo(e, item.id)}
-                  className={`px-4 py-1.5 rounded-full transition-all duration-300 font-bold cursor-pointer ${isActive
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-500/25 ring-2 ring-blue-400/60 border border-blue-500 scale-[1.03]"
-                    : "text-slate-600 hover:text-blue-600 hover:bg-white/80 border border-transparent"
-                    }`}
+                  href={`#${targetId}`}
+                  onClick={(e) => handleScrollTo(e, targetId)}
+                  className={`transition-all duration-200 cursor-pointer ${
+                    isActive
+                      ? "text-blue-600 font-bold relative after:absolute after:-bottom-1.5 after:left-0 after:w-full after:h-0.5 after:bg-blue-600 after:rounded-full"
+                      : "text-slate-600 hover:text-blue-600 font-semibold"
+                  }`}
                 >
                   {item.label}
                 </a>
@@ -180,7 +183,7 @@ export default function LandingPage() {
           <div className="flex items-center gap-3">
             <Link
               href="/login"
-              className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold rounded-full shadow-md shadow-blue-500/20 transition-all hover:scale-105 cursor-pointer"
+              className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-medium rounded-full shadow-md shadow-blue-500/20 transition-all hover:scale-105 cursor-pointer"
             >
               Join With Us
             </Link>
