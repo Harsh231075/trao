@@ -4,7 +4,7 @@ import React, { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import { Mail, Lock, User as UserIcon, ArrowRight, Sparkles, Eye, EyeOff } from "lucide-react";
+import { Mail, Lock, User as UserIcon, Sparkles, Eye, EyeOff } from "lucide-react";
 
 function AuthForm({ initialMode = "login" }: { initialMode?: "login" | "register" }) {
   const searchParams = useSearchParams();
@@ -55,7 +55,7 @@ function AuthForm({ initialMode = "login" }: { initialMode?: "login" | "register
     } catch (err: any) {
       setError(
         err.message ||
-          (mode === "login" ? "Invalid email or password" : "Registration failed. Please try again.")
+        (mode === "login" ? "Invalid email or password" : "Registration failed. Please try again.")
       );
     } finally {
       setIsSubmitting(false);
@@ -63,204 +63,205 @@ function AuthForm({ initialMode = "login" }: { initialMode?: "login" | "register
   };
 
   return (
-    <div suppressHydrationWarning className="min-h-screen w-full flex items-center justify-center p-4 sm:p-6 bg-gradient-to-br from-sky-100/80 via-blue-50/60 to-indigo-50/40 relative font-sans selection:bg-blue-500 selection:text-white">
-      {/* Ambient Glows */}
-      <div className="absolute top-10 left-1/4 w-[500px] h-[500px] bg-blue-300/30 rounded-full blur-[120px] pointer-events-none -z-10" />
-      <div className="absolute bottom-10 right-1/4 w-[450px] h-[450px] bg-sky-200/40 rounded-full blur-[100px] pointer-events-none -z-10" />
+    <div className="min-h-screen w-full flex items-center justify-center p-4 sm:p-6 md:p-8 bg-[#f0f4f9] font-sans selection:bg-sky-500 selection:text-white">
+      {/* Outer Floating White Card Container */}
+      <div className="w-full max-w-4xl bg-white rounded-[32px] sm:rounded-[40px] shadow-[0_20px_70px_rgba(0,0,0,0.06)] border border-slate-100 p-3 sm:p-4 md:p-5 grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch relative overflow-hidden">
 
-      {/* Outer Floating Card Container */}
-      <div className="w-full max-w-5xl bg-white/90 backdrop-blur-2xl rounded-[36px] sm:rounded-[44px] border border-blue-200/80 p-4 sm:p-6 shadow-[0_25px_80px_rgba(59,130,246,0.12)] grid grid-cols-1 md:grid-cols-12 gap-6 items-center relative overflow-hidden z-10">
+        {/* ── LEFT HERO PANEL (SOLID SKY BLUE CARD WITH HEADING & 3D CHARACTERS) ── */}
+        <div className="md:col-span-6 bg-gradient-to-b from-[#38bdf8] via-[#0284c7] to-[#0369a1] rounded-[24px] sm:rounded-[32px] p-6 sm:p-8 md:p-10 text-white flex flex-col justify-between relative overflow-hidden min-h-[460px] sm:min-h-[500px]">
 
-        {/* ── LEFT HERO PANEL (BLUE GRADIENT CARD WITH 3D CHARACTER) ── */}
-        <div className="md:col-span-6 bg-gradient-to-br from-blue-600 via-sky-500 to-indigo-600 rounded-[28px] sm:rounded-[36px] p-7 sm:p-10 text-white flex flex-col justify-between min-h-[480px] sm:min-h-[540px] relative overflow-hidden shadow-xl">
-          
-          {/* Subtle Background Mesh Glow */}
-          <div className="absolute -top-20 -right-20 w-72 h-72 bg-white/10 rounded-full blur-2xl pointer-events-none" />
-
-          {/* Top Headline Text */}
+          {/* Top Headline & Subtitle */}
           <div className="relative z-10">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-semibold mb-4">
-              <Sparkles className="w-3.5 h-3.5 text-sky-200" />
-              <span>AI Interview Co-Pilot</span>
-            </div>
-            <h2 className="text-2xl sm:text-4xl font-normal tracking-tight text-white leading-tight">
-              Master your next tech interview <span className="font-semibold underline decoration-sky-300/50">with precision.</span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white leading-[1.2] tracking-tight">
+              Simplify interview prep with our{" "}
+              <span className="relative inline-block">
+                dashboard.
+                <svg
+                  className="absolute -bottom-1.5 left-0 w-full h-2 text-sky-200"
+                  viewBox="0 0 100 12"
+                  preserveAspectRatio="none"
+                >
+                  <path
+                    d="M0,8 Q50,0 100,8"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    fill="none"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </span>
             </h2>
-            <p className="text-xs sm:text-sm text-blue-100 mt-3 leading-relaxed font-normal">
-              Real-time company scraping, 5-stage AI synthesis, and 100% requirement coverage.
+            <p className="text-xs sm:text-sm text-sky-100/90 mt-4 leading-relaxed font-medium">
+              Simplify your coding & system design interview prep with our user-friendly AI co-pilot dashboard.
             </p>
           </div>
 
-          {/* 3D Character Illustration Asset */}
-          <div className="relative z-10 mt-6 flex justify-center items-center">
-            <div className="relative group">
-              <div className="absolute inset-0 bg-white/20 rounded-3xl blur-xl group-hover:bg-white/30 transition-all pointer-events-none" />
-              <img
-                src="/auth-hero-character.jpg"
-                alt="3D Developer Character"
-                className="w-full max-w-[260px] sm:max-w-[290px] h-auto object-cover rounded-3xl shadow-2xl border-2 border-white/40 group-hover:scale-105 transition-transform duration-500"
-              />
-            </div>
+          {/* 3D Character Illustration Asset at Bottom */}
+          <div className="relative z-10 mt-6 flex justify-center items-end -mb-6 sm:-mb-8 -mx-6 sm:-mx-8">
+            <img
+              src="/auth-hero-character.jpg"
+              alt="3D Developer Characters"
+              className="w-full max-w-[340px] sm:max-w-[380px] h-auto object-cover object-bottom rounded-b-[24px] sm:rounded-b-[32px] drop-shadow-xl"
+            />
           </div>
         </div>
 
-        {/* ── RIGHT AUTH FORM PANEL ── */}
-        <div className="md:col-span-6 px-4 sm:px-8 py-4 flex flex-col justify-between">
-          <div>
-            {/* Logo */}
-            <div className="flex items-center gap-2 mb-6">
-              <Link href="/" className="text-2xl font-bold tracking-tight text-slate-900">
-                Trao<span className="text-blue-600">.ai</span>
-              </Link>
+        {/* ── RIGHT AUTH FORM PANEL (DIRECTLY ON MAIN WHITE CONTAINER) ── */}
+        <div className="md:col-span-6 px-3 sm:px-6 md:px-8 py-4 sm:py-6 flex flex-col justify-center">
+
+          {/* Logo Badge */}
+          <div className="flex items-center gap-2.5 mb-6">
+            <div className="w-9 h-9 rounded-xl bg-[#38bdf8] text-white flex items-center justify-center font-extrabold text-lg shadow-md shadow-sky-400/30">
+              T
             </div>
+            <Link href="/" className="text-2xl font-extrabold tracking-tight text-slate-900">
+              Trao<span className="text-sky-500">.ai</span>
+            </Link>
+          </div>
 
-            {/* Title & Subtitle */}
-            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-              {mode === "login" ? "Welcome Back" : "Create Account"}
-            </h1>
-            <p className="text-xs sm:text-sm text-slate-500 mt-1 font-normal mb-6">
-              {mode === "login"
-                ? "Please enter your details to sign in to your account"
-                : "Start your 100% prepared interview preparation journey today"}
-            </p>
+          {/* Title & Subtitle */}
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            {mode === "login" ? "Welcome Back" : "Create Account"}
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-400 mt-1 font-medium mb-6">
+            {mode === "login"
+              ? "Please login to your account"
+              : "Please enter your details to create an account"}
+          </p>
 
-            {/* Error Banner */}
-            {error && (
-              <div className="mb-4 px-4 py-3 bg-red-50 border border-red-200 rounded-2xl text-red-700 text-xs font-medium">
-                {error}
+          {/* Error Banner */}
+          {error && (
+            <div className="mb-4 px-4 py-3 bg-red-50 border border-red-200 rounded-xl text-red-600 text-xs font-semibold">
+              {error}
+            </div>
+          )}
+
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-3.5">
+
+            {/* Full Name (Register Mode Only) */}
+            {mode === "register" && (
+              <div>
+                <div className="relative">
+                  <UserIcon className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Full name"
+                    required
+                    className="w-full pl-11 pr-4 py-3.5 text-sm bg-[#f4f6fa] border border-transparent focus:border-sky-300 focus:bg-white rounded-xl focus:outline-none focus:ring-4 focus:ring-sky-100 transition-all text-slate-800 placeholder:text-slate-400 font-medium"
+                  />
+                </div>
               </div>
             )}
 
-            {/* Form */}
-            <form onSubmit={handleSubmit} className="space-y-4">
-              
-              {/* Full Name (Register Mode Only) */}
-              {mode === "register" && (
-                <div>
-                  <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
-                    Full Name
-                  </label>
-                  <div className="relative">
-                    <UserIcon className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                    <input
-                      type="text"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      placeholder="Harsh Singh"
-                      required
-                      className="w-full pl-10 pr-4 py-3 text-sm bg-slate-50 border border-slate-200/90 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all text-slate-800 placeholder:text-slate-400"
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* Email Address */}
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
-                  Email Address
-                </label>
-                <div className="relative">
-                  <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="you@example.com"
-                    required
-                    className="w-full pl-10 pr-4 py-3 text-sm bg-slate-50 border border-slate-200/90 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all text-slate-800 placeholder:text-slate-400"
-                  />
-                </div>
+            {/* Email Address */}
+            <div>
+              <div className="relative">
+                <Mail className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Email address"
+                  required
+                  className="w-full pl-11 pr-4 py-3.5 text-sm bg-[#f4f6fa] border border-transparent focus:border-sky-300 focus:bg-white rounded-xl focus:outline-none focus:ring-4 focus:ring-sky-100 transition-all text-slate-800 placeholder:text-slate-400 font-medium"
+                />
               </div>
+            </div>
 
-              {/* Password */}
+            {/* Password */}
+            <div>
+              <div className="relative">
+                <Lock className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
+                  required
+                  minLength={6}
+                  className="w-full pl-11 pr-11 py-3.5 text-sm bg-[#f4f6fa] border border-transparent focus:border-sky-300 focus:bg-white rounded-xl focus:outline-none focus:ring-4 focus:ring-sky-100 transition-all text-slate-800 placeholder:text-slate-400 font-medium"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                >
+                  {showPassword ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* Confirm Password (Register Mode Only) */}
+            {mode === "register" && (
               <div>
-                <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
-                  Password
-                </label>
                 <div className="relative">
-                  <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <Lock className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
                   <input
                     type={showPassword ? "text" : "password"}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Confirm Password"
                     required
                     minLength={6}
-                    className="w-full pl-10 pr-10 py-3 text-sm bg-slate-50 border border-slate-200/90 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all text-slate-800 placeholder:text-slate-400"
+                    className="w-full pl-11 pr-11 py-3.5 text-sm bg-[#f4f6fa] border border-transparent focus:border-sky-300 focus:bg-white rounded-xl focus:outline-none focus:ring-4 focus:ring-sky-100 transition-all text-slate-800 placeholder:text-slate-400 font-medium"
                   />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
-                  >
-                    {showPassword ? (
-                      <EyeOff className="w-4 h-4" />
-                    ) : (
-                      <Eye className="w-4 h-4" />
-                    )}
-                  </button>
                 </div>
               </div>
+            )}
 
-              {/* Confirm Password (Register Mode Only) */}
-              {mode === "register" && (
-                <div>
-                  <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
-                    Confirm Password
-                  </label>
-                  <div className="relative">
-                    <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      placeholder="••••••••"
-                      required
-                      minLength={6}
-                      className="w-full pl-10 pr-10 py-3 text-sm bg-slate-50 border border-slate-200/90 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all text-slate-800 placeholder:text-slate-400"
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* Quick Demo Account Button (Login Mode) */}
-              {mode === "login" && (
+            {/* Forgot Password Link */}
+            {mode === "login" && (
+              <div className="flex justify-between items-center pt-1">
                 <button
                   type="button"
                   onClick={() => {
                     setEmail("demo@trao.ai");
                     setPassword("password123");
                   }}
-                  className="w-full py-2.5 px-3 bg-blue-50 hover:bg-blue-100/80 text-blue-700 text-xs font-semibold rounded-2xl border border-blue-200/80 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                  className="text-xs font-semibold text-sky-600 hover:underline flex items-center gap-1 cursor-pointer"
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-blue-600" />
-                  <span>Fill Demo Account (demo@trao.ai)</span>
+                  <Sparkles className="w-3 h-3 text-sky-500" />
+                  <span>Fill Demo Account</span>
                 </button>
-              )}
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    alert("Password reset feature coming soon!");
+                  }}
+                  className="text-xs font-medium text-slate-400 hover:text-sky-600 transition-colors"
+                >
+                  Forgot password?
+                </a>
+              </div>
+            )}
 
-              {/* Submit Button */}
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm sm:text-base rounded-2xl shadow-lg shadow-blue-500/25 hover:shadow-xl transition-all active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed mt-4 cursor-pointer"
-              >
-                {isSubmitting ? (
-                  <>
-                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Processing...
-                  </>
-                ) : (
-                  <>
-                    {mode === "login" ? "Login" : "Create Account"}
-                    <ArrowRight className="w-4 h-4" />
-                  </>
-                )}
-              </button>
-            </form>
-          </div>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full flex items-center justify-center gap-2 py-3.5 px-6 bg-[#38bdf8] hover:bg-[#0284c7] text-white font-bold text-sm sm:text-base rounded-xl shadow-lg shadow-sky-400/25 hover:shadow-xl transition-all active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed mt-4 cursor-pointer"
+            >
+              {isSubmitting ? (
+                <>
+                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Processing...
+                </>
+              ) : (
+                <>{mode === "login" ? "Login" : "Create Account"}</>
+              )}
+            </button>
+          </form>
 
           {/* Bottom Mode Toggle Link */}
-          <div className="mt-6 pt-4 border-t border-slate-100 text-center text-xs text-slate-500 font-normal">
+          <div className="mt-8 text-center text-xs sm:text-sm text-slate-400 font-medium">
             {mode === "login" ? (
               <p>
                 Don&apos;t have an account?{" "}
@@ -270,7 +271,7 @@ function AuthForm({ initialMode = "login" }: { initialMode?: "login" | "register
                     setMode("register");
                     setError("");
                   }}
-                  className="font-bold text-blue-600 hover:text-blue-700 hover:underline cursor-pointer ml-1"
+                  className="font-bold text-sky-500 hover:text-sky-600 hover:underline cursor-pointer ml-1"
                 >
                   Signup
                 </button>
@@ -284,7 +285,7 @@ function AuthForm({ initialMode = "login" }: { initialMode?: "login" | "register
                     setMode("login");
                     setError("");
                   }}
-                  className="font-bold text-blue-600 hover:text-blue-700 hover:underline cursor-pointer ml-1"
+                  className="font-bold text-sky-500 hover:text-sky-600 hover:underline cursor-pointer ml-1"
                 >
                   Login
                 </button>
@@ -300,7 +301,7 @@ function AuthForm({ initialMode = "login" }: { initialMode?: "login" | "register
 
 export default function AuthPage({ initialMode = "login" }: { initialMode?: "login" | "register" }) {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-slate-50 flex items-center justify-center text-xs font-semibold text-slate-400">Loading auth...</div>}>
+    <Suspense fallback={<div className="min-h-screen bg-[#f0f4f9] flex items-center justify-center text-xs font-semibold text-slate-400">Loading auth...</div>}>
       <AuthForm initialMode={initialMode} />
     </Suspense>
   );
