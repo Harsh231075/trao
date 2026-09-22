@@ -68,11 +68,11 @@ function AuthForm({ initialMode = "login" }: { initialMode?: "login" | "register
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-blue-400/20 rounded-full blur-[140px] pointer-events-none -z-10" />
 
       {/* ── SPLIT LAYOUT (NO OUTER WHITE CARD CONTAINER) ── */}
-      <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center relative z-10">
+      <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
 
-        {/* ── LEFT SIDE: DEDICATED BLUE VISUAL AREA (INCREASED WIDTH - 50%) ── */}
+        {/* ── LEFT SIDE: DEDICATED BLUE VISUAL AREA ── */}
         <div className="lg:col-span-6 bg-gradient-to-br from-[#1769F5] via-[#16A9E8] to-[#4C5BFF] rounded-[36px] p-8 sm:p-10 lg:p-12 text-white flex flex-col justify-between relative overflow-hidden min-h-[540px] lg:min-h-[600px] shadow-xl">
-
+          
           {/* Subtle Abstract Light Shapes */}
           <div className="absolute -top-24 -right-24 w-80 h-80 bg-white/10 rounded-full blur-2xl pointer-events-none" />
 
@@ -100,9 +100,9 @@ function AuthForm({ initialMode = "login" }: { initialMode?: "login" | "register
           </div>
         </div>
 
-        {/* ── RIGHT SIDE: CARDLESS LOGIN FORM (50% APPROX, PROPERLY ALIGNED) ── */}
-        <div className="lg:col-span-6 flex flex-col items-center lg:items-start justify-center lg:pl-4">
-
+        {/* ── RIGHT SIDE: CARDLESS LOGIN FORM (WITH SPACED PADDING FROM LEFT CARD) ── */}
+        <div className="lg:col-span-6 flex flex-col items-center lg:items-start justify-center lg:pl-8 xl:pl-12">
+          
           {/* Form wrapper (No outer white box, sits directly on full-screen blue gradient) */}
           <div className="w-full max-w-[440px]">
 
