@@ -493,8 +493,8 @@ export default function LandingPage() {
             className="absolute left-[6%] top-[62%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center cursor-pointer group"
           >
             <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${activeStage === 0
-                ? "bg-blue-600 text-white ring-4 ring-blue-400/50 shadow-lg scale-110"
-                : "bg-white border-2 border-slate-200 text-blue-600 shadow-md group-hover:scale-105 group-hover:border-blue-400"
+              ? "bg-blue-600 text-white ring-4 ring-blue-400/50 shadow-lg scale-110"
+              : "bg-white border-2 border-slate-200 text-blue-600 shadow-md group-hover:scale-105 group-hover:border-blue-400"
               }`}>
               01
             </div>
@@ -522,8 +522,8 @@ export default function LandingPage() {
               </p>
             </div>
             <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${activeStage === 1
-                ? "bg-blue-600 text-white ring-4 ring-blue-400/50 shadow-lg scale-110"
-                : "bg-white border-2 border-slate-200 text-blue-600 shadow-md group-hover:scale-105 group-hover:border-blue-400"
+              ? "bg-blue-600 text-white ring-4 ring-blue-400/50 shadow-lg scale-110"
+              : "bg-white border-2 border-slate-200 text-blue-600 shadow-md group-hover:scale-105 group-hover:border-blue-400"
               }`}>
               02
             </div>
@@ -535,8 +535,8 @@ export default function LandingPage() {
             className="absolute left-[50%] top-[76%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center cursor-pointer group"
           >
             <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${activeStage === 2
-                ? "bg-blue-600 text-white ring-4 ring-blue-400/50 shadow-lg scale-110"
-                : "bg-white border-2 border-slate-200 text-blue-600 shadow-md group-hover:scale-105 group-hover:border-blue-400"
+              ? "bg-blue-600 text-white ring-4 ring-blue-400/50 shadow-lg scale-110"
+              : "bg-white border-2 border-slate-200 text-blue-600 shadow-md group-hover:scale-105 group-hover:border-blue-400"
               }`}>
               03
             </div>
@@ -564,8 +564,8 @@ export default function LandingPage() {
               </p>
             </div>
             <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${activeStage === 3
-                ? "bg-blue-600 text-white ring-4 ring-blue-400/50 shadow-lg scale-110"
-                : "bg-white border-2 border-slate-200 text-blue-600 shadow-md group-hover:scale-105 group-hover:border-blue-400"
+              ? "bg-blue-600 text-white ring-4 ring-blue-400/50 shadow-lg scale-110"
+              : "bg-white border-2 border-slate-200 text-blue-600 shadow-md group-hover:scale-105 group-hover:border-blue-400"
               }`}>
               04
             </div>
@@ -577,8 +577,8 @@ export default function LandingPage() {
             className="absolute left-[94%] top-[62%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center cursor-pointer group"
           >
             <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${activeStage === 4
-                ? "bg-blue-600 text-white ring-4 ring-blue-400/50 shadow-lg scale-110"
-                : "bg-white border-2 border-slate-200 text-blue-600 shadow-md group-hover:scale-105 group-hover:border-blue-400"
+              ? "bg-blue-600 text-white ring-4 ring-blue-400/50 shadow-lg scale-110"
+              : "bg-white border-2 border-slate-200 text-blue-600 shadow-md group-hover:scale-105 group-hover:border-blue-400"
               }`}>
               05
             </div>
@@ -606,8 +606,8 @@ export default function LandingPage() {
               key={st.step}
               onClick={() => setActiveStage(idx)}
               className={`p-3 rounded-xl text-center border text-xs font-semibold transition-all ${activeStage === idx
-                  ? "bg-blue-600 text-white border-blue-600 shadow-md"
-                  : "bg-white/80 text-slate-700 border-slate-200 hover:bg-blue-50"
+                ? "bg-blue-600 text-white border-blue-600 shadow-md"
+                : "bg-white/80 text-slate-700 border-slate-200 hover:bg-blue-50"
                 }`}
             >
               <span className="block text-[10px] opacity-80 uppercase">Step {st.step}</span>
@@ -642,8 +642,8 @@ export default function LandingPage() {
                   key={label}
                   onClick={() => setActiveStage(idx)}
                   className={`px-3 py-1.5 rounded-full transition-all text-[11px] font-semibold ${activeStage === idx
-                      ? "bg-blue-600 text-white shadow-xs"
-                      : "text-slate-600 hover:text-blue-600 hover:bg-white/60"
+                    ? "bg-blue-600 text-white shadow-xs"
+                    : "text-slate-600 hover:text-blue-600 hover:bg-white/60"
                     }`}
                 >
                   {label}
@@ -943,7 +943,7 @@ export default function LandingPage() {
       </section>
 
       {/* ─── FLOATING CARD FOOTER (MIDNIGHT BLUE THEME WITH PERFECT SPACING) ─── */}
-      <footer className="max-w-6xl mx-auto my-12 px-4 z-10 relative">
+      <footer className="max-w-7xl mx-auto my-12 px-4 z-10 relative">
         <div className="bg-[#0B172C] rounded-[36px] sm:rounded-[44px] border border-blue-900/50 shadow-[0_30px_90px_rgba(11,23,44,0.4)] text-white p-6 sm:p-12 relative overflow-hidden">
 
           {/* Ambient Blue Radial Glow */}
@@ -956,9 +956,6 @@ export default function LandingPage() {
             <div className="lg:col-span-3 flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-black text-xl shadow-md shadow-blue-500/20">
-                    T
-                  </div>
                   <span className="text-2xl font-bold tracking-tight text-white">
                     Trao<span className="text-blue-400">.ai</span>
                   </span>
