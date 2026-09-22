@@ -63,43 +63,53 @@ function AuthForm({ initialMode = "login" }: { initialMode?: "login" | "register
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-[#eef4fe] via-[#f5f8ff] to-[#e8f1fe] flex items-center justify-center font-sans py-8 px-4 sm:px-8 lg:px-16 selection:bg-[#2166F3] selection:text-white">
+    <div className="min-h-screen w-full bg-gradient-to-br from-[#EAF3FF] via-[#BBD8FF] to-[#91B9F8] flex items-center justify-center font-sans py-8 px-4 sm:px-8 lg:px-16 selection:bg-[#2166F3] selection:text-white relative overflow-hidden">
+      {/* Subtle Atmospheric Blue Glow */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-blue-400/20 rounded-full blur-[140px] pointer-events-none -z-10" />
+
       {/* ── SPLIT LAYOUT (NO OUTER WHITE CARD CONTAINER) ── */}
-      <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
+      <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center relative z-10">
 
-        {/* ── LEFT SIDE: BRANDING & 3D CHARACTER (45% APPROX) ── */}
-        <div className="lg:col-span-5 flex flex-col justify-center pt-4 lg:pt-0">
+        {/* ── LEFT SIDE: DEDICATED BLUE VISUAL AREA (45% APPROX) ── */}
+        <div className="lg:col-span-5 bg-gradient-to-br from-[#1769F5] via-[#16A9E8] to-[#4C5BFF] rounded-[32px] p-8 lg:p-10 text-white flex flex-col justify-between relative overflow-hidden min-h-[520px] lg:min-h-[580px]">
 
-          {/* Headline */}
-          <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-[#0F172A] tracking-tight leading-[1.18]">
-            Master your next tech <br />
-            interview <span className="text-[#2166F3]">with precision.</span>
-          </h1>
+          {/* Subtle Abstract Light Shapes */}
+          <div className="absolute -top-24 -right-24 w-80 h-80 bg-white/10 rounded-full blur-2xl pointer-events-none" />
 
-          {/* Supporting Text */}
-          <p className="text-slate-600 text-sm sm:text-base mt-4 leading-relaxed font-normal max-w-md">
-            AI-powered preparation built around your role, skills, and interview requirements.
-          </p>
+          {/* Top Text Content */}
+          <div className="relative z-10">
 
-          {/* 3D Transparent Character Illustration (No card around it) */}
-          <div className="mt-6 lg:mt-10 flex justify-center lg:justify-start items-center">
+            {/* Headline */}
+            <h1 className="text-3xl sm:text-4xl lg:text-[38px] font-extrabold text-white tracking-tight leading-[1.18]">
+              Master your next tech <br />
+              interview <span className="text-sky-200">with precision.</span>
+            </h1>
+
+            {/* Supporting Text */}
+            <p className="text-blue-100/90 text-sm mt-3 leading-relaxed font-normal max-w-sm">
+              AI-powered preparation built around your role, skills, and interview requirements.
+            </p>
+          </div>
+
+          {/* Prominent Transparent Character Asset (No Card) */}
+          <div className="relative z-10 mt-6 flex justify-center items-center">
             <img
               src="/ChatGPT Image Sep 22, 2026, 09_51_05 PM.png"
               alt="3D Developer Character"
-              className="w-full max-w-[280px] sm:max-w-[340px] lg:max-w-[380px] h-auto object-contain filter drop-shadow-xl hover:scale-[1.02] transition-transform duration-500 pointer-events-none"
+              className="w-full max-w-[320px] sm:max-w-[360px] lg:max-w-[400px] h-auto object-contain filter drop-shadow-2xl hover:scale-[1.02] transition-transform duration-500 pointer-events-none"
             />
           </div>
         </div>
 
-        {/* ── RIGHT SIDE: LOGIN FORM (55% APPROX, NO CARD BEHIND FORM) ── */}
+        {/* ── RIGHT SIDE: CARDLESS LOGIN FORM (55% APPROX) ── */}
         <div className="lg:col-span-7 flex flex-col items-center lg:items-end justify-center">
 
-          {/* Form wrapper constrained to max 460px width directly on page background */}
+          {/* Form wrapper (No outer white box, sits directly on full-screen blue gradient) */}
           <div className="w-full max-w-[460px]">
 
             {/* Logo / Wordmark */}
             <div className="flex items-center gap-2.5 mb-8">
-              <div className="w-10 h-10 rounded-2xl bg-[#2166F3] text-white flex items-center justify-center font-extrabold text-xl shadow-lg shadow-blue-500/25">
+              <div className="w-10 h-10 rounded-2xl bg-[#2166F3] text-white flex items-center justify-center font-extrabold text-xl">
                 T
               </div>
               <Link href="/" className="text-2xl font-extrabold tracking-tight text-[#0F172A]">
@@ -111,7 +121,7 @@ function AuthForm({ initialMode = "login" }: { initialMode?: "login" | "register
             <h2 className="text-3xl font-extrabold text-[#0F172A] tracking-tight">
               {mode === "login" ? "Welcome Back" : "Create Account"}
             </h2>
-            <p className="text-sm text-slate-500 mt-1.5 mb-8 font-normal">
+            <p className="text-sm text-slate-600 mt-1.5 mb-8 font-normal">
               {mode === "login"
                 ? "Sign in to continue your interview preparation."
                 : "Start your AI-powered interview preparation today."}
@@ -141,7 +151,7 @@ function AuthForm({ initialMode = "login" }: { initialMode?: "login" | "register
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Alex Mercer"
                       required
-                      className="w-full pl-11 pr-4 py-3.5 text-sm bg-white border border-slate-200/90 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-[#2166F3] transition-all text-slate-900 placeholder:text-slate-400 font-medium shadow-sm"
+                      className="w-full pl-11 pr-4 py-3.5 text-sm bg-white/90 border border-blue-200/80 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#2166F3] focus:border-[#2166F3] focus:bg-white transition-all text-[#0F172A] placeholder:text-slate-400 font-medium shadow-none"
                     />
                   </div>
                 </div>
@@ -160,7 +170,7 @@ function AuthForm({ initialMode = "login" }: { initialMode?: "login" | "register
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="name@company.com"
                     required
-                    className="w-full pl-11 pr-4 py-3.5 text-sm bg-white border border-slate-200/90 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-[#2166F3] transition-all text-slate-900 placeholder:text-slate-400 font-medium shadow-sm"
+                    className="w-full pl-11 pr-4 py-3.5 text-sm bg-white/90 border border-blue-200/80 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#2166F3] focus:border-[#2166F3] focus:bg-white transition-all text-[#0F172A] placeholder:text-slate-400 font-medium shadow-none"
                   />
                 </div>
               </div>
@@ -179,7 +189,7 @@ function AuthForm({ initialMode = "login" }: { initialMode?: "login" | "register
                     placeholder="••••••••"
                     required
                     minLength={6}
-                    className="w-full pl-11 pr-11 py-3.5 text-sm bg-white border border-slate-200/90 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-[#2166F3] transition-all text-slate-900 placeholder:text-slate-400 font-medium shadow-sm"
+                    className="w-full pl-11 pr-11 py-3.5 text-sm bg-white/90 border border-blue-200/80 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#2166F3] focus:border-[#2166F3] focus:bg-white transition-all text-[#0F172A] placeholder:text-slate-400 font-medium shadow-none"
                   />
                   <button
                     type="button"
@@ -210,7 +220,7 @@ function AuthForm({ initialMode = "login" }: { initialMode?: "login" | "register
                       placeholder="••••••••"
                       required
                       minLength={6}
-                      className="w-full pl-11 pr-11 py-3.5 text-sm bg-white border border-slate-200/90 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-[#2166F3] transition-all text-slate-900 placeholder:text-slate-400 font-medium shadow-sm"
+                      className="w-full pl-11 pr-11 py-3.5 text-sm bg-white/90 border border-blue-200/80 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#2166F3] focus:border-[#2166F3] focus:bg-white transition-all text-[#0F172A] placeholder:text-slate-400 font-medium shadow-none"
                     />
                   </div>
                 </div>
@@ -236,18 +246,18 @@ function AuthForm({ initialMode = "login" }: { initialMode?: "login" | "register
                       e.preventDefault();
                       alert("Password reset instructions sent to your email!");
                     }}
-                    className="text-xs font-medium text-slate-500 hover:text-[#2166F3] transition-colors"
+                    className="text-xs font-medium text-slate-600 hover:text-[#2166F3] transition-colors"
                   >
                     Forgot password?
                   </a>
                 </div>
               )}
 
-              {/* Primary Submit Button */}
+              {/* Flat Primary Submit Button (No Shadows, Solid Blue #2166F3) */}
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full flex items-center justify-center gap-2 py-3.5 px-6 bg-[#2166F3] hover:bg-[#1a53c6] text-white font-bold text-base rounded-2xl shadow-lg shadow-blue-500/25 hover:shadow-xl transition-all active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed mt-6 cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 py-3.5 px-6 bg-[#2166F3] hover:bg-[#1853cc] text-white font-bold text-base rounded-2xl shadow-none hover:shadow-none transition-colors active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed mt-6 cursor-pointer border-none outline-none"
               >
                 {isSubmitting ? (
                   <>
@@ -266,14 +276,14 @@ function AuthForm({ initialMode = "login" }: { initialMode?: "login" | "register
             {/* Divider */}
             <div className="relative my-6 text-center">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-200/80" />
+                <div className="w-full border-t border-blue-200/60" />
               </div>
-              <div className="relative inline-block px-3 bg-[#eef4fe] text-xs font-medium text-slate-400">
+              <div className="relative inline-block px-3 bg-[#BBD8FF]/40 text-xs font-medium text-slate-600">
                 or continue with
               </div>
             </div>
 
-            {/* Subtle Google Login Button */}
+            {/* Subtle Google Login Button (Flat, No Shadows) */}
             <button
               type="button"
               onClick={async () => {
@@ -287,7 +297,7 @@ function AuthForm({ initialMode = "login" }: { initialMode?: "login" | "register
                   setIsSubmitting(false);
                 }
               }}
-              className="w-full flex items-center justify-center gap-3 py-3 px-4 bg-white border border-slate-200/90 hover:bg-slate-50 text-slate-700 text-sm font-semibold rounded-2xl shadow-sm hover:shadow transition-all cursor-pointer"
+              className="w-full flex items-center justify-center gap-3 py-3.5 px-4 bg-white/90 hover:bg-white border border-blue-200/80 text-slate-700 text-sm font-semibold rounded-2xl shadow-none hover:shadow-none transition-all cursor-pointer"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24">
                 <path
@@ -311,7 +321,7 @@ function AuthForm({ initialMode = "login" }: { initialMode?: "login" | "register
             </button>
 
             {/* Bottom Mode Toggle Link */}
-            <div className="mt-8 text-center text-xs sm:text-sm text-slate-500 font-medium">
+            <div className="mt-8 text-center text-xs sm:text-sm text-slate-600 font-medium">
               {mode === "login" ? (
                 <p>
                   Don&apos;t have an account?{" "}
