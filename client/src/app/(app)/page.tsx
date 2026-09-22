@@ -12,20 +12,14 @@ import {
   Calendar,
   Sparkles,
   Plus,
-  MoreVertical,
   ChevronRight,
   CheckCircle2,
-  AlertTriangle,
-  Clock,
-  Activity,
   ListTodo,
-  SlidersHorizontal,
   ArrowUpRight,
   Loader2,
   RefreshCw,
   ArrowRight,
   X,
-  Check,
 } from "lucide-react";
 
 function mapStatus(backendStatus: string): "In Progress" | "Ready" | "Complete" | "Failed" {
@@ -244,18 +238,16 @@ export default function DashboardPage() {
                   <div key={s.id} className="flex flex-col gap-1">
                     <div className="h-1.5 w-full rounded-full overflow-hidden bg-white/15">
                       <div
-                        className={`h-full rounded-full transition-all duration-500 ${
-                          isDone
-                            ? "bg-emerald-400 w-full"
-                            : isCurrent
-                              ? "bg-blue-400 w-3/4 animate-pulse"
-                              : "w-0"
-                        }`}
+                        className={`h-full rounded-full transition-all duration-500 ${isDone
+                          ? "bg-emerald-400 w-full"
+                          : isCurrent
+                            ? "bg-blue-400 w-3/4 animate-pulse"
+                            : "w-0"
+                          }`}
                       />
                     </div>
-                    <span className={`text-[10px] font-semibold truncate ${
-                      isCurrent ? "text-blue-300 font-bold" : isDone ? "text-emerald-400" : "text-white/40"
-                    }`}>
+                    <span className={`text-[10px] font-semibold truncate ${isCurrent ? "text-blue-300 font-bold" : isDone ? "text-emerald-400" : "text-white/40"
+                      }`}>
                       {s.label}
                     </span>
                   </div>
@@ -449,11 +441,10 @@ export default function DashboardPage() {
                       return (
                         <div
                           key={kit._id}
-                          className={`grid grid-cols-[200px_110px_minmax(180px,1fr)_100px_122px_56px] gap-3 items-center px-5 sm:px-6 h-[74px] transition-all text-xs cursor-pointer ${
-                            isNewlyCompleted
-                              ? "bg-emerald-50/70 ring-1 ring-emerald-300 hover:bg-emerald-50"
-                              : "hover:bg-slate-50/70"
-                          }`}
+                          className={`grid grid-cols-[200px_110px_minmax(180px,1fr)_100px_122px_56px] gap-3 items-center px-5 sm:px-6 h-[74px] transition-all text-xs cursor-pointer ${isNewlyCompleted
+                            ? "bg-emerald-50/70 ring-1 ring-emerald-300 hover:bg-emerald-50"
+                            : "hover:bg-slate-50/70"
+                            }`}
                           onClick={() => router.push(`/kits/${kit._id}`)}
                         >
                           {/* Company & Role */}
@@ -516,15 +507,14 @@ export default function DashboardPage() {
                           {/* Status */}
                           <div className="flex items-center justify-center">
                             <span
-                              className={`w-[124px] h-7 inline-flex items-center justify-center gap-1.5 rounded-full text-[11px] font-semibold shadow-2xs shrink-0 ${
-                                status === "In Progress"
-                                  ? "bg-blue-50 text-blue-700 border border-blue-200"
-                                  : status === "Ready"
-                                    ? "bg-[#e0f2fe]/80 text-[#0284c7] border border-[#bae6fd]/70"
-                                    : status === "Complete"
-                                      ? "bg-[#dcfce7]/80 text-[#16a34a] border border-[#bbf7d0]/70"
-                                      : "bg-red-100/80 text-red-600 border border-red-200/70"
-                              }`}
+                              className={`w-[124px] h-7 inline-flex items-center justify-center gap-1.5 rounded-full text-[11px] font-semibold shadow-2xs shrink-0 ${status === "In Progress"
+                                ? "bg-blue-50 text-blue-700 border border-blue-200"
+                                : status === "Ready"
+                                  ? "bg-[#e0f2fe]/80 text-[#0284c7] border border-[#bae6fd]/70"
+                                  : status === "Complete"
+                                    ? "bg-[#dcfce7]/80 text-[#16a34a] border border-[#bbf7d0]/70"
+                                    : "bg-red-100/80 text-red-600 border border-red-200/70"
+                                }`}
                             >
                               {status === "In Progress" ? (
                                 <>
