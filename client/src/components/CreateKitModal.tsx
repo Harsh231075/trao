@@ -8,6 +8,10 @@ import {
   AlertCircle,
   Loader2,
   Check,
+  Search,
+  Brain,
+  FileText,
+  BarChart3,
 } from "lucide-react";
 import api from "@/lib/api";
 
@@ -46,11 +50,17 @@ const VERTICAL_STEPS = [
 ];
 
 const STAGE_STATUS_TEXT = [
-  "Understanding role requirements and key skills...",
   "Researching company signals and engineering stack...",
+  "Parsing role requirements and MUST vs NICE skills...",
   "Synthesizing technical, system design & behavioural questions...",
-  "Verifying 100% requirement coverage pass...",
+  "Verifying 100% requirement coverage audit pass...",
   "Structuring day-by-day practice schedule & timeline...",
+];
+
+const STEP5_SUBSTATES = [
+  "Structuring day-by-day practice schedule & timeline...",
+  "Calibrating difficulty weights & flashcard decks...",
+  "Finalizing kit readiness metrics & solution outlines...",
 ];
 
 export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKitModalProps) {
@@ -66,6 +76,7 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
   const [kitStatus, setKitStatus] = useState<string>("idle");
   const [kitDetails, setKitDetails] = useState<any>(null);
   const [activeStageScreen, setActiveStageScreen] = useState<number>(0); // 0: Form, 1-5: Stages, 6: Celebration
+  const [step5SubIndex, setStep5SubIndex] = useState<number>(0);
 
   const resetForm = () => {
     setWebsite("");
@@ -77,6 +88,7 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
     setKitStatus("idle");
     setKitDetails(null);
     setActiveStageScreen(0);
+    setStep5SubIndex(0);
   };
 
   const handleClose = () => {
@@ -84,7 +96,7 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
     onClose();
   };
 
-  // Poll backend for pipeline data
+  // Poll backend for pipeline data (1.2s fast polling)
   useEffect(() => {
     if (!createdKitId || !isOpen) return;
 
@@ -102,12 +114,12 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
       } catch (err) {
         console.error("Failed to poll kit status:", err);
       }
-    }, 2000);
+    }, 1200);
 
     return () => clearInterval(interval);
   }, [createdKitId, isOpen, onCreated]);
 
-  // Guaranteed Stage Screen Timer (Strict 2.6s per step: 1 → 2 → 3 → 4 → 5 → 6)
+  // Balanced Pacing Stage Progression (3.2s per step: 1 → 2 → 3 → 4 → 5 → 6)
   useEffect(() => {
     if (!createdKitId || !isOpen) return;
     if (activeStageScreen < 1 || activeStageScreen >= 6) return;
@@ -120,10 +132,21 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
         }
         return prev;
       });
-    }, 2600);
+    }, 3200);
 
     return () => clearTimeout(timer);
   }, [createdKitId, isOpen, activeStageScreen, kitStatus]);
+
+  // Rotate Step 5 sub-status messages for high user engagement
+  useEffect(() => {
+    if (activeStageScreen !== 5) return;
+
+    const interval = setInterval(() => {
+      setStep5SubIndex((prev) => (prev + 1) % STEP5_SUBSTATES.length);
+    }, 2200);
+
+    return () => clearInterval(interval);
+  }, [activeStageScreen]);
 
   // Transition to Celebration screen 6 as soon as backend finishes on stage 5
   useEffect(() => {
@@ -182,8 +205,8 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/60 backdrop-blur-md animate-in fade-in duration-200">
       {/* Main Modal Outer Card - Lighter Vibrant Blue (#3B82F6 / bg-blue-500) */}
-      <div className="bg-blue-400 rounded-3xl max-w-5xl w-full border border-blue-300/40 shadow-xl text-white overflow-hidden relative flex flex-col md:flex-row min-h-[560px]">
-
+      <div className="bg-blue-500 rounded-3xl max-w-5xl w-full border border-blue-300/40 shadow-xl text-white overflow-hidden relative flex flex-col md:flex-row min-h-[560px]">
+        
         {/* Top Right Close Button */}
         <button
           onClick={handleClose}
@@ -194,8 +217,8 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
         </button>
 
         {/* ─── LEFT SIDEBAR: VERTICAL STEPPER (CLEAN NO LOGO) ─── */}
-        <div className="bg-blue-600/90 border-b md:border-b-0 md:border-r border-blue-400/30 p-6 sm:p-8 w-full md:w-72 shrink-0 flex flex-col justify-center relative z-10">
-
+        <div className="bg-blue-600/60 border-b md:border-b-0 md:border-r border-blue-400/30 p-6 sm:p-8 w-full md:w-72 shrink-0 flex flex-col justify-center relative z-10">
+          
           {/* Vertical 5-Step Timeline */}
           <div className="relative space-y-7 my-auto">
             {/* Connecting Vertical Line */}
@@ -212,12 +235,13 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
                 <div key={stg.step} className="flex items-start gap-3.5 group">
                   {/* Circle Node Indicator */}
                   <div
-                    className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs shrink-0 transition-all duration-200 ${isPassed
-                      ? "bg-white text-blue-600 shadow-sm"
-                      : isCurrent || isFormScreen
+                    className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs shrink-0 transition-all duration-200 ${
+                      isPassed
+                        ? "bg-white text-blue-600 shadow-sm"
+                        : isCurrent || isFormScreen
                         ? "bg-white text-blue-600 ring-4 ring-white/30 shadow-md scale-105"
                         : "bg-blue-700/60 border border-blue-300/30 text-blue-100"
-                      }`}
+                    }`}
                   >
                     {isPassed ? (
                       <Check className="w-4 h-4 stroke-[3]" />
@@ -229,8 +253,9 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
                   {/* Step Title & Subtext */}
                   <div>
                     <h4
-                      className={`text-sm font-bold tracking-tight transition-colors ${isActiveOrPassed ? "text-white" : "text-blue-100/70"
-                        }`}
+                      className={`text-sm font-bold tracking-tight transition-colors ${
+                        isActiveOrPassed ? "text-white" : "text-blue-100/70"
+                      }`}
                     >
                       {stg.title}
                     </h4>
@@ -337,7 +362,7 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
           {/* ─── IN-MODAL SCREEN-BY-SCREEN PIPELINE STAGES (SCREENS 1 TO 5) ─── */}
           {isPipelineActive && (
             <div className="space-y-6 my-auto flex flex-col justify-between h-full animate-in fade-in duration-300">
-
+              
               {/* Header Title */}
               <div>
                 <div className="text-blue-100 text-xs font-bold mb-1">
@@ -351,42 +376,39 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
                 </p>
               </div>
 
-              {/* Center 3D AI Core & Connected Feature Cards Graphic */}
-              <div className="relative py-4 my-2 flex items-center justify-center">
+              {/* ── NON-OVERLAPPING CLEAN LAYOUT: 3D AI CHIP + 4 FEATURE CARDS ── */}
+              <div className="flex flex-col sm:flex-row items-center gap-5 my-2 p-4 bg-blue-600/50 rounded-2xl border border-blue-300/30">
+                
+                {/* 3D AI Chip Preview Card (Dedicated Non-Overlapping Slot) */}
+                <div className="w-28 h-28 sm:w-32 sm:h-32 relative rounded-2xl overflow-hidden border border-white/40 shadow-lg shrink-0">
+                  <Image
+                    src="/images/ai_core_chip_3d.jpg"
+                    alt="AI Core Chip"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
 
-                {/* 4 Connected Floating Cards around the Center Graphic */}
-                <div className="w-full max-w-xl grid grid-cols-2 gap-4 sm:gap-6 relative z-10">
-
-                  {/* Top-Left Card */}
-                  <div className="bg-blue-600/70 border border-blue-300/40 rounded-xl p-3.5 shadow-md flex items-center gap-3">
+                {/* 4 Feature Cards (2x2 Grid, Clean & High-Contrast) */}
+                <div className="grid grid-cols-2 gap-2.5 flex-1 w-full">
+                  <div className="bg-blue-700/80 border border-blue-300/40 rounded-xl p-3 shadow-xs flex items-center gap-2">
+                    <Search className="w-4 h-4 text-blue-200 shrink-0" />
                     <span className="text-xs font-bold text-white">Analyzing job description</span>
                   </div>
 
-                  {/* Top-Right Card */}
-                  <div className="bg-blue-600/70 border border-blue-300/40 rounded-xl p-3.5 shadow-md flex items-center gap-3">
-                    <span className="text-xs font-bold text-white">Generating relevant questions</span>
+                  <div className="bg-blue-700/80 border border-blue-300/40 rounded-xl p-3 shadow-xs flex items-center gap-2">
+                    <Brain className="w-4 h-4 text-blue-200 shrink-0" />
+                    <span className="text-xs font-bold text-white">Generating questions</span>
                   </div>
 
-                  {/* Bottom-Left Card */}
-                  <div className="bg-blue-600/70 border border-blue-300/40 rounded-xl p-3.5 shadow-md flex items-center gap-3">
-                    <span className="text-xs font-bold text-white">Extracting key requirements</span>
+                  <div className="bg-blue-700/80 border border-blue-300/40 rounded-xl p-3 shadow-xs flex items-center gap-2">
+                    <FileText className="w-4 h-4 text-blue-200 shrink-0" />
+                    <span className="text-xs font-bold text-white">Extracting requirements</span>
                   </div>
 
-                  {/* Bottom-Right Card */}
-                  <div className="bg-blue-600/70 border border-blue-300/40 rounded-xl p-3.5 shadow-md flex items-center gap-3">
-                    <span className="text-xs font-bold text-white">Creating study plan &amp; resources</span>
-                  </div>
-                </div>
-
-                {/* Central 3D AI Chip Asset */}
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-45 sm:opacity-55">
-                  <div className="w-48 h-48 sm:w-56 sm:h-56 relative rounded-2xl overflow-hidden border border-white/40 shadow-xl">
-                    <Image
-                      src="/images/ai_core_chip_3d.jpg"
-                      alt="AI Core Chip"
-                      fill
-                      className="object-cover"
-                    />
+                  <div className="bg-blue-700/80 border border-blue-300/40 rounded-xl p-3 shadow-xs flex items-center gap-2">
+                    <BarChart3 className="w-4 h-4 text-blue-200 shrink-0" />
+                    <span className="text-xs font-bold text-white">Creating study schedule</span>
                   </div>
                 </div>
               </div>
@@ -405,11 +427,15 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
                   </span>
                 </div>
 
-                {/* Dynamic Floating Status Pill */}
+                {/* Dynamic Floating Status Pill (with dynamic Step 5 sub-states) */}
                 <div className="text-center">
-                  <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-600/80 border border-blue-300/40 text-white text-xs font-semibold shadow-sm">
+                  <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-600/90 border border-blue-300/40 text-white text-xs font-semibold shadow-sm">
                     <Loader2 className="w-3.5 h-3.5 animate-spin text-white" />
-                    <span>{STAGE_STATUS_TEXT[activeStageScreen - 1] || STAGE_STATUS_TEXT[0]}</span>
+                    <span>
+                      {activeStageScreen === 5
+                        ? STEP5_SUBSTATES[step5SubIndex]
+                        : STAGE_STATUS_TEXT[activeStageScreen - 1] || STAGE_STATUS_TEXT[0]}
+                    </span>
                   </span>
                 </div>
               </div>
