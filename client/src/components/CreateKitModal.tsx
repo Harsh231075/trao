@@ -17,7 +17,6 @@ import {
   Lightbulb,
   ShieldCheck,
   CalendarDays,
-  ExternalLink,
 } from "lucide-react";
 import api from "@/lib/api";
 
@@ -337,9 +336,8 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
                   return (
                     <div
                       key={s.key}
-                      className={`h-1.5 rounded-full transition-all ${
-                        isPassed ? "bg-emerald-500" : isCurrent ? "bg-blue-600 animate-pulse" : "bg-slate-200"
-                      }`}
+                      className={`h-1.5 rounded-full transition-all ${isPassed ? "bg-emerald-500" : isCurrent ? "bg-blue-600 animate-pulse" : "bg-slate-200"
+                        }`}
                       title={s.title}
                     />
                   );
