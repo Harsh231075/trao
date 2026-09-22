@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import {
   Search,
@@ -32,6 +32,23 @@ import {
 
 export default function LandingPage() {
   const [activeStage, setActiveStage] = useState(0);
+  const [bentoVisible, setBentoVisible] = useState(false);
+  const bentoRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setBentoVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+    if (bentoRef.current) {
+      observer.observe(bentoRef.current);
+    }
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div className="w-full h-screen overflow-y-auto bg-gradient-to-br from-sky-100/80 via-blue-50/60 to-indigo-50/40 text-slate-800 antialiased selection:bg-blue-500 selection:text-white relative font-sans">
@@ -891,54 +908,129 @@ export default function LandingPage() {
         </p>
       </section>
 
-      {/* ─── FEATURES & VALUE PROPOSITION SECTION ─── */}
-      <section id="features" className="py-16 px-4 max-w-6xl mx-auto border-t border-blue-200/40 z-10 relative">
-        <div className="text-center max-w-2xl mx-auto mb-12">
+
+
+      {/* ─── EDITORIAL BENTO GRID SHOWCASE (6 CARDS WITH SCROLL ENTRANCE ANIMATION) ─── */}
+      <section id="methodology" ref={bentoRef} className="py-20 px-4 max-w-6xl mx-auto border-t border-blue-200/40 z-10 relative overflow-hidden">
+        <div className={`text-center max-w-2xl mx-auto mb-14 transition-all duration-700 ease-out transform ${bentoVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}>
           <div className="inline-block px-4 py-1.5 rounded-full bg-blue-100/70 border border-blue-200/80 text-blue-700 text-xs font-semibold mb-3">
-            Why Top Candidates Choose Trao
+            The Trao Intelligence Framework
           </div>
-          <h2 className="text-3xl sm:text-4xl font-normal text-slate-900 tracking-tight">
-            Engineered for <span className="text-blue-600 font-medium">Interview Success</span>
+          <h2 className="text-3xl sm:text-5xl font-normal text-slate-900 tracking-tight">
+            Precision engineering for your <span className="text-blue-600 font-medium">next career move</span>
           </h2>
-          <p className="text-xs sm:text-sm text-slate-600 mt-2 font-normal">
-            Everything you need to master technical, behavioral, and system design interviews in one AI-powered platform.
+          <p className="text-xs sm:text-sm text-slate-600 mt-3 font-normal">
+            Why generic prep platforms fail, and how Trao's 5-stage pipeline guarantees 100% interview readiness.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* 6-Card Editorial Bento Grid Container */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 
-          {/* Feature 1 */}
-          <div className="bg-white/80 backdrop-blur-md p-6 rounded-3xl border border-white/90 shadow-md shadow-blue-500/5 hover:scale-105 transition-all">
-            <div className="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center mb-4">
-              <Zap className="w-6 h-6" />
+          {/* CARD 1: SAGE / SKY BLUE TINTED HERO CARD (Top Left) */}
+          <div className={`bg-[#E0F2FE] border border-sky-300/60 p-8 rounded-[32px] flex flex-col justify-between min-h-[310px] shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-700 ease-out transform ${bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95"
+            }`}>
+            <div className="flex items-center justify-between text-slate-700 font-mono text-xs">
+              <span className="font-bold tracking-widest text-[11px] text-slate-500 uppercase">01 • THE BEGINNING</span>
             </div>
-            <h3 className="text-lg font-semibold text-slate-900">Real-Time Company Research</h3>
-            <p className="text-xs text-slate-600 mt-2 leading-relaxed font-normal">
-              Automatically scrape tech stacks, careers context, and recent public signals to ground every practice question.
+            <div className="mt-8">
+              <h3 className="text-2xl sm:text-3xl font-normal text-slate-900 tracking-tight leading-tight">
+                The Last Step Of Precision Medicine for Software Careers.
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 mt-4 leading-relaxed font-normal">
+                Real-time web scraping extracts engineering blogs, tech stack signals, and company culture values.
+              </p>
+            </div>
+          </div>
+
+          {/* CARD 2: CREAM / WHITE EXPLAINER CARD (Top Middle) */}
+          <div className={`bg-white border border-slate-200/90 p-8 rounded-[32px] flex flex-col justify-between min-h-[310px] shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-700 ease-out transform delay-100 ${bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95"
+            }`}>
+            <div className="my-auto text-center py-6">
+              <h3 className="text-lg sm:text-xl font-normal text-slate-800 leading-relaxed tracking-tight">
+                Targeted interview prep works differently. The targeting vector — company signals &amp; exact JD requirements — binds with high affinity to every practice question.
+              </h3>
+            </div>
+            <div className="text-center pt-3 border-t border-slate-100">
+              <p className="text-[11px] text-slate-400 font-medium">100% role-specific question mapping</p>
+            </div>
+          </div>
+
+          {/* CARD 3: MIDNIGHT NAVY BRAND ACCENT CARD (Top Right) */}
+          <div className={`bg-[#0B172C] border border-blue-900/50 p-8 rounded-[32px] flex flex-col items-center justify-center text-center min-h-[310px] text-white shadow-xl relative overflow-hidden group hover:shadow-2xl hover:-translate-y-1 transition-all duration-700 ease-out transform delay-200 ${bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95"
+            }`}>
+            {/* Styled Brand Graphic */}
+            <div className="w-16 h-16 rounded-full bg-blue-600/20 border border-blue-400/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+              <span className="text-3xl font-black text-blue-400 tracking-tighter">T</span>
+            </div>
+            <h3 className="text-2xl font-bold tracking-tight text-white">Trao Engine</h3>
+            <p className="text-xs text-blue-200/80 mt-2 font-normal max-w-xs leading-relaxed">
+              100% Deterministic AI Coverage Engine for Technical &amp; System Design Interviews.
             </p>
           </div>
 
-          {/* Feature 2 */}
-          <div className="bg-white/80 backdrop-blur-md p-6 rounded-3xl border border-white/90 shadow-md shadow-blue-500/5 hover:scale-105 transition-all">
-            <div className="w-12 h-12 rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center mb-4">
-              <Layers className="w-6 h-6" />
+          {/* CARD 4: PASTEL INDIGO / LILAC CARD (Bottom Left) */}
+          <div className={`bg-[#E0E7FF] border border-indigo-200/80 p-8 rounded-[32px] flex flex-col justify-between min-h-[310px] shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-700 ease-out transform delay-300 ${bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95"
+            }`}>
+            <div>
+              <div className="flex items-center justify-between text-indigo-700 text-xs font-semibold mb-4">
+                <span className="uppercase tracking-widest text-[10px] text-indigo-500">SPACED TIMELINE</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-normal text-slate-900 leading-snug tracking-tight">
+                Every candidate receives a personalized 7-day preparation schedule with spaced flashcards.
+              </h3>
             </div>
-            <h3 className="text-lg font-semibold text-slate-900">5-Stage AI Synthesis</h3>
-            <p className="text-xs text-slate-600 mt-2 leading-relaxed font-normal">
-              From requirement extraction to 100% coverage audits, get tailored questions linked directly to job description requirements.
-            </p>
+            <div className="mt-6 flex items-center justify-between pt-4 border-t border-indigo-200/60">
+              <span className="text-xs text-indigo-700 font-medium">Build smarter, not prettier</span>
+              <Link href="/schedule" className="px-4 py-2 bg-white text-indigo-700 hover:bg-indigo-50 font-bold text-xs rounded-full shadow-sm transition-all flex items-center gap-1.5">
+                <span>Learn More</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
           </div>
 
-          {/* Feature 3 */}
-          <div className="bg-white/80 backdrop-blur-md p-6 rounded-3xl border border-white/90 shadow-md shadow-blue-500/5 hover:scale-105 transition-all">
-            <div className="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center mb-4">
-              <Calendar className="w-6 h-6" />
+          {/* CARD 5: MINT / EMERALD STAT CARD (98.2%) (Bottom Middle) */}
+          <div className={`bg-[#ECFDF5] border border-emerald-200/80 p-8 rounded-[32px] flex flex-col justify-between min-h-[310px] shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-700 ease-out transform delay-400 ${bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95"
+            }`}>
+            <div className="pt-2">
+              <span className="text-5xl sm:text-6xl font-normal text-slate-900 tracking-tight block">
+                98.2%
+              </span>
+              <p className="text-xs text-emerald-700 font-semibold mt-2 uppercase tracking-wider">
+                Precision Match Rate
+              </p>
+              <p className="text-xs text-slate-600 mt-2 leading-relaxed font-normal">
+                Matching extracted JD skills against real interview questions from top tech companies.
+              </p>
             </div>
-            <h3 className="text-lg font-semibold text-slate-900">Day-by-Day Study Schedule</h3>
-            <p className="text-xs text-slate-600 mt-2 leading-relaxed font-normal">
-              Structured daily study timeline matching your available preparation days to ensure 100% readiness before interview day.
-            </p>
+            <div className="text-[11px] text-slate-400 font-medium pt-3 border-t border-emerald-200/60">
+              Verified across 1,200+ practice kits
+            </div>
           </div>
+
+          {/* CARD 6: WARM IVORY STAT CARD (3.5x) (Bottom Right) */}
+          <div className={`bg-white border border-slate-200/90 p-8 rounded-[32px] flex flex-col justify-between min-h-[310px] shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-700 ease-out transform delay-500 ${bentoVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95"
+            }`}>
+            <div className="pt-2">
+              <span className="text-5xl sm:text-6xl font-normal text-slate-900 tracking-tight block">
+                3.5<span className="text-3xl font-light text-slate-500">x</span>
+              </span>
+              <p className="text-xs text-slate-900 font-semibold mt-2 uppercase tracking-wider">
+                Higher Offer Rate
+              </p>
+              <p className="text-xs text-slate-600 mt-2 leading-relaxed font-normal">
+                Candidates using Trao pass technical &amp; system design rounds 3.5x faster.
+              </p>
+            </div>
+            <div className="flex items-center justify-end pt-3 border-t border-slate-100">
+              <Link href="/login" className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-full shadow-md transition-all flex items-center gap-1.5">
+                <span>Learn More</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -949,10 +1041,10 @@ export default function LandingPage() {
           {/* Ambient Soft Blue Radial Glow */}
           <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-400/10 rounded-full blur-3xl pointer-events-none" />
 
-          {/* ── TOP 5-COLUMN GRID (3 + 2 + 2 + 2 + 3 = 12) ── */}
+          {/* ── TOP 3-SECTION GRID (3 + 5 + 4 = 12) ── */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 relative z-10 pb-10">
 
-            {/* Column 1: Brand & Mission (3 Cols) */}
+            {/* Section 1: Brand & Mission (3 Cols) */}
             <div className="lg:col-span-3 flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-3 mb-3">
@@ -979,47 +1071,50 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Column 2: EXPLORE (2 Cols) */}
-            <div className="lg:col-span-2">
-              <h5 className="text-[11px] font-bold uppercase tracking-widest text-blue-600 mb-4">
-                EXPLORE
-              </h5>
-              <ul className="space-y-3 text-xs sm:text-sm font-normal text-slate-600">
-                <li><Link href="#home" className="hover:text-blue-600 transition-colors">Home</Link></li>
-                <li><Link href="#roadmap" className="hover:text-blue-600 transition-colors">AI Pipeline</Link></li>
-                <li><Link href="#features" className="hover:text-blue-600 transition-colors">Features</Link></li>
-                <li><Link href="/login" className="hover:text-blue-600 transition-colors">Prep Kits</Link></li>
-              </ul>
+            {/* Section 2: Quick Links (5 Cols - 3 Column Subgrid) */}
+            <div className="lg:col-span-5 grid grid-cols-3 gap-4">
+              {/* Column: EXPLORE */}
+              <div>
+                <h5 className="text-[11px] font-bold uppercase tracking-widest text-blue-600 mb-4">
+                  EXPLORE
+                </h5>
+                <ul className="space-y-3 text-xs sm:text-sm font-normal text-slate-600">
+                  <li><Link href="#home" className="hover:text-blue-600 transition-colors">Home</Link></li>
+                  <li><Link href="#roadmap" className="hover:text-blue-600 transition-colors">AI Pipeline</Link></li>
+                  <li><Link href="#features" className="hover:text-blue-600 transition-colors">Features</Link></li>
+                  <li><Link href="/login" className="hover:text-blue-600 transition-colors">Prep Kits</Link></li>
+                </ul>
+              </div>
+
+              {/* Column: RESOURCES */}
+              <div>
+                <h5 className="text-[11px] font-bold uppercase tracking-widest text-blue-600 mb-4">
+                  RESOURCES
+                </h5>
+                <ul className="space-y-3 text-xs sm:text-sm font-normal text-slate-600">
+                  <li><Link href="/practice" className="hover:text-blue-600 transition-colors">Question Bank</Link></li>
+                  <li><Link href="/practice" className="hover:text-blue-600 transition-colors">Flashcards</Link></li>
+                  <li><Link href="/schedule" className="hover:text-blue-600 transition-colors">Study Schedule</Link></li>
+                  <li><Link href="/analytics" className="hover:text-blue-600 transition-colors">Analytics</Link></li>
+                </ul>
+              </div>
+
+              {/* Column: LEGAL */}
+              <div>
+                <h5 className="text-[11px] font-bold uppercase tracking-widest text-blue-600 mb-4">
+                  LEGAL
+                </h5>
+                <ul className="space-y-3 text-xs sm:text-sm font-normal text-slate-600">
+                  <li><a href="#" className="hover:text-blue-600 transition-colors">Privacy Policy</a></li>
+                  <li><a href="#" className="hover:text-blue-600 transition-colors">Terms of Service</a></li>
+                  <li><a href="#" className="hover:text-blue-600 transition-colors">Security</a></li>
+                  <li><a href="#" className="hover:text-blue-600 transition-colors">FAQ</a></li>
+                </ul>
+              </div>
             </div>
 
-            {/* Column 3: RESOURCES (2 Cols) */}
-            <div className="lg:col-span-2">
-              <h5 className="text-[11px] font-bold uppercase tracking-widest text-blue-600 mb-4">
-                RESOURCES
-              </h5>
-              <ul className="space-y-3 text-xs sm:text-sm font-normal text-slate-600">
-                <li><Link href="/practice" className="hover:text-blue-600 transition-colors">Question Bank</Link></li>
-                <li><Link href="/practice" className="hover:text-blue-600 transition-colors">Flashcards</Link></li>
-                <li><Link href="/schedule" className="hover:text-blue-600 transition-colors">Study Schedule</Link></li>
-                <li><Link href="/analytics" className="hover:text-blue-600 transition-colors">Analytics</Link></li>
-              </ul>
-            </div>
-
-            {/* Column 4: LEGAL (2 Cols) */}
-            <div className="lg:col-span-2">
-              <h5 className="text-[11px] font-bold uppercase tracking-widest text-blue-600 mb-4">
-                LEGAL
-              </h5>
-              <ul className="space-y-3 text-xs sm:text-sm font-normal text-slate-600">
-                <li><a href="#" className="hover:text-blue-600 transition-colors">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-blue-600 transition-colors">Terms of Service</a></li>
-                <li><a href="#" className="hover:text-blue-600 transition-colors">Security</a></li>
-                <li><a href="#" className="hover:text-blue-600 transition-colors">FAQ</a></li>
-              </ul>
-            </div>
-
-            {/* Column 5: STAY CONNECTED & SPACIOUS CLEAN PILL INPUT (3 Cols) */}
-            <div className="lg:col-span-3 flex flex-col justify-between">
+            {/* Section 3: STAY CONNECTED & EXPANDED CLEAN PILL INPUT (4 Cols) */}
+            <div className="lg:col-span-4 flex flex-col justify-between">
               <div>
                 <h5 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2 mb-1.5 whitespace-nowrap">
                   Stay Connected <Sparkles className="w-4 h-4 text-blue-600" />
@@ -1028,15 +1123,15 @@ export default function LandingPage() {
                   Get updates on new interview question patterns, tech stack signals, and product releases.
                 </p>
 
-                {/* Ultra-Clean Spacious Pill Input Container */}
-                <div className="mt-5 flex items-center bg-white border border-slate-200/90 rounded-full p-2 shadow-sm focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-100 transition-all">
-                  <Mail className="w-5 h-5 text-slate-400 ml-3.5 shrink-0" />
+                {/* Ultra-Clean Spacious Expanded Pill Input Container */}
+                <div className="mt-4 flex items-center bg-white border border-slate-200/90 rounded-full p-1.5 sm:p-2 shadow-xs focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-100 transition-all w-full">
+                  <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400 ml-3 shrink-0" />
                   <input
                     type="email"
                     placeholder="Enter your email address"
-                    className="bg-transparent border-none outline-none focus:outline-none focus:ring-0 px-3 py-2 text-sm sm:text-base text-slate-900 placeholder:text-slate-400 w-full font-normal"
+                    className="bg-transparent border-none outline-none focus:outline-none focus:ring-0 px-2.5 py-1.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 w-full min-w-0 font-normal"
                   />
-                  <button className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-full shadow-md shadow-blue-600/25 hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer shrink-0">
+                  <button className="px-5 sm:px-6 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs sm:text-sm rounded-full shadow-md shadow-blue-600/25 hover:shadow-lg transition-all flex items-center gap-1.5 cursor-pointer shrink-0">
                     <span>Subscribe</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
