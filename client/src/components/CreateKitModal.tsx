@@ -57,11 +57,26 @@ const STAGE_STATUS_TEXT = [
   "Structuring day-by-day practice schedule & timeline...",
 ];
 
-const STEP5_SUBSTATES = [
-  "Structuring day-by-day practice schedule & timeline...",
-  "Calibrating difficulty weights & flashcard decks...",
-  "Finalizing kit readiness metrics & solution outlines...",
-];
+function statusToStep(status: string): number {
+  switch (status) {
+    case "queued":
+    case "researching":
+      return 1;
+    case "extracting":
+      return 2;
+    case "generating":
+      return 3;
+    case "checking_coverage":
+      return 4;
+    case "building_schedule":
+      return 5;
+    case "completed":
+    case "partial":
+      return 6;
+    default:
+      return 1;
+  }
+}
 
 export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKitModalProps) {
   const router = useRouter();
@@ -76,7 +91,6 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
   const [kitStatus, setKitStatus] = useState<string>("idle");
   const [kitDetails, setKitDetails] = useState<any>(null);
   const [activeStageScreen, setActiveStageScreen] = useState<number>(0); // 0: Form, 1-5: Stages, 6: Celebration
-  const [step5SubIndex, setStep5SubIndex] = useState<number>(0);
 
   const resetForm = () => {
     setWebsite("");
@@ -88,7 +102,6 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
     setKitStatus("idle");
     setKitDetails(null);
     setActiveStageScreen(0);
-    setStep5SubIndex(0);
   };
 
   const handleClose = () => {
@@ -96,7 +109,7 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
     onClose();
   };
 
-  // Poll backend for pipeline data (1.2s fast polling)
+  // ⚡ 100% REAL-TIME BACKEND POLLING (1000ms / 1 second)
   useEffect(() => {
     if (!createdKitId || !isOpen) return;
 
@@ -114,46 +127,18 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
       } catch (err) {
         console.error("Failed to poll kit status:", err);
       }
-    }, 1200);
+    }, 600);
 
     return () => clearInterval(interval);
   }, [createdKitId, isOpen, onCreated]);
 
-  // Balanced Pacing Stage Progression (3.2s per step: 1 → 2 → 3 → 4 → 5 → 6)
+  // ⚡ DIRECT BACKEND STATUS TO MODAL SCREEN SYNCHRONIZATION (0% Hardcoded Timers)
   useEffect(() => {
     if (!createdKitId || !isOpen) return;
-    if (activeStageScreen < 1 || activeStageScreen >= 6) return;
 
-    const timer = setTimeout(() => {
-      setActiveStageScreen((prev) => {
-        if (prev < 5) return prev + 1;
-        if (prev === 5 && (kitStatus === "completed" || kitStatus === "partial")) {
-          return 6;
-        }
-        return prev;
-      });
-    }, 3200);
-
-    return () => clearTimeout(timer);
-  }, [createdKitId, isOpen, activeStageScreen, kitStatus]);
-
-  // Rotate Step 5 sub-status messages for high user engagement
-  useEffect(() => {
-    if (activeStageScreen !== 5) return;
-
-    const interval = setInterval(() => {
-      setStep5SubIndex((prev) => (prev + 1) % STEP5_SUBSTATES.length);
-    }, 2200);
-
-    return () => clearInterval(interval);
-  }, [activeStageScreen]);
-
-  // Transition to Celebration screen 6 as soon as backend finishes on stage 5
-  useEffect(() => {
-    if (activeStageScreen === 5 && (kitStatus === "completed" || kitStatus === "partial")) {
-      setActiveStageScreen(6);
-    }
-  }, [activeStageScreen, kitStatus]);
+    const realBackendStep = statusToStep(kitStatus);
+    setActiveStageScreen(realBackendStep);
+  }, [kitStatus, createdKitId, isOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -179,7 +164,7 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
 
       setCreatedKitId(data.id);
       setKitStatus(data.status || "queued");
-      setActiveStageScreen(1); // Launch processing screens immediately!
+      setActiveStageScreen(1); // Launch Stage 1 immediately!
 
       if (onCreated) {
         onCreated({
@@ -366,13 +351,13 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
               {/* Header Title */}
               <div>
                 <div className="text-blue-100 text-xs font-bold mb-1">
-                  Creating Your Interview Kit
+                  Creating Your Interview Kit (Live Real-Time Sync)
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
                   We&apos;re analyzing the job and <span className="underline decoration-white/40">generating</span> your personalized content.
                 </h3>
                 <p className="text-xs sm:text-sm text-blue-100 mt-1 font-medium">
-                  This usually takes less than a minute. You can keep this window open.
+                  Executing Stage {activeStageScreen} of 5 on backend engine...
                 </p>
               </div>
 
@@ -391,24 +376,32 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
 
                 {/* 4 Feature Cards (2x2 Grid, Clean & High-Contrast) */}
                 <div className="grid grid-cols-2 gap-2.5 flex-1 w-full">
-                  <div className="bg-blue-700/80 border border-blue-300/40 rounded-xl p-3 shadow-xs flex items-center gap-2">
-                    <Search className="w-4 h-4 text-blue-200 shrink-0" />
-                    <span className="text-xs font-bold text-white">Analyzing job description</span>
+                  <div className={`border rounded-xl p-3 shadow-xs flex items-center gap-2 transition-all ${
+                    activeStageScreen === 1 ? "bg-white text-blue-600 font-black scale-105" : "bg-blue-700/80 border-blue-300/40 text-white font-bold"
+                  }`}>
+                    <Search className={`w-4 h-4 shrink-0 ${activeStageScreen === 1 ? "text-blue-600" : "text-blue-200"}`} />
+                    <span className="text-xs">Analyzing job description</span>
                   </div>
 
-                  <div className="bg-blue-700/80 border border-blue-300/40 rounded-xl p-3 shadow-xs flex items-center gap-2">
-                    <Brain className="w-4 h-4 text-blue-200 shrink-0" />
-                    <span className="text-xs font-bold text-white">Generating questions</span>
+                  <div className={`border rounded-xl p-3 shadow-xs flex items-center gap-2 transition-all ${
+                    activeStageScreen === 3 ? "bg-white text-blue-600 font-black scale-105" : "bg-blue-700/80 border-blue-300/40 text-white font-bold"
+                  }`}>
+                    <Brain className={`w-4 h-4 shrink-0 ${activeStageScreen === 3 ? "text-blue-600" : "text-blue-200"}`} />
+                    <span className="text-xs">Generating questions</span>
                   </div>
 
-                  <div className="bg-blue-700/80 border border-blue-300/40 rounded-xl p-3 shadow-xs flex items-center gap-2">
-                    <FileText className="w-4 h-4 text-blue-200 shrink-0" />
-                    <span className="text-xs font-bold text-white">Extracting requirements</span>
+                  <div className={`border rounded-xl p-3 shadow-xs flex items-center gap-2 transition-all ${
+                    activeStageScreen === 2 ? "bg-white text-blue-600 font-black scale-105" : "bg-blue-700/80 border-blue-300/40 text-white font-bold"
+                  }`}>
+                    <FileText className={`w-4 h-4 shrink-0 ${activeStageScreen === 2 ? "text-blue-600" : "text-blue-200"}`} />
+                    <span className="text-xs">Extracting requirements</span>
                   </div>
 
-                  <div className="bg-blue-700/80 border border-blue-300/40 rounded-xl p-3 shadow-xs flex items-center gap-2">
-                    <BarChart3 className="w-4 h-4 text-blue-200 shrink-0" />
-                    <span className="text-xs font-bold text-white">Creating study schedule</span>
+                  <div className={`border rounded-xl p-3 shadow-xs flex items-center gap-2 transition-all ${
+                    activeStageScreen === 5 ? "bg-white text-blue-600 font-black scale-105" : "bg-blue-700/80 border-blue-300/40 text-white font-bold"
+                  }`}>
+                    <BarChart3 className={`w-4 h-4 shrink-0 ${activeStageScreen === 5 ? "text-blue-600" : "text-blue-200"}`} />
+                    <span className="text-xs">Creating study schedule</span>
                   </div>
                 </div>
               </div>
@@ -418,7 +411,7 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
                 <div className="flex items-center gap-4">
                   <div className="flex-1 h-3 bg-blue-700/60 rounded-full p-0.5 border border-blue-300/40 overflow-hidden">
                     <div
-                      className="h-full bg-white rounded-full transition-all duration-700 ease-out shadow-sm"
+                      className="h-full bg-white rounded-full transition-all duration-500 ease-out shadow-sm"
                       style={{ width: `${progressPercentage}%` }}
                     />
                   </div>
@@ -427,15 +420,11 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
                   </span>
                 </div>
 
-                {/* Dynamic Floating Status Pill (with dynamic Step 5 sub-states) */}
+                {/* Dynamic Floating Status Pill (Real-Time Backend Status) */}
                 <div className="text-center">
                   <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-600/90 border border-blue-300/40 text-white text-xs font-semibold shadow-sm">
                     <Loader2 className="w-3.5 h-3.5 animate-spin text-white" />
-                    <span>
-                      {activeStageScreen === 5
-                        ? STEP5_SUBSTATES[step5SubIndex]
-                        : STAGE_STATUS_TEXT[activeStageScreen - 1] || STAGE_STATUS_TEXT[0]}
-                    </span>
+                    <span>{STAGE_STATUS_TEXT[activeStageScreen - 1] || STAGE_STATUS_TEXT[0]}</span>
                   </span>
                 </div>
               </div>

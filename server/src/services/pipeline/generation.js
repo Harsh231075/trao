@@ -62,16 +62,21 @@ export async function generateQuestions(jd, requirements, companyBrief, intervie
  */
 export async function generateAllQuestions(jd, requirements, companyBrief, interviewInsights) {
   const categories = ['technical', 'behavioural', 'system_design', 'company_fit'];
-  const questions = {};
 
-  for (const category of categories) {
-    try {
-      questions[category] = await generateQuestions(jd, requirements, companyBrief, interviewInsights, category);
-    } catch (err) {
-      console.warn(`[Generation] ${category} questions failed:`, err.message);
-      questions[category] = [];
+  const results = await Promise.allSettled(
+    categories.map(cat => generateQuestions(jd, requirements, companyBrief, interviewInsights, cat))
+  );
+
+  const questions = {};
+  categories.forEach((cat, index) => {
+    const res = results[index];
+    if (res.status === 'fulfilled') {
+      questions[cat] = res.value;
+    } else {
+      console.warn(`[Generation] ${cat} questions failed:`, res.reason?.message);
+      questions[cat] = [];
     }
-  }
+  });
 
   return questions;
 }

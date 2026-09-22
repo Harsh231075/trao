@@ -25,6 +25,8 @@ export async function runPipeline(input, kitId = null) {
   }
 
   try {
+    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
     // ─── STAGE 1: Research ───
     await updateStatus('researching');
 
@@ -51,19 +53,23 @@ export async function runPipeline(input, kitId = null) {
     }
 
     const researchContext = compileResearchContext(companyResearch, interviewResearch);
+    await delay(1000);
 
     // ─── STAGE 2: Extraction ───
     await updateStatus('extracting');
 
     const extraction = await extractRequirements(jd);
     const { role_title, seniority, responsibilities, requirements } = extraction;
+    await delay(1000);
 
     // ─── STAGE 3: Generation ───
     await updateStatus('generating');
 
     const companyBrief = await generateCompanyBrief(researchContext, companyResearch.sources);
-    const questions = await generateAllQuestions(jd, requirements, companyBrief, interviewResearch.text);
-    const flashcards = await generateFlashcards(requirements, companyBrief);
+    const [questions, flashcards] = await Promise.all([
+      generateAllQuestions(jd, requirements, companyBrief, interviewResearch.text),
+      generateFlashcards(requirements, companyBrief),
+    ]);
 
     // ─── STAGE 4: Coverage Check ───
     await updateStatus('checking_coverage');
@@ -90,11 +96,13 @@ export async function runPipeline(input, kitId = null) {
       coverageResult = checkCoverage(requirements, questions);
       passes++;
     }
+    await delay(1500);
 
     // ─── STAGE 5: Schedule ───
     await updateStatus('building_schedule');
 
     const schedule = buildSchedule(days_available, requirements, questions);
+    await delay(1500);
 
     // ─── STAGE 6: Assemble Kit Data ───
     const kitData = {
