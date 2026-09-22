@@ -33,7 +33,35 @@ import {
 export default function LandingPage() {
   const [activeStage, setActiveStage] = useState(0);
   const [bentoVisible, setBentoVisible] = useState(false);
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
   const bentoRef = useRef<HTMLDivElement>(null);
+
+  const faqs = [
+    {
+      q: "How does Trao.ai generate role-specific interview kits?",
+      a: "Trao automatically scrapes target company tech stacks, engineering blog posts, and careers context. It then parses your uploaded Job Description into MUST vs NICE-TO-HAVE skill matrices, running a 5-stage AI pipeline to synthesize 100% role-aligned technical, system design, and behavioral questions.",
+    },
+    {
+      q: "How long does it take to generate a complete prep kit?",
+      a: "Our multi-pass parallel AI engine processes company research, JD parsing, question synthesis, and quality auditing end-to-end in ~15 to 20 seconds.",
+    },
+    {
+      q: "What types of questions are included in the generated kits?",
+      a: "Every kit includes Technical Coding challenges (with solution hints), System Architecture design prompts, STAR-method Behavioral questions, and Company Culture fit questions tailored to the target company's engineering values.",
+    },
+    {
+      q: "How does the 7-day study timeline and spaced flashcards work?",
+      a: "Trao structures your available preparation days into a daily practice plan, pairing core concepts with interactive spaced flashcard decks to ensure long-term retention before your interview day.",
+    },
+    {
+      q: "Is Trao.ai suitable for senior or staff engineering roles?",
+      a: "Yes! Trao's extraction engine identifies senior-level expectations such as high-concurrency systems, distributed caching, idempotency, tech debt trade-offs, and cross-functional leadership prompts.",
+    },
+    {
+      q: "Can I practice coding and system design interactively?",
+      a: "Yes! Each generated question features step-by-step guidance, code snippet playgrounds, architecture breakdown diagrams, and self-assessment scoring.",
+    },
+  ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -1026,6 +1054,62 @@ export default function LandingPage() {
             </div>
           </div>
 
+        </div>
+      </section>
+
+      {/* ─── FREQUENTLY ASKED QUESTIONS (FAQ) SECTION ─── */}
+      <section id="faq" className="py-20 px-4 max-w-5xl mx-auto border-t border-blue-200/40 z-10 relative">
+        <div className="text-center max-w-2xl mx-auto mb-14">
+          <div className="inline-block px-4 py-1.5 rounded-full bg-blue-100/70 border border-blue-200/80 text-blue-700 text-xs font-semibold mb-3">
+            Got Questions? We&apos;ve Got Answers
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-normal text-slate-900 tracking-tight">
+            Frequently Asked <span className="text-blue-600 font-medium">Questions</span>
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600 mt-3 font-normal">
+            Everything you need to know about Trao.ai, AI kit generation, and interview preparation.
+          </p>
+        </div>
+
+        {/* Accordion List Container */}
+        <div className="space-y-4">
+          {faqs.map((faq, idx) => {
+            const isOpen = openFaq === idx;
+            return (
+              <div
+                key={faq.q}
+                className={`bg-white/90 backdrop-blur-xl border rounded-3xl transition-all duration-300 overflow-hidden ${
+                  isOpen
+                    ? "border-blue-300 shadow-lg shadow-blue-500/5 ring-4 ring-blue-50/50"
+                    : "border-slate-200/90 shadow-xs hover:border-blue-200 hover:shadow-md"
+                }`}
+              >
+                <button
+                  onClick={() => setOpenFaq(isOpen ? null : idx)}
+                  className="w-full p-6 sm:p-7 text-left flex items-center justify-between gap-4 cursor-pointer focus:outline-none"
+                >
+                  <span className="text-base sm:text-lg font-semibold text-slate-900 tracking-tight">
+                    {faq.q}
+                  </span>
+                  <div
+                    className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 ${
+                      isOpen
+                        ? "bg-blue-600 text-white rotate-180"
+                        : "bg-slate-100 text-slate-500 hover:bg-blue-50 hover:text-blue-600"
+                    }`}
+                  >
+                    <ChevronDown className="w-5 h-5" />
+                  </div>
+                </button>
+
+                {isOpen && (
+                  <div className="px-6 sm:px-7 pb-6 sm:pb-7 text-xs sm:text-sm text-slate-600 leading-relaxed font-normal border-t border-slate-100/80 pt-4">
+                    {faq.a}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </section>
 
