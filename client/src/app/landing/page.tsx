@@ -463,7 +463,7 @@ export default function LandingPage() {
 
         {/* ── DESKTOP WAVY ROADMAP TRACK (VISIBLE ON LG SCREENS) ── */}
         <div className="hidden lg:block relative w-full my-8 min-h-[420px]">
-          
+
           {/* SVG Curved Highway Track */}
           <div className="w-full relative z-0 py-12">
             <svg viewBox="0 0 1000 220" fill="none" className="w-full h-auto drop-shadow-md">
@@ -640,52 +640,52 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ─── FLOATING CARD FOOTER (EXACT REFERENCE DESIGN IN BLUE THEME) ─── */}
+      {/* ─── FLOATING CARD FOOTER (MIDNIGHT BLUE THEME WITH PERFECT SPACING) ─── */}
       <footer className="max-w-6xl mx-auto my-12 px-4 z-10 relative">
-        <div className="bg-[#0A1628] rounded-[32px] sm:rounded-[40px] border border-blue-900/60 shadow-[0_25px_70px_rgba(11,21,40,0.4)] text-white p-6 sm:p-10 relative overflow-hidden">
+        <div className="bg-[#0B172C] rounded-[36px] sm:rounded-[44px] border border-blue-900/50 shadow-[0_30px_90px_rgba(11,23,44,0.4)] text-white p-6 sm:p-12 relative overflow-hidden">
           
-          {/* Subtle Ambient Radial Glow */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+          {/* Ambient Blue Radial Glow */}
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
 
-          {/* ── TOP 5-COLUMN GRID ── */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 relative z-10 pb-10">
+          {/* ── TOP 5-COLUMN GRID (3 + 2 + 2 + 2 + 3 = 12) ── */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 relative z-10 pb-10">
             
-            {/* Column 1: Brand & Mission (4 Cols) */}
-            <div className="md:col-span-4 flex flex-col justify-between">
+            {/* Column 1: Brand & Mission (3 Cols) */}
+            <div className="lg:col-span-3 flex flex-col justify-between">
               <div>
-                <div className="flex items-center gap-2.5 mb-3">
-                  <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-black text-xl shadow-md">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-black text-xl shadow-md shadow-blue-500/20">
                     T
                   </div>
-                  <span className="text-xl font-black tracking-tight text-white">
+                  <span className="text-2xl font-bold tracking-tight text-white">
                     Trao<span className="text-blue-400">.ai</span>
                   </span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-medium max-w-sm">
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium mt-3">
                   Empowering software engineers and candidates to master interviews with AI-generated kits, real-time company research, and structured practice schedules.
                 </p>
               </div>
 
               {/* 3 Pill Badges */}
               <div className="flex items-center gap-2 mt-6 flex-wrap">
-                <span className="px-3 py-1 bg-blue-900/50 border border-blue-700/50 rounded-full text-[11px] font-bold text-blue-200 flex items-center gap-1.5">
-                  <Sparkles className="w-3 h-3 text-blue-400" /> Research
+                <span className="px-3.5 py-1.5 bg-blue-950/80 border border-blue-800/60 text-blue-300 text-xs font-semibold rounded-full flex items-center gap-1.5 shadow-xs">
+                  <Sparkles className="w-3.5 h-3.5 text-blue-400" /> Research
                 </span>
-                <span className="px-3 py-1 bg-blue-900/50 border border-blue-700/50 rounded-full text-[11px] font-bold text-blue-200 flex items-center gap-1.5">
-                  <Zap className="w-3 h-3 text-blue-400" /> Synthesis
+                <span className="px-3.5 py-1.5 bg-blue-950/80 border border-blue-800/60 text-blue-300 text-xs font-semibold rounded-full flex items-center gap-1.5 shadow-xs">
+                  <Zap className="w-3.5 h-3.5 text-blue-400" /> Synthesis
                 </span>
-                <span className="px-3 py-1 bg-blue-900/50 border border-blue-700/50 rounded-full text-[11px] font-bold text-blue-200 flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3 h-3 text-blue-400" /> Mastery
+                <span className="px-3.5 py-1.5 bg-blue-950/80 border border-blue-800/60 text-blue-300 text-xs font-semibold rounded-full flex items-center gap-1.5 shadow-xs">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-blue-400" /> Mastery
                 </span>
               </div>
             </div>
 
             {/* Column 2: EXPLORE (2 Cols) */}
-            <div className="md:col-span-2">
-              <h5 className="text-[11px] font-black uppercase tracking-widest text-blue-400 mb-4">
+            <div className="lg:col-span-2">
+              <h5 className="text-[11px] font-bold uppercase tracking-widest text-blue-400 mb-4">
                 EXPLORE
               </h5>
-              <ul className="space-y-2.5 text-xs font-medium text-slate-300">
+              <ul className="space-y-3 text-xs sm:text-sm font-semibold text-slate-300">
                 <li><Link href="#home" className="hover:text-white transition-colors">Home</Link></li>
                 <li><Link href="#roadmap" className="hover:text-white transition-colors">AI Pipeline</Link></li>
                 <li><Link href="#features" className="hover:text-white transition-colors">Features</Link></li>
@@ -694,11 +694,11 @@ export default function LandingPage() {
             </div>
 
             {/* Column 3: RESOURCES (2 Cols) */}
-            <div className="md:col-span-2">
-              <h5 className="text-[11px] font-black uppercase tracking-widest text-blue-400 mb-4">
+            <div className="lg:col-span-2">
+              <h5 className="text-[11px] font-bold uppercase tracking-widest text-blue-400 mb-4">
                 RESOURCES
               </h5>
-              <ul className="space-y-2.5 text-xs font-medium text-slate-300">
+              <ul className="space-y-3 text-xs sm:text-sm font-semibold text-slate-300">
                 <li><Link href="/practice" className="hover:text-white transition-colors">Question Bank</Link></li>
                 <li><Link href="/practice" className="hover:text-white transition-colors">Flashcards</Link></li>
                 <li><Link href="/schedule" className="hover:text-white transition-colors">Study Schedule</Link></li>
@@ -707,11 +707,11 @@ export default function LandingPage() {
             </div>
 
             {/* Column 4: LEGAL (2 Cols) */}
-            <div className="md:col-span-2">
-              <h5 className="text-[11px] font-black uppercase tracking-widest text-blue-400 mb-4">
+            <div className="lg:col-span-2">
+              <h5 className="text-[11px] font-bold uppercase tracking-widest text-blue-400 mb-4">
                 LEGAL
               </h5>
-              <ul className="space-y-2.5 text-xs font-medium text-slate-300">
+              <ul className="space-y-3 text-xs sm:text-sm font-semibold text-slate-300">
                 <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Security</a></li>
@@ -719,56 +719,56 @@ export default function LandingPage() {
               </ul>
             </div>
 
-            {/* Column 5: STAY CONNECTED (2 Cols or Newsletter) */}
-            <div className="md:col-span-2 flex flex-col justify-between">
+            {/* Column 5: STAY CONNECTED & VIBRANT BLUE ACTION BUTTON (3 Cols) */}
+            <div className="lg:col-span-3 flex flex-col justify-between">
               <div>
-                <h5 className="text-sm font-black text-white flex items-center gap-1.5 mb-2">
-                  Stay Connected <Sparkles className="w-3.5 h-3.5 text-blue-400" />
+                <h5 className="text-lg sm:text-xl font-bold text-white tracking-tight flex items-center gap-2 mb-2 whitespace-nowrap">
+                  Stay Connected <Sparkles className="w-4 h-4 text-blue-400" />
                 </h5>
-                <p className="text-[11px] text-slate-400 font-medium leading-relaxed">
-                  Get updates on new interview patterns, tech stack signals, and features.
+                <p className="text-xs text-slate-300 leading-relaxed font-medium">
+                  Get updates on new interview question patterns, tech stack signals, and product releases.
                 </p>
 
-                {/* Newsletter Input + Button */}
-                <div className="mt-3.5 flex items-center bg-slate-900/90 border border-blue-800/60 rounded-full p-1 shadow-inner">
-                  <Mail className="w-3.5 h-3.5 text-slate-400 ml-2.5 shrink-0" />
+                {/* Newsletter Input + Solid Blue Action Button */}
+                <div className="mt-4 flex items-center bg-[#050e1c] border border-blue-900/60 rounded-full p-1.5 shadow-inner">
+                  <Mail className="w-4 h-4 text-blue-400 ml-2.5 shrink-0" />
                   <input
                     type="email"
                     placeholder="Enter email address"
-                    className="bg-transparent px-2 py-1 text-xs text-white placeholder:text-slate-500 focus:outline-none w-full font-medium"
+                    className="bg-transparent px-2.5 py-1.5 text-xs sm:text-sm text-white placeholder:text-slate-500 focus:outline-none w-full font-medium"
                   />
-                  <button className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-full transition-colors flex items-center gap-1 shrink-0 cursor-pointer shadow-xs">
+                  <button className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm rounded-full shadow-md shadow-blue-600/30 transition-all flex items-center gap-1.5 cursor-pointer shrink-0">
                     <span>Subscribe</span>
-                    <ArrowRight className="w-3 h-3" />
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
-                <p className="text-[9px] text-slate-500 mt-1.5 font-medium">No spam. Only high-value interview tips.</p>
+                <p className="text-[10px] text-slate-400 mt-2 font-medium">No spam. Only high-value interview tips.</p>
               </div>
             </div>
 
           </div>
 
           {/* ── BOTTOM DIVIDER & COPYRIGHT ROW ── */}
-          <div className="pt-6 border-t border-blue-900/50 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-400 font-medium relative z-10">
+          <div className="pt-6 border-t border-blue-900/50 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 font-medium relative z-10">
             <p>&copy; {new Date().getFullYear()} Trao.ai Platform. All rights reserved.</p>
 
             {/* Center Tagline */}
-            <div className="flex items-center gap-2 text-blue-400 font-bold uppercase tracking-wider text-[10px]">
-              <span className="w-6 h-px bg-blue-800" />
+            <div className="flex items-center gap-2 text-blue-400 font-bold uppercase tracking-widest text-[10px]">
+              <span className="w-8 h-px bg-blue-900" />
               <span>⚡ TAILORED FOR YOUR CAREER</span>
-              <span className="w-6 h-px bg-blue-800" />
+              <span className="w-8 h-px bg-blue-900" />
             </div>
 
             {/* Right Social Icons */}
             <div className="flex items-center gap-2">
-              <a href="#" title="Website" className="w-8 h-8 rounded-full border border-blue-800/60 flex items-center justify-center text-slate-300 hover:text-white hover:bg-blue-600 transition-all">
-                <Globe className="w-3.5 h-3.5" />
+              <a href="#" title="Website" className="w-9 h-9 rounded-full bg-blue-950/80 border border-blue-800/60 text-blue-300 hover:bg-blue-600 hover:text-white transition-all flex items-center justify-center shadow-xs">
+                <Globe className="w-4 h-4" />
               </a>
-              <a href="#" title="Share" className="w-8 h-8 rounded-full border border-blue-800/60 flex items-center justify-center text-slate-300 hover:text-white hover:bg-blue-600 transition-all">
-                <Share2 className="w-3.5 h-3.5" />
+              <a href="#" title="Share" className="w-9 h-9 rounded-full bg-blue-950/80 border border-blue-800/60 text-blue-300 hover:bg-blue-600 hover:text-white transition-all flex items-center justify-center shadow-xs">
+                <Share2 className="w-4 h-4" />
               </a>
-              <a href="#" title="Contact" className="w-8 h-8 rounded-full border border-blue-800/60 flex items-center justify-center text-slate-300 hover:text-white hover:bg-blue-600 transition-all">
-                <Send className="w-3.5 h-3.5" />
+              <a href="#" title="Contact" className="w-9 h-9 rounded-full bg-blue-950/80 border border-blue-800/60 text-blue-300 hover:bg-blue-600 hover:text-white transition-all flex items-center justify-center shadow-xs">
+                <Send className="w-4 h-4" />
               </a>
             </div>
           </div>
