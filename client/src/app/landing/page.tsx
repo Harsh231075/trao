@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import {
   Search,
@@ -25,12 +25,13 @@ import {
   Zap,
   Layers,
   Calendar,
+  Mail,
+  Globe,
+  Share2,
+  Send,
 } from "lucide-react";
 
 export default function LandingPage() {
-  const [activeMonth, setActiveMonth] = useState("Jun");
-  const [demoUrl, setDemoUrl] = useState("https://google.com/careers");
-
   return (
     <div className="w-full h-screen overflow-y-auto bg-gradient-to-br from-sky-100/80 via-blue-50/60 to-indigo-50/40 text-slate-800 antialiased selection:bg-blue-500 selection:text-white relative font-sans">
 
@@ -48,17 +49,17 @@ export default function LandingPage() {
 
           {/* Left Brand Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 via-blue-500 to-sky-400 text-white flex items-center justify-center font-black text-xl shadow-md shadow-blue-500/30 group-hover:scale-105 transition-transform">
+            {/* <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-black text-xl shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform">
               T
-            </div>
-            <span className="text-xl font-black tracking-tight text-slate-900">
+            </div> */}
+            <span className="text-xl font-semibold tracking-tight text-slate-900">
               Trao<span className="text-blue-600">.ai</span>
             </span>
           </Link>
 
           {/* Center Navigation Links */}
-          <div className="hidden md:flex items-center gap-7 text-xs font-bold text-slate-600">
-            <Link href="#home" className="text-blue-600 font-extrabold hover:text-blue-700 transition-colors">
+          <div className="hidden md:flex items-center gap-7 text-xs font-semibold text-slate-600">
+            <Link href="#home" className="text-blue-600 font-bold hover:text-blue-700 transition-colors">
               Home
             </Link>
             <Link href="#about" className="hover:text-blue-600 transition-colors">
@@ -79,7 +80,7 @@ export default function LandingPage() {
           <div className="flex items-center gap-3">
             <Link
               href="/login"
-              className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-xs sm:text-sm font-extrabold rounded-full shadow-md shadow-blue-500/25 transition-all hover:scale-105 cursor-pointer"
+              className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-medium rounded-full shadow-md shadow-blue-500/20 transition-all hover:scale-105 cursor-pointer"
             >
               Join With Us
             </Link>
@@ -88,34 +89,34 @@ export default function LandingPage() {
       </header>
 
       {/* ─── HERO SECTION ─── */}
-      <section id="home" className="pt-12 pb-8 sm:pt-16 sm:pb-12 px-4 text-center relative z-10 max-w-5xl mx-auto">
+      <section id="home" className="pt-6 pb-3 sm:pt-8 sm:pb-4 px-4 text-center relative z-10 max-w-4xl mx-auto">
 
-        {/* Large Bold Hero Headline */}
-        <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-slate-900 leading-[1.12] max-w-4xl mx-auto">
+        {/* Compact Hero Headline */}
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-slate-900 leading-tight max-w-3xl mx-auto">
           Find Your{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-sky-500 to-indigo-600 underline decoration-blue-300/40">
+          <span className="text-blue-600 font-medium underline decoration-blue-300/40">
             Dream Jobs
           </span>{" "}
           And plan your next future with us
         </h1>
 
-        {/* Hero Subtitle */}
-        <p className="text-sm sm:text-base md:text-lg text-slate-600 mt-5 max-w-2xl mx-auto leading-relaxed font-medium">
-          Connect with top employers and explore thousands of opportunities tailored to your skills and career goals. Start your journey toward a brighter future today.
+        {/* Compact Hero Subtitle */}
+        <p className="text-xs sm:text-sm text-slate-600 mt-2.5 max-w-xl mx-auto leading-relaxed font-normal">
+          Connect with top employers and explore opportunities tailored to your skills.
         </p>
 
-        {/* Hero Action Buttons */}
-        <div className="mt-8 flex items-center justify-center gap-4 flex-wrap">
+        {/* Compact Hero Action Buttons */}
+        <div className="mt-4 sm:mt-5 flex items-center justify-center gap-3.5 flex-wrap">
           <Link
             href="/login"
-            className="px-8 py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-black text-sm rounded-full shadow-lg shadow-blue-500/25 transition-all hover:scale-105 cursor-pointer flex items-center gap-2"
+            className="px-7 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs sm:text-sm rounded-full shadow-md shadow-blue-500/20 transition-all hover:scale-105 cursor-pointer flex items-center gap-2"
           >
             <span>Download The App</span>
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-3.5 h-3.5" />
           </Link>
           <a
             href="#features"
-            className="px-8 py-3.5 bg-white/90 hover:bg-white text-slate-800 font-extrabold text-sm rounded-full border border-slate-200/80 shadow-xs transition-all hover:scale-105 backdrop-blur-sm cursor-pointer"
+            className="px-7 py-3 bg-white/90 hover:bg-white text-slate-800 font-medium text-xs sm:text-sm rounded-full border border-slate-200/80 shadow-xs transition-all hover:scale-105 backdrop-blur-sm cursor-pointer"
           >
             Learn More
           </a>
@@ -175,7 +176,7 @@ export default function LandingPage() {
           </div>
 
           {/* Overlapping Candidate Tag Pill */}
-          <div className="absolute -bottom-3 -left-4 px-3 py-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-[11px] font-extrabold rounded-full shadow-lg shadow-blue-500/30 border border-white/60">
+          <div className="absolute -bottom-3 -left-4 px-3 py-1.5 bg-blue-600 text-white text-[11px] font-extrabold rounded-full shadow-lg shadow-blue-500/30 border border-white/60">
             Jack Kalis
           </div>
         </div>
@@ -245,7 +246,7 @@ export default function LandingPage() {
 
                 {/* Avatar Badge */}
                 <div className="flex items-center gap-2 pl-2 border-l border-slate-200">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-white font-bold text-xs flex items-center justify-center shadow-xs">
+                  <div className="w-8 h-8 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center shadow-xs">
                     AP
                   </div>
                   <div className="hidden xl:block text-left text-xs">
@@ -447,17 +448,157 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+      <section id="roadmap" className="py-16 px-4 max-w-6xl mx-auto z-10 relative">
+        <div className="text-center max-w-2xl mx-auto mb-14">
+          <p className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-2">
+            AI PIPELINE ROADMAP
+          </p>
+          <h2 className="text-3xl sm:text-4xl font-normal text-slate-900 tracking-tight">
+            From job description to decision-ready.
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600 mt-3 font-normal">
+            A clear 5-step automated generation process, with AI precision at every step.
+          </p>
+        </div>
+
+        {/* ── DESKTOP WAVY ROADMAP TRACK (VISIBLE ON LG SCREENS) ── */}
+        <div className="hidden lg:block relative w-full my-8 min-h-[420px]">
+          
+          {/* SVG Curved Highway Track */}
+          <div className="w-full relative z-0 py-12">
+            <svg viewBox="0 0 1000 220" fill="none" className="w-full h-auto drop-shadow-md">
+              {/* Outer Track */}
+              <path
+                d="M 80 140 C 180 140, 220 40, 340 40 C 460 40, 500 170, 620 170 C 740 170, 780 70, 920 70"
+                stroke="#1e293b"
+                strokeWidth="28"
+                strokeLinecap="round"
+              />
+              {/* Inner Dashed Line */}
+              <path
+                d="M 80 140 C 180 140, 220 40, 340 40 C 460 40, 500 170, 620 170 C 740 170, 780 70, 920 70"
+                stroke="#ffffff"
+                strokeWidth="4"
+                strokeDasharray="10 10"
+                strokeLinecap="round"
+              />
+            </svg>
+          </div>
+
+          {/* NODE 01: Research (Bottom Left) */}
+          <div className="absolute left-[8%] top-[62%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
+            <div className="w-12 h-12 rounded-full bg-white border-2 border-slate-200 shadow-xl flex items-center justify-center font-bold text-blue-600 text-sm ring-4 ring-white/80">
+              01
+            </div>
+            {/* Text Below */}
+            <div className="mt-4 text-center w-52">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">RESEARCH</p>
+              <h4 className="text-sm font-semibold text-slate-900 mt-0.5">Scrape Company Signals</h4>
+              <p className="text-[11px] text-slate-500 mt-1 leading-snug font-normal">
+                Scraping company tech stacks, engineering blogs &amp; interview insights.
+              </p>
+            </div>
+          </div>
+
+          {/* NODE 02: Extract (Top Left-Center) */}
+          <div className="absolute left-[34%] top-[18%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
+            {/* Text Above */}
+            <div className="mb-4 text-center w-52">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">EXTRACT</p>
+              <h4 className="text-sm font-semibold text-slate-900 mt-0.5">Parse Job Requirements</h4>
+              <p className="text-[11px] text-slate-500 mt-1 leading-snug font-normal">
+                Parsing MUST vs NICE skills directly from the job description.
+              </p>
+            </div>
+            <div className="w-12 h-12 rounded-full bg-white border-2 border-slate-200 shadow-xl flex items-center justify-center font-bold text-blue-600 text-sm ring-4 ring-white/80">
+              02
+            </div>
+          </div>
+
+          {/* NODE 03: Synthesize (Bottom Center) */}
+          <div className="absolute left-[62%] top-[77%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
+            <div className="w-12 h-12 rounded-full bg-white border-2 border-slate-200 shadow-xl flex items-center justify-center font-bold text-blue-600 text-sm ring-4 ring-white/80">
+              03
+            </div>
+            {/* Text Below */}
+            <div className="mt-4 text-center w-52">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">SYNTHESIZE</p>
+              <h4 className="text-sm font-semibold text-slate-900 mt-0.5">Generate Questions</h4>
+              <p className="text-[11px] text-slate-500 mt-1 leading-snug font-normal">
+                Synthesizing technical, system design &amp; behavioral questions.
+              </p>
+            </div>
+          </div>
+
+          {/* NODE 04: Audit (Top Right-Center) */}
+          <div className="absolute left-[78%] top-[31%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
+            {/* Text Above */}
+            <div className="mb-4 text-center w-52">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">AUDIT</p>
+              <h4 className="text-sm font-semibold text-slate-900 mt-0.5">Coverage Verification</h4>
+              <p className="text-[11px] text-slate-500 mt-1 leading-snug font-normal">
+                Automated multi-pass audit verifying 100% requirement coverage.
+              </p>
+            </div>
+            <div className="w-12 h-12 rounded-full bg-white border-2 border-slate-200 shadow-xl flex items-center justify-center font-bold text-blue-600 text-sm ring-4 ring-white/80">
+              04
+            </div>
+          </div>
+
+          {/* NODE 05: Schedule (Right End) */}
+          <div className="absolute left-[92%] top-[31%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
+            <div className="w-12 h-12 rounded-full bg-white border-2 border-slate-200 shadow-xl flex items-center justify-center font-bold text-blue-600 text-sm ring-4 ring-white/80">
+              05
+            </div>
+            {/* Text Below */}
+            <div className="mt-4 text-center w-52">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">FINALIZE</p>
+              <h4 className="text-sm font-semibold text-slate-900 mt-0.5">Build Study Schedule</h4>
+              <p className="text-[11px] text-slate-500 mt-1 leading-snug font-normal">
+                Structuring day-by-day practice timeline and spaced flashcards.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* ── MOBILE / TABLET RESPONSIVE STEPPER (VISIBLE ON SMALL SCREENS) ── */}
+        <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {[
+            { step: "01", category: "RESEARCH", title: "Scrape Company Signals", desc: "Scraping company tech stacks, engineering blogs & interview insights." },
+            { step: "02", category: "EXTRACT", title: "Parse Job Requirements", desc: "Parsing MUST vs NICE skills directly from the job description." },
+            { step: "03", category: "SYNTHESIZE", title: "Generate Questions", desc: "Synthesizing technical, system design & behavioral questions." },
+            { step: "04", category: "AUDIT", title: "Coverage Verification", desc: "Automated multi-pass audit verifying 100% requirement coverage." },
+            { step: "05", category: "FINALIZE", title: "Build Study Schedule", desc: "Structuring day-by-day practice timeline and spaced flashcards." },
+          ].map((stg) => (
+            <div key={stg.step} className="bg-white/90 p-5 rounded-2xl border border-slate-200/80 shadow-xs flex items-start gap-4">
+              <div className="w-10 h-10 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-sm">
+                {stg.step}
+              </div>
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-wider text-blue-600">{stg.category}</p>
+                <h4 className="text-sm font-semibold text-slate-900 mt-0.5">{stg.title}</h4>
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed font-normal">{stg.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom Tagline */}
+        <p className="text-center text-xs text-slate-400 font-normal mt-10">
+          AI kit generation executes end-to-end in ~15 seconds with 100% deterministic requirement coverage.
+        </p>
+      </section>
 
       {/* ─── FEATURES & VALUE PROPOSITION SECTION ─── */}
       <section id="features" className="py-16 px-4 max-w-6xl mx-auto border-t border-blue-200/40 z-10 relative">
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="inline-block px-4 py-1.5 rounded-full bg-blue-100/70 border border-blue-200/80 text-blue-700 text-xs font-bold mb-3">
+          <div className="inline-block px-4 py-1.5 rounded-full bg-blue-100/70 border border-blue-200/80 text-blue-700 text-xs font-semibold mb-3">
             Why Top Candidates Choose Trao
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-            Engineered for <span className="text-blue-600">Interview Success</span>
+          <h2 className="text-3xl sm:text-4xl font-normal text-slate-900 tracking-tight">
+            Engineered for <span className="text-blue-600 font-medium">Interview Success</span>
           </h2>
-          <p className="text-xs sm:text-sm text-slate-600 mt-2 font-medium">
+          <p className="text-xs sm:text-sm text-slate-600 mt-2 font-normal">
             Everything you need to master technical, behavioral, and system design interviews in one AI-powered platform.
           </p>
         </div>
@@ -469,8 +610,8 @@ export default function LandingPage() {
             <div className="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center mb-4">
               <Zap className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-black text-slate-900">Real-Time Company Research</h3>
-            <p className="text-xs text-slate-600 mt-2 leading-relaxed font-medium">
+            <h3 className="text-lg font-semibold text-slate-900">Real-Time Company Research</h3>
+            <p className="text-xs text-slate-600 mt-2 leading-relaxed font-normal">
               Automatically scrape tech stacks, careers context, and recent public signals to ground every practice question.
             </p>
           </div>
@@ -480,8 +621,8 @@ export default function LandingPage() {
             <div className="w-12 h-12 rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center mb-4">
               <Layers className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-black text-slate-900">5-Stage AI Synthesis</h3>
-            <p className="text-xs text-slate-600 mt-2 leading-relaxed font-medium">
+            <h3 className="text-lg font-semibold text-slate-900">5-Stage AI Synthesis</h3>
+            <p className="text-xs text-slate-600 mt-2 leading-relaxed font-normal">
               From requirement extraction to 100% coverage audits, get tailored questions linked directly to job description requirements.
             </p>
           </div>
@@ -491,30 +632,147 @@ export default function LandingPage() {
             <div className="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center mb-4">
               <Calendar className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-black text-slate-900">Day-by-Day Study Schedule</h3>
-            <p className="text-xs text-slate-600 mt-2 leading-relaxed font-medium">
+            <h3 className="text-lg font-semibold text-slate-900">Day-by-Day Study Schedule</h3>
+            <p className="text-xs text-slate-600 mt-2 leading-relaxed font-normal">
               Structured daily study timeline matching your available preparation days to ensure 100% readiness before interview day.
             </p>
           </div>
         </div>
       </section>
 
-      {/* ─── FOOTER ─── */}
-      <footer className="py-8 border-t border-blue-200/40 bg-white/50 backdrop-blur-md text-center text-xs text-slate-500 font-medium z-10 relative">
-        <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-full bg-blue-600 text-white font-black text-xs flex items-center justify-center">
-              T
+      {/* ─── FLOATING CARD FOOTER (EXACT REFERENCE DESIGN IN BLUE THEME) ─── */}
+      <footer className="max-w-6xl mx-auto my-12 px-4 z-10 relative">
+        <div className="bg-[#0A1628] rounded-[32px] sm:rounded-[40px] border border-blue-900/60 shadow-[0_25px_70px_rgba(11,21,40,0.4)] text-white p-6 sm:p-10 relative overflow-hidden">
+          
+          {/* Subtle Ambient Radial Glow */}
+          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+
+          {/* ── TOP 5-COLUMN GRID ── */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 relative z-10 pb-10">
+            
+            {/* Column 1: Brand & Mission (4 Cols) */}
+            <div className="md:col-span-4 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-2.5 mb-3">
+                  <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-black text-xl shadow-md">
+                    T
+                  </div>
+                  <span className="text-xl font-black tracking-tight text-white">
+                    Trao<span className="text-blue-400">.ai</span>
+                  </span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-medium max-w-sm">
+                  Empowering software engineers and candidates to master interviews with AI-generated kits, real-time company research, and structured practice schedules.
+                </p>
+              </div>
+
+              {/* 3 Pill Badges */}
+              <div className="flex items-center gap-2 mt-6 flex-wrap">
+                <span className="px-3 py-1 bg-blue-900/50 border border-blue-700/50 rounded-full text-[11px] font-bold text-blue-200 flex items-center gap-1.5">
+                  <Sparkles className="w-3 h-3 text-blue-400" /> Research
+                </span>
+                <span className="px-3 py-1 bg-blue-900/50 border border-blue-700/50 rounded-full text-[11px] font-bold text-blue-200 flex items-center gap-1.5">
+                  <Zap className="w-3 h-3 text-blue-400" /> Synthesis
+                </span>
+                <span className="px-3 py-1 bg-blue-900/50 border border-blue-700/50 rounded-full text-[11px] font-bold text-blue-200 flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3 h-3 text-blue-400" /> Mastery
+                </span>
+              </div>
             </div>
-            <span className="font-extrabold text-slate-900">Trao.ai</span>
-            <span>&copy; {new Date().getFullYear()} All rights reserved.</span>
+
+            {/* Column 2: EXPLORE (2 Cols) */}
+            <div className="md:col-span-2">
+              <h5 className="text-[11px] font-black uppercase tracking-widest text-blue-400 mb-4">
+                EXPLORE
+              </h5>
+              <ul className="space-y-2.5 text-xs font-medium text-slate-300">
+                <li><Link href="#home" className="hover:text-white transition-colors">Home</Link></li>
+                <li><Link href="#roadmap" className="hover:text-white transition-colors">AI Pipeline</Link></li>
+                <li><Link href="#features" className="hover:text-white transition-colors">Features</Link></li>
+                <li><Link href="/login" className="hover:text-white transition-colors">Prep Kits</Link></li>
+              </ul>
+            </div>
+
+            {/* Column 3: RESOURCES (2 Cols) */}
+            <div className="md:col-span-2">
+              <h5 className="text-[11px] font-black uppercase tracking-widest text-blue-400 mb-4">
+                RESOURCES
+              </h5>
+              <ul className="space-y-2.5 text-xs font-medium text-slate-300">
+                <li><Link href="/practice" className="hover:text-white transition-colors">Question Bank</Link></li>
+                <li><Link href="/practice" className="hover:text-white transition-colors">Flashcards</Link></li>
+                <li><Link href="/schedule" className="hover:text-white transition-colors">Study Schedule</Link></li>
+                <li><Link href="/analytics" className="hover:text-white transition-colors">Analytics</Link></li>
+              </ul>
+            </div>
+
+            {/* Column 4: LEGAL (2 Cols) */}
+            <div className="md:col-span-2">
+              <h5 className="text-[11px] font-black uppercase tracking-widest text-blue-400 mb-4">
+                LEGAL
+              </h5>
+              <ul className="space-y-2.5 text-xs font-medium text-slate-300">
+                <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Security</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">FAQ</a></li>
+              </ul>
+            </div>
+
+            {/* Column 5: STAY CONNECTED (2 Cols or Newsletter) */}
+            <div className="md:col-span-2 flex flex-col justify-between">
+              <div>
+                <h5 className="text-sm font-black text-white flex items-center gap-1.5 mb-2">
+                  Stay Connected <Sparkles className="w-3.5 h-3.5 text-blue-400" />
+                </h5>
+                <p className="text-[11px] text-slate-400 font-medium leading-relaxed">
+                  Get updates on new interview patterns, tech stack signals, and features.
+                </p>
+
+                {/* Newsletter Input + Button */}
+                <div className="mt-3.5 flex items-center bg-slate-900/90 border border-blue-800/60 rounded-full p-1 shadow-inner">
+                  <Mail className="w-3.5 h-3.5 text-slate-400 ml-2.5 shrink-0" />
+                  <input
+                    type="email"
+                    placeholder="Enter email address"
+                    className="bg-transparent px-2 py-1 text-xs text-white placeholder:text-slate-500 focus:outline-none w-full font-medium"
+                  />
+                  <button className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-full transition-colors flex items-center gap-1 shrink-0 cursor-pointer shadow-xs">
+                    <span>Subscribe</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </button>
+                </div>
+                <p className="text-[9px] text-slate-500 mt-1.5 font-medium">No spam. Only high-value interview tips.</p>
+              </div>
+            </div>
+
           </div>
 
-          <div className="flex items-center gap-6 font-bold text-slate-600">
-            <Link href="#home" className="hover:text-blue-600">Home</Link>
-            <Link href="#features" className="hover:text-blue-600">Features</Link>
-            <Link href="/login" className="hover:text-blue-600">Sign In</Link>
+          {/* ── BOTTOM DIVIDER & COPYRIGHT ROW ── */}
+          <div className="pt-6 border-t border-blue-900/50 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-400 font-medium relative z-10">
+            <p>&copy; {new Date().getFullYear()} Trao.ai Platform. All rights reserved.</p>
+
+            {/* Center Tagline */}
+            <div className="flex items-center gap-2 text-blue-400 font-bold uppercase tracking-wider text-[10px]">
+              <span className="w-6 h-px bg-blue-800" />
+              <span>⚡ TAILORED FOR YOUR CAREER</span>
+              <span className="w-6 h-px bg-blue-800" />
+            </div>
+
+            {/* Right Social Icons */}
+            <div className="flex items-center gap-2">
+              <a href="#" title="Website" className="w-8 h-8 rounded-full border border-blue-800/60 flex items-center justify-center text-slate-300 hover:text-white hover:bg-blue-600 transition-all">
+                <Globe className="w-3.5 h-3.5" />
+              </a>
+              <a href="#" title="Share" className="w-8 h-8 rounded-full border border-blue-800/60 flex items-center justify-center text-slate-300 hover:text-white hover:bg-blue-600 transition-all">
+                <Share2 className="w-3.5 h-3.5" />
+              </a>
+              <a href="#" title="Contact" className="w-8 h-8 rounded-full border border-blue-800/60 flex items-center justify-center text-slate-300 hover:text-white hover:bg-blue-600 transition-all">
+                <Send className="w-3.5 h-3.5" />
+              </a>
+            </div>
           </div>
+
         </div>
       </footer>
     </div>
