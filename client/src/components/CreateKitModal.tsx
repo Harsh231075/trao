@@ -176,9 +176,17 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
   const isPipelineActive = createdKitId && ["queued", "researching", "extracting", "generating", "checking_coverage", "building_schedule"].includes(kitStatus);
   const isCompleted = kitStatus === "completed" || kitStatus === "partial";
 
+  const stageTitles = [
+    "Stage 1: Researching Company & Industry",
+    "Stage 2: Extracting Role Requirements",
+    "Stage 3: Generating Questions & Flashcards",
+    "Stage 4: Checking Requirement Coverage",
+    "Stage 5: Building Day-by-Day Schedule",
+  ];
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white rounded-[28px] max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-slate-100 relative overflow-hidden">
+      <div className="bg-gradient-to-br from-white/95 via-slate-50/90 to-blue-50/40 backdrop-blur-2xl rounded-[28px] max-w-xl w-full p-6 sm:p-8 shadow-[0_25px_80px_rgba(15,23,42,0.35)] border border-white/90 relative overflow-hidden">
         {/* Close Button */}
         <button
           onClick={handleClose}
@@ -188,12 +196,12 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
           <X className="w-5 h-5" />
         </button>
 
-        {/* ─── STAGE 1: FORM INPUT ─── */}
+        {/* ─── SCREEN 0: FORM INPUT ─── */}
         {!createdKitId && (
           <>
             {/* Modal Header */}
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold shadow-inner">
+              <div className="w-12 h-12 rounded-2xl bg-blue-50/90 text-blue-600 flex items-center justify-center font-bold shadow-inner border border-blue-100">
                 <Sparkles className="w-6 h-6" />
               </div>
               <div>
@@ -225,7 +233,7 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
                     onChange={(e) => setWebsite(e.target.value)}
                     placeholder="https://company.com"
                     required
-                    className="w-full pl-9 pr-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-slate-800 placeholder:text-slate-400"
+                    className="w-full pl-9 pr-3.5 py-2.5 text-sm bg-white/80 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-slate-800 placeholder:text-slate-400"
                   />
                 </div>
               </div>
@@ -243,7 +251,7 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
                     max="90"
                     value={daysUntil}
                     onChange={(e) => setDaysUntil(e.target.value)}
-                    className="w-full pl-9 pr-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-slate-800"
+                    className="w-full pl-9 pr-3.5 py-2.5 text-sm bg-white/80 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-slate-800"
                   />
                 </div>
               </div>
@@ -260,7 +268,7 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
                     onChange={(e) => setJobDescription(e.target.value)}
                     placeholder="Paste the full job description including requirements, responsibilities, tech stack..."
                     required
-                    className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 resize-none transition-all text-slate-800 placeholder:text-slate-400"
+                    className="w-full px-3.5 py-2.5 text-sm bg-white/80 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 resize-none transition-all text-slate-800 placeholder:text-slate-400"
                   />
                 </div>
                 <p className="text-[11px] text-slate-400 mt-1">
@@ -290,7 +298,7 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
                   ) : (
                     <>
                       <Sparkles className="w-4 h-4" />
-                      Build Interview Kit
+                      Build Prep Kit
                     </>
                   )}
                 </button>
@@ -299,125 +307,180 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
           </>
         )}
 
-        {/* ─── STAGE 2: LIVE GENERATION STEPPER ─── */}
+        {/* ─── IN-MODAL SCREEN-BY-SCREEN PIPELINE STAGES (SCREENS 1 TO 5) ─── */}
         {isPipelineActive && (
-          <div className="py-2 space-y-6">
-            {/* Header */}
-            <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-bold shadow-md shadow-blue-500/20 animate-pulse">
-                <Sparkles className="w-5 h-5" />
+          <div className="py-2 space-y-5 animate-in fade-in duration-300">
+            {/* Top Stage Tracker Bar */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full bg-blue-100/80 text-blue-700 border border-blue-200">
+                  {stageTitles[currentStageIndex] || "Processing Stage"}
+                </span>
+                <span className="text-xs font-extrabold text-blue-600">
+                  {Math.min(currentStageIndex + 1, 5)} / 5 ({Math.round(((currentStageIndex + 1) / 5) * 100)}%)
+                </span>
               </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">
-                    Live Pipeline Active
-                  </span>
-                  <span className="text-xs text-slate-400">Auto-updating every 2s</span>
-                </div>
-                <h3 className="text-lg font-bold text-slate-900 truncate mt-0.5">
-                  Generating Kit for {extractDomain(website)}
-                </h3>
-              </div>
-            </div>
 
-            {/* Overall Progress Bar */}
-            <div>
-              <div className="flex items-center justify-between text-xs font-semibold text-slate-600 mb-1.5">
-                <span>Pipeline Stage {Math.min(currentStageIndex + 1, 5)} of 5</span>
-                <span className="text-blue-600 font-bold">{Math.round(((currentStageIndex + 0.5) / 5) * 100)}%</span>
-              </div>
+              {/* Progress Bar */}
               <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full transition-all duration-700 ease-out"
-                  style={{ width: `${Math.min(100, Math.round(((currentStageIndex + 0.5) / 5) * 100))}%` }}
+                  style={{ width: `${Math.min(100, Math.round(((currentStageIndex + 1) / 5) * 100))}%` }}
                 />
+              </div>
+
+              {/* 5 Step Indicator Pills */}
+              <div className="grid grid-cols-5 gap-1.5 pt-1">
+                {PIPELINE_STAGES.map((s, idx) => {
+                  const isPassed = currentStageIndex > idx;
+                  const isCurrent = currentStageIndex === idx;
+                  return (
+                    <div
+                      key={s.key}
+                      className={`h-1.5 rounded-full transition-all ${
+                        isPassed ? "bg-emerald-500" : isCurrent ? "bg-blue-600 animate-pulse" : "bg-slate-200"
+                      }`}
+                      title={s.title}
+                    />
+                  );
+                })}
               </div>
             </div>
 
-            {/* Stepper List */}
-            <div className="bg-slate-50/80 rounded-2xl p-4 border border-slate-200/70 space-y-3">
-              {PIPELINE_STAGES.map((stage, idx) => {
-                const Icon = stage.icon;
-                const isPassed = currentStageIndex > idx;
-                const isCurrent = currentStageIndex === idx;
-
-                return (
-                  <div
-                    key={stage.key}
-                    className={`flex items-start gap-3 p-2.5 rounded-xl transition-all ${
-                      isCurrent
-                        ? "bg-white border border-blue-200 shadow-xs"
-                        : isPassed
-                          ? "opacity-90"
-                          : "opacity-40"
-                    }`}
-                  >
-                    {/* Status Circle */}
-                    <div className="mt-0.5 shrink-0">
-                      {isPassed ? (
-                        <div className="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-2xs">
-                          <Check className="w-3.5 h-3.5 stroke-[3]" />
-                        </div>
-                      ) : isCurrent ? (
-                        <div className="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-xs animate-pulse">
-                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                        </div>
-                      ) : (
-                        <div className="w-6 h-6 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-xs font-bold">
-                          {idx + 1}
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Step Info */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <p className={`text-xs font-bold ${isCurrent ? "text-blue-700" : isPassed ? "text-slate-800" : "text-slate-500"}`}>
-                          {stage.title}
-                        </p>
-                        {isCurrent && (
-                          <span className="text-[9px] font-bold px-1.5 py-0.2 bg-blue-50 text-blue-600 rounded-md border border-blue-200 animate-pulse">
-                            IN PROGRESS
-                          </span>
-                        )}
-                        {isPassed && (
-                          <span className="text-[9px] font-bold px-1.5 py-0.2 bg-emerald-50 text-emerald-600 rounded-md">
-                            DONE
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">
-                        {stage.desc}
-                      </p>
-                    </div>
+            {/* ── SCREEN 1: RESEARCHING ── */}
+            {currentStageIndex === 0 && (
+              <div className="bg-gradient-to-br from-blue-50/80 via-sky-50/60 to-blue-100/40 backdrop-blur-md rounded-2xl border border-blue-200/80 p-6 space-y-4 text-center">
+                <div className="relative w-16 h-16 mx-auto flex items-center justify-center">
+                  <div className="absolute inset-0 rounded-full bg-blue-500/20 animate-ping" />
+                  <div className="w-14 h-14 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-bold shadow-lg shadow-blue-500/30">
+                    <Search className="w-7 h-7" />
                   </div>
-                );
-              })}
-            </div>
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900">🔍 Researching Company &amp; Industry</h3>
+                  <p className="text-xs text-slate-600 mt-1 max-w-md mx-auto">
+                    Analyzing company domain <strong className="text-blue-700">{extractDomain(website)}</strong>, tech stack, and public engineering interview insights.
+                  </p>
+                </div>
+                <div className="bg-white/80 rounded-xl p-3 border border-blue-100 text-left space-y-2 text-xs font-medium text-slate-700 shadow-2xs">
+                  <div className="flex items-center gap-2 text-emerald-600">
+                    <Check className="w-4 h-4 text-emerald-500" />
+                    <span>Domain validation &amp; structure verified</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-blue-600 animate-pulse">
+                    <Loader2 className="w-4 h-4 animate-spin text-blue-500" />
+                    <span>Scraping engineering blog &amp; career signals...</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-slate-400">
+                    <div className="w-4 h-4 rounded-full border border-slate-300" />
+                    <span>Compiling company research context bundle...</span>
+                  </div>
+                </div>
+              </div>
+            )}
 
-            {/* Action Buttons */}
-            <div className="flex items-center justify-between pt-1 gap-3">
+            {/* ── SCREEN 2: EXTRACTING ── */}
+            {currentStageIndex === 1 && (
+              <div className="bg-gradient-to-br from-blue-50/80 via-sky-50/60 to-blue-100/40 backdrop-blur-md rounded-2xl border border-blue-200/80 p-6 space-y-4 text-center">
+                <div className="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold shadow-lg shadow-indigo-500/30 mx-auto animate-pulse">
+                  <FileText className="w-7 h-7" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900">📋 Extracting Role Requirements</h3>
+                  <p className="text-xs text-slate-600 mt-1 max-w-md mx-auto">
+                    Parsing your Job Description to extract MUST-have and NICE-to-have engineering qualifications.
+                  </p>
+                </div>
+                <div className="grid grid-cols-2 gap-2 text-xs text-left">
+                  <div className="bg-red-50/80 border border-red-200 rounded-xl p-3 space-y-1">
+                    <span className="font-bold text-red-700 text-[10px] uppercase">MUST HAVE SKILLS</span>
+                    <p className="text-slate-800 font-semibold truncate">Parsing Core Stack...</p>
+                  </div>
+                  <div className="bg-slate-100/80 border border-slate-200 rounded-xl p-3 space-y-1">
+                    <span className="font-bold text-slate-600 text-[10px] uppercase">NICE TO HAVE</span>
+                    <p className="text-slate-700 font-semibold truncate">Extracting Bonus Tools...</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ── SCREEN 3: GENERATING ── */}
+            {currentStageIndex === 2 && (
+              <div className="bg-gradient-to-br from-blue-50/80 via-sky-50/60 to-blue-100/40 backdrop-blur-md rounded-2xl border border-blue-200/80 p-6 space-y-4 text-center">
+                <div className="w-14 h-14 rounded-2xl bg-violet-600 text-white flex items-center justify-center font-bold shadow-lg shadow-violet-500/30 mx-auto animate-pulse">
+                  <Lightbulb className="w-7 h-7" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900">💡 Generating Questions &amp; Flashcards</h3>
+                  <p className="text-xs text-slate-600 mt-1 max-w-md mx-auto">
+                    Synthesizing company-tailored Technical, System Design, and Behavioural questions with answer outlines.
+                  </p>
+                </div>
+                <div className="grid grid-cols-4 gap-2 text-[10px] font-bold text-slate-700">
+                  <div className="bg-white/80 p-2 rounded-xl border border-blue-100 animate-pulse text-blue-700">Technical Qs</div>
+                  <div className="bg-white/80 p-2 rounded-xl border border-blue-100 animate-pulse text-indigo-700">System Design</div>
+                  <div className="bg-white/80 p-2 rounded-xl border border-blue-100 animate-pulse text-purple-700">Behavioural</div>
+                  <div className="bg-white/80 p-2 rounded-xl border border-blue-100 animate-pulse text-amber-700">Flashcards</div>
+                </div>
+              </div>
+            )}
+
+            {/* ── SCREEN 4: CHECKING COVERAGE ── */}
+            {currentStageIndex === 3 && (
+              <div className="bg-gradient-to-br from-blue-50/80 via-sky-50/60 to-blue-100/40 backdrop-blur-md rounded-2xl border border-blue-200/80 p-6 space-y-4 text-center">
+                <div className="w-14 h-14 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-bold shadow-lg shadow-emerald-500/30 mx-auto animate-pulse">
+                  <ShieldCheck className="w-7 h-7" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900">🎯 Verifying Requirement Coverage</h3>
+                  <p className="text-xs text-slate-600 mt-1 max-w-md mx-auto">
+                    Audit engine cross-referencing generated questions against parsed MUST requirements.
+                  </p>
+                </div>
+                <div className="bg-emerald-50/80 border border-emerald-200 rounded-xl p-3 text-xs font-semibold text-emerald-800">
+                  Pass 1: Checking MUST requirements mapping... (100% coverage target)
+                </div>
+              </div>
+            )}
+
+            {/* ── SCREEN 5: BUILDING SCHEDULE ── */}
+            {currentStageIndex === 4 && (
+              <div className="bg-gradient-to-br from-blue-50/80 via-sky-50/60 to-blue-100/40 backdrop-blur-md rounded-2xl border border-blue-200/80 p-6 space-y-4 text-center">
+                <div className="w-14 h-14 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-bold shadow-lg shadow-blue-500/30 mx-auto animate-pulse">
+                  <CalendarDays className="w-7 h-7" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900">📅 Building Day-by-Day Schedule</h3>
+                  <p className="text-xs text-slate-600 mt-1 max-w-md mx-auto">
+                    Allocating practice topics and questions across your {daysUntil}-day preparation window.
+                  </p>
+                </div>
+                <div className="bg-white/80 border border-blue-100 rounded-xl p-3 text-xs font-medium text-slate-700">
+                  Structuring daily minutes and spaced repetition flashcard review targets...
+                </div>
+              </div>
+            )}
+
+            {/* In-Modal Footer Action */}
+            <div className="flex items-center justify-between pt-1">
               <p className="text-xs text-slate-500 flex items-center gap-1.5">
-                <Loader2 className="w-3.5 h-3.5 animate-spin text-blue-500" />
-                <span>Generating questions and schedule...</span>
+                <Loader2 className="w-3.5 h-3.5 animate-spin text-blue-600" />
+                <span>Processing pipeline live...</span>
               </p>
               <button
                 type="button"
-                onClick={() => {
-                  handleClose();
-                  router.push("/");
-                }}
-                className="px-4 py-2 text-xs font-semibold text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-xl transition-colors cursor-pointer"
+                onClick={handleClose}
+                className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-colors cursor-pointer"
               >
-                Run in Background →
+                Run in Background
               </button>
             </div>
           </div>
         )}
 
-        {/* ─── STAGE 3: CELEBRATION / READY ─── */}
+        {/* ─── SCREEN 6: CELEBRATION / COMPLETED SCREEN ─── */}
         {isCompleted && (
-          <div className="py-6 flex flex-col items-center justify-center text-center space-y-4">
+          <div className="py-6 flex flex-col items-center justify-center text-center space-y-4 animate-in zoom-in-95 duration-300">
             <div className="w-16 h-16 rounded-3xl bg-emerald-100 text-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-500/20 animate-bounce">
               <CheckCircle2 className="w-9 h-9 stroke-[2.5]" />
             </div>
@@ -428,13 +491,13 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
               </span>
               <h3 className="text-2xl font-bold text-slate-900">Your Interview Kit is Ready</h3>
               <p className="text-sm text-slate-500 mt-1 max-w-sm">
-                Tailored interview questions, confidence-rated flashcards, and a day-by-day study schedule have been prepared.
+                All 5 stages completed inside modal! Tailored questions, flashcards, and schedule are ready.
               </p>
             </div>
 
             {/* Summary Metrics */}
             {kitDetails?.kit_data && (
-              <div className="grid grid-cols-3 gap-2 w-full bg-slate-50 border border-slate-200/80 rounded-2xl p-3 text-center my-2">
+              <div className="grid grid-cols-3 gap-2 w-full bg-white/80 border border-slate-200/80 rounded-2xl p-3 text-center my-2 shadow-2xs">
                 <div>
                   <p className="text-xl font-extrabold text-blue-600">
                     {Object.values(kitDetails.kit_data.questions || {}).reduce((s: number, a: any) => s + (Array.isArray(a) ? a.length : 0), 0)}
@@ -456,17 +519,14 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
               </div>
             )}
 
-            {/* CTAs */}
+            {/* Final CTAs */}
             <div className="flex items-center gap-3 w-full pt-2">
               <button
                 type="button"
-                onClick={() => {
-                  handleClose();
-                  router.push("/");
-                }}
+                onClick={handleClose}
                 className="flex-1 py-3 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm rounded-xl transition-all cursor-pointer"
               >
-                Go to Dashboard
+                Close Modal
               </button>
               <button
                 type="button"
