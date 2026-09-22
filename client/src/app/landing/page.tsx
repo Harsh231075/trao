@@ -41,10 +41,11 @@ export default function LandingPage() {
 
   const navItems = [
     { id: "home", label: "Home" },
-    { id: "about", label: "About us", targetId: "methodology" },
-    { id: "features", label: "Features", targetId: "roadmap" },
+    { id: "roadmap", label: "roadmap", targetId: "roadmap" },
+    { id: "methodology", label: "methodology", targetId: "methodology" },
+    { id: "faq", label: "faq", targetId: "faq" },
     { id: "contact", label: "Contact", targetId: "contact" },
-    { id: "faq", label: "Find Job", targetId: "faq" },
+
   ];
 
   const handleScrollTo = (e: React.MouseEvent, id: string) => {
@@ -167,11 +168,10 @@ export default function LandingPage() {
                   key={item.id}
                   href={`#${targetId}`}
                   onClick={(e) => handleScrollTo(e, targetId)}
-                  className={`transition-all duration-200 cursor-pointer ${
-                    isActive
-                      ? "text-blue-600 font-bold relative after:absolute after:-bottom-1.5 after:left-0 after:w-full after:h-0.5 after:bg-blue-600 after:rounded-full"
-                      : "text-slate-600 hover:text-blue-600 font-semibold"
-                  }`}
+                  className={`transition-all duration-200 cursor-pointer ${isActive
+                    ? "text-blue-600 font-bold relative after:absolute after:-bottom-1.5 after:left-0 after:w-full after:h-0.5 after:bg-blue-600 after:rounded-full"
+                    : "text-slate-600 hover:text-blue-600 font-semibold"
+                    }`}
                 >
                   {item.label}
                 </a>
