@@ -942,12 +942,12 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ─── FLOATING CARD FOOTER (MIDNIGHT BLUE THEME WITH PERFECT SPACING) ─── */}
+      {/* ─── FLOATING CARD FOOTER (LIGHT & WHITE COMBO THEME) ─── */}
       <footer className="max-w-7xl mx-auto my-12 px-4 z-10 relative">
-        <div className="bg-[#0B172C] rounded-[36px] sm:rounded-[44px] border border-blue-900/50 shadow-[0_30px_90px_rgba(11,23,44,0.4)] text-white p-6 sm:p-12 relative overflow-hidden">
+        <div className="bg-white/90 backdrop-blur-2xl rounded-[36px] sm:rounded-[44px] border border-blue-200/80 shadow-[0_20px_70px_rgba(59,130,246,0.08)] text-slate-800 p-8 sm:p-12 relative overflow-hidden">
 
-          {/* Ambient Blue Radial Glow */}
-          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+          {/* Ambient Soft Blue Radial Glow */}
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-400/10 rounded-full blur-3xl pointer-events-none" />
 
           {/* ── TOP 5-COLUMN GRID (3 + 2 + 2 + 2 + 3 = 12) ── */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 relative z-10 pb-10">
@@ -956,117 +956,117 @@ export default function LandingPage() {
             <div className="lg:col-span-3 flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="text-2xl font-bold tracking-tight text-white">
-                    Trao<span className="text-blue-400">.ai</span>
+                  <span className="text-2xl font-bold tracking-tight text-slate-900">
+                    Trao<span className="text-blue-600">.ai</span>
                   </span>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium mt-3">
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal mt-3">
                   Empowering software engineers and candidates to master interviews with AI-generated kits, real-time company research, and structured practice schedules.
                 </p>
               </div>
 
               {/* 3 Pill Badges */}
               <div className="flex items-center gap-2 mt-6 flex-wrap">
-                <span className="px-3.5 py-1.5 bg-blue-950/80 border border-blue-800/60 text-blue-300 text-xs font-semibold rounded-full flex items-center gap-1.5 shadow-xs">
-                  <Sparkles className="w-3.5 h-3.5 text-blue-400" /> Research
+                <span className="px-3.5 py-1.5 bg-blue-50 border border-blue-200/80 text-blue-700 text-xs font-semibold rounded-full flex items-center gap-1.5 shadow-xs">
+                  <Sparkles className="w-3.5 h-3.5 text-blue-600" /> Research
                 </span>
-                <span className="px-3.5 py-1.5 bg-blue-950/80 border border-blue-800/60 text-blue-300 text-xs font-semibold rounded-full flex items-center gap-1.5 shadow-xs">
-                  <Zap className="w-3.5 h-3.5 text-blue-400" /> Synthesis
+                <span className="px-3.5 py-1.5 bg-blue-50 border border-blue-200/80 text-blue-700 text-xs font-semibold rounded-full flex items-center gap-1.5 shadow-xs">
+                  <Zap className="w-3.5 h-3.5 text-blue-600" /> Synthesis
                 </span>
-                <span className="px-3.5 py-1.5 bg-blue-950/80 border border-blue-800/60 text-blue-300 text-xs font-semibold rounded-full flex items-center gap-1.5 shadow-xs">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-blue-400" /> Mastery
+                <span className="px-3.5 py-1.5 bg-blue-50 border border-blue-200/80 text-blue-700 text-xs font-semibold rounded-full flex items-center gap-1.5 shadow-xs">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" /> Mastery
                 </span>
               </div>
             </div>
 
             {/* Column 2: EXPLORE (2 Cols) */}
             <div className="lg:col-span-2">
-              <h5 className="text-[11px] font-bold uppercase tracking-widest text-blue-400 mb-4">
+              <h5 className="text-[11px] font-bold uppercase tracking-widest text-blue-600 mb-4">
                 EXPLORE
               </h5>
-              <ul className="space-y-3 text-xs sm:text-sm font-semibold text-slate-300">
-                <li><Link href="#home" className="hover:text-white transition-colors">Home</Link></li>
-                <li><Link href="#roadmap" className="hover:text-white transition-colors">AI Pipeline</Link></li>
-                <li><Link href="#features" className="hover:text-white transition-colors">Features</Link></li>
-                <li><Link href="/login" className="hover:text-white transition-colors">Prep Kits</Link></li>
+              <ul className="space-y-3 text-xs sm:text-sm font-normal text-slate-600">
+                <li><Link href="#home" className="hover:text-blue-600 transition-colors">Home</Link></li>
+                <li><Link href="#roadmap" className="hover:text-blue-600 transition-colors">AI Pipeline</Link></li>
+                <li><Link href="#features" className="hover:text-blue-600 transition-colors">Features</Link></li>
+                <li><Link href="/login" className="hover:text-blue-600 transition-colors">Prep Kits</Link></li>
               </ul>
             </div>
 
             {/* Column 3: RESOURCES (2 Cols) */}
             <div className="lg:col-span-2">
-              <h5 className="text-[11px] font-bold uppercase tracking-widest text-blue-400 mb-4">
+              <h5 className="text-[11px] font-bold uppercase tracking-widest text-blue-600 mb-4">
                 RESOURCES
               </h5>
-              <ul className="space-y-3 text-xs sm:text-sm font-semibold text-slate-300">
-                <li><Link href="/practice" className="hover:text-white transition-colors">Question Bank</Link></li>
-                <li><Link href="/practice" className="hover:text-white transition-colors">Flashcards</Link></li>
-                <li><Link href="/schedule" className="hover:text-white transition-colors">Study Schedule</Link></li>
-                <li><Link href="/analytics" className="hover:text-white transition-colors">Analytics</Link></li>
+              <ul className="space-y-3 text-xs sm:text-sm font-normal text-slate-600">
+                <li><Link href="/practice" className="hover:text-blue-600 transition-colors">Question Bank</Link></li>
+                <li><Link href="/practice" className="hover:text-blue-600 transition-colors">Flashcards</Link></li>
+                <li><Link href="/schedule" className="hover:text-blue-600 transition-colors">Study Schedule</Link></li>
+                <li><Link href="/analytics" className="hover:text-blue-600 transition-colors">Analytics</Link></li>
               </ul>
             </div>
 
             {/* Column 4: LEGAL (2 Cols) */}
             <div className="lg:col-span-2">
-              <h5 className="text-[11px] font-bold uppercase tracking-widest text-blue-400 mb-4">
+              <h5 className="text-[11px] font-bold uppercase tracking-widest text-blue-600 mb-4">
                 LEGAL
               </h5>
-              <ul className="space-y-3 text-xs sm:text-sm font-semibold text-slate-300">
-                <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Security</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">FAQ</a></li>
+              <ul className="space-y-3 text-xs sm:text-sm font-normal text-slate-600">
+                <li><a href="#" className="hover:text-blue-600 transition-colors">Privacy Policy</a></li>
+                <li><a href="#" className="hover:text-blue-600 transition-colors">Terms of Service</a></li>
+                <li><a href="#" className="hover:text-blue-600 transition-colors">Security</a></li>
+                <li><a href="#" className="hover:text-blue-600 transition-colors">FAQ</a></li>
               </ul>
             </div>
 
-            {/* Column 5: STAY CONNECTED & VIBRANT BLUE ACTION BUTTON (3 Cols) */}
+            {/* Column 5: STAY CONNECTED & SPACIOUS CLEAN PILL INPUT (3 Cols) */}
             <div className="lg:col-span-3 flex flex-col justify-between">
               <div>
-                <h5 className="text-lg sm:text-xl font-bold text-white tracking-tight flex items-center gap-2 mb-2 whitespace-nowrap">
-                  Stay Connected <Sparkles className="w-4 h-4 text-blue-400" />
+                <h5 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2 mb-1.5 whitespace-nowrap">
+                  Stay Connected <Sparkles className="w-4 h-4 text-blue-600" />
                 </h5>
-                <p className="text-xs text-slate-300 leading-relaxed font-medium">
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
                   Get updates on new interview question patterns, tech stack signals, and product releases.
                 </p>
 
-                {/* Newsletter Input + Solid Blue Action Button */}
-                <div className="mt-4 flex items-center bg-[#050e1c] border border-blue-900/60 rounded-full p-1.5 shadow-inner">
-                  <Mail className="w-4 h-4 text-blue-400 ml-2.5 shrink-0" />
+                {/* Ultra-Clean Spacious Pill Input Container */}
+                <div className="mt-5 flex items-center bg-white border border-slate-200/90 rounded-full p-2 shadow-sm focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-100 transition-all">
+                  <Mail className="w-5 h-5 text-slate-400 ml-3.5 shrink-0" />
                   <input
                     type="email"
-                    placeholder="Enter email address"
-                    className="bg-transparent px-2.5 py-1.5 text-xs sm:text-sm text-white placeholder:text-slate-500 focus:outline-none w-full font-medium"
+                    placeholder="Enter your email address"
+                    className="bg-transparent border-none outline-none focus:outline-none focus:ring-0 px-3 py-2 text-sm sm:text-base text-slate-900 placeholder:text-slate-400 w-full font-normal"
                   />
-                  <button className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm rounded-full shadow-md shadow-blue-600/30 transition-all flex items-center gap-1.5 cursor-pointer shrink-0">
+                  <button className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-full shadow-md shadow-blue-600/25 hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer shrink-0">
                     <span>Subscribe</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
-                <p className="text-[10px] text-slate-400 mt-2 font-medium">No spam. Only high-value interview tips.</p>
+                <p className="text-xs text-slate-400 mt-2.5 font-normal">No spam. Only high-value interview tips.</p>
               </div>
             </div>
 
           </div>
 
           {/* ── BOTTOM DIVIDER & COPYRIGHT ROW ── */}
-          <div className="pt-6 border-t border-blue-900/50 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 font-medium relative z-10">
+          <div className="pt-6 border-t border-slate-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-normal relative z-10">
             <p>&copy; {new Date().getFullYear()} Trao.ai Platform. All rights reserved.</p>
 
             {/* Center Tagline */}
-            <div className="flex items-center gap-2 text-blue-400 font-bold uppercase tracking-widest text-[10px]">
-              <span className="w-8 h-px bg-blue-900" />
+            <div className="flex items-center gap-2 text-blue-600 font-bold uppercase tracking-widest text-[10px]">
+              <span className="w-8 h-px bg-slate-200" />
               <span>⚡ TAILORED FOR YOUR CAREER</span>
-              <span className="w-8 h-px bg-blue-900" />
+              <span className="w-8 h-px bg-slate-200" />
             </div>
 
             {/* Right Social Icons */}
             <div className="flex items-center gap-2">
-              <a href="#" title="Website" className="w-9 h-9 rounded-full bg-blue-950/80 border border-blue-800/60 text-blue-300 hover:bg-blue-600 hover:text-white transition-all flex items-center justify-center shadow-xs">
+              <a href="#" title="Website" className="w-9 h-9 rounded-full bg-slate-100/80 border border-slate-200/80 text-slate-600 hover:bg-blue-600 hover:text-white transition-all flex items-center justify-center shadow-xs">
                 <Globe className="w-4 h-4" />
               </a>
-              <a href="#" title="Share" className="w-9 h-9 rounded-full bg-blue-950/80 border border-blue-800/60 text-blue-300 hover:bg-blue-600 hover:text-white transition-all flex items-center justify-center shadow-xs">
+              <a href="#" title="Share" className="w-9 h-9 rounded-full bg-slate-100/80 border border-slate-200/80 text-slate-600 hover:bg-blue-600 hover:text-white transition-all flex items-center justify-center shadow-xs">
                 <Share2 className="w-4 h-4" />
               </a>
-              <a href="#" title="Contact" className="w-9 h-9 rounded-full bg-blue-950/80 border border-blue-800/60 text-blue-300 hover:bg-blue-600 hover:text-white transition-all flex items-center justify-center shadow-xs">
+              <a href="#" title="Contact" className="w-9 h-9 rounded-full bg-slate-100/80 border border-slate-200/80 text-slate-600 hover:bg-blue-600 hover:text-white transition-all flex items-center justify-center shadow-xs">
                 <Send className="w-4 h-4" />
               </a>
             </div>
