@@ -6,7 +6,10 @@ import { AppError } from '../middleware/errorHandler.js';
 
 export async function createKit(req, res, next) {
   try {
-    const { job_description, company_url, days_available } = req.body;
+    // Accept lenient field aliases from frontend
+    const job_description = req.body.job_description || req.body.jobDescription;
+    const company_url = req.body.company_url || req.body.website;
+    const days_available = req.body.days_available || req.body.daysUntil;
 
     if (!job_description || !company_url || !days_available) {
       throw new AppError('job_description, company_url, and days_available are required', 400);
@@ -72,10 +75,37 @@ export async function listKits(req, res, next) {
   try {
     const kits = await Kit.find({ user_id: req.user.id })
       .sort({ created_at: -1 })
-      .select('-kit_data')
       .lean();
 
-    res.json({ kits });
+    // Add computed convenience metrics
+    const enrichedKits = kits.map(kit => {
+      const kitData = kit.kit_data || {};
+      const requirements = kitData.role?.requirements || [];
+      const mustReqs = requirements.filter(r => r.priority === 'must');
+      const coverage = kitData.coverage || {};
+      const uncoveredMust = coverage.uncovered_must_requirements || [];
+      const totalQuestions = Object.values(kitData.questions || {}).reduce(
+        (sum, arr) => sum + (Array.isArray(arr) ? arr.length : 0), 0
+      );
+      const totalFlashcards = (kitData.flashcards || []).length;
+
+      return {
+        ...kit,
+        _computed: {
+          total_must: mustReqs.length,
+          total_nice: requirements.length - mustReqs.length,
+          coverage_percentage: mustReqs.length > 0
+            ? Math.round(((mustReqs.length - uncoveredMust.length) / mustReqs.length) * 100)
+            : 100,
+          total_questions: totalQuestions,
+          total_flashcards: totalFlashcards,
+          role_title: kitData.role?.title || '',
+          company_name: kitData.company_brief?.name || '',
+        },
+      };
+    });
+
+    res.json({ kits: enrichedKits });
   } catch (err) {
     next(err);
   }

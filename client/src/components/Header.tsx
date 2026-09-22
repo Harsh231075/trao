@@ -1,15 +1,28 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Bell, Mail, ChevronDown } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Search, Bell, Mail, ChevronDown, LogOut, User, Settings } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 
 interface HeaderProps {
   onOpenCreateKit?: () => void;
 }
 
 export default function Header({ onOpenCreateKit }: HeaderProps) {
+  const { user, logout } = useAuth();
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+
+  const initials = user?.name
+    ? user.name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2)
+    : "U";
 
   return (
     <header className="w-full flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pb-3 sm:pb-3.5 border-b border-slate-100 shrink-0">
@@ -75,11 +88,11 @@ export default function Header({ onOpenCreateKit }: HeaderProps) {
             className="flex items-center gap-2 p-1 pl-1.5 pr-2.5 bg-white/90 hover:bg-white rounded-full border border-slate-200/80 shadow-2xs transition-all text-left"
           >
             <div className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-500 text-white flex items-center justify-center font-bold text-xs shadow-xs overflow-hidden ring-1 ring-blue-100">
-              <span>HS</span>
+              <span>{initials}</span>
             </div>
             <div className="hidden lg:block pr-1">
-              <p className="text-xs font-bold text-slate-900 leading-tight">Harsh Singh</p>
-              <p className="text-[10px] text-slate-500 leading-tight">Aspiring Full Stack Developer</p>
+              <p className="text-xs font-bold text-slate-900 leading-tight">{user?.name || "User"}</p>
+              <p className="text-[10px] text-slate-500 leading-tight">{user?.email || ""}</p>
             </div>
             <ChevronDown className="w-3.5 h-3.5 text-slate-400 hidden sm:block" />
           </button>
@@ -88,17 +101,27 @@ export default function Header({ onOpenCreateKit }: HeaderProps) {
           {showProfileMenu && (
             <div className="absolute right-0 mt-2 w-52 bg-white rounded-2xl shadow-xl border border-slate-100 py-1.5 z-50 text-xs">
               <div className="px-3.5 py-1.5 border-b border-slate-100">
-                <p className="font-semibold text-slate-900">Harsh Singh</p>
-                <p className="text-[11px] text-slate-500">harsh@example.com</p>
+                <p className="font-semibold text-slate-900">{user?.name || "User"}</p>
+                <p className="text-[11px] text-slate-500">{user?.email || ""}</p>
               </div>
-              <a href="/profile" className="block px-3.5 py-1.5 text-slate-700 hover:bg-slate-50">Profile Details</a>
-              <a href="/settings" className="block px-3.5 py-1.5 text-slate-700 hover:bg-slate-50">Preferences</a>
+              <button
+                onClick={() => { setShowProfileMenu(false); router.push("/profile"); }}
+                className="flex items-center gap-2 w-full text-left px-3.5 py-1.5 text-slate-700 hover:bg-slate-50"
+              >
+                <User className="w-3.5 h-3.5" /> Profile Details
+              </button>
+              <button
+                onClick={() => { setShowProfileMenu(false); router.push("/settings"); }}
+                className="flex items-center gap-2 w-full text-left px-3.5 py-1.5 text-slate-700 hover:bg-slate-50"
+              >
+                <Settings className="w-3.5 h-3.5" /> Preferences
+              </button>
               <div className="border-t border-slate-100 mt-1 pt-1">
                 <button
-                  onClick={() => setShowProfileMenu(false)}
-                  className="block w-full text-left px-3.5 py-1.5 text-red-600 hover:bg-red-50"
+                  onClick={() => { setShowProfileMenu(false); logout(); }}
+                  className="flex items-center gap-2 w-full text-left px-3.5 py-1.5 text-red-600 hover:bg-red-50"
                 >
-                  Log out
+                  <LogOut className="w-3.5 h-3.5" /> Log out
                 </button>
               </div>
             </div>
