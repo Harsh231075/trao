@@ -6,7 +6,6 @@ import {
   Search,
   Bell,
   Settings,
-  User,
   Users,
   Phone,
   FileText,
@@ -32,6 +31,8 @@ import {
 } from "lucide-react";
 
 export default function LandingPage() {
+  const [activeStage, setActiveStage] = useState(0);
+
   return (
     <div className="w-full h-screen overflow-y-auto bg-gradient-to-br from-sky-100/80 via-blue-50/60 to-indigo-50/40 text-slate-800 antialiased selection:bg-blue-500 selection:text-white relative font-sans">
 
@@ -448,8 +449,9 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+      {/* ─── AI PIPELINE ROADMAP & STAGE ASSET SHOWCASE ─── */}
       <section id="roadmap" className="py-16 px-4 max-w-6xl mx-auto z-10 relative">
-        <div className="text-center max-w-2xl mx-auto mb-14">
+        <div className="text-center max-w-2xl mx-auto mb-12">
           <p className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-2">
             AI PIPELINE ROADMAP
           </p>
@@ -461,22 +463,22 @@ export default function LandingPage() {
           </p>
         </div>
 
-        {/* ── DESKTOP WAVY ROADMAP TRACK (VISIBLE ON LG SCREENS) ── */}
-        <div className="hidden lg:block relative w-full my-8 min-h-[420px]">
+        {/* ── DESKTOP DOUBLE-WAVE ROADMAP TRACK (VISIBLE ON LG SCREENS) ── */}
+        <div className="hidden lg:block relative w-full my-6 min-h-[380px]">
 
-          {/* SVG Curved Highway Track */}
-          <div className="w-full relative z-0 py-12">
-            <svg viewBox="0 0 1000 220" fill="none" className="w-full h-auto drop-shadow-md">
-              {/* Outer Track */}
+          {/* SVG Double-Wave Highway Track with Symmetrical Crests & Troughs */}
+          <div className="w-full relative z-0 py-10">
+            <svg viewBox="0 0 1000 210" fill="none" className="w-full h-auto drop-shadow-md">
+              {/* Outer Dark Highway Track */}
               <path
-                d="M 80 140 C 180 140, 220 40, 340 40 C 460 40, 500 170, 620 170 C 740 170, 780 70, 920 70"
+                d="M 60 140 C 160 140, 180 40, 280 40 C 380 40, 400 170, 500 170 C 600 170, 620 40, 720 40 C 820 40, 840 140, 940 140"
                 stroke="#1e293b"
-                strokeWidth="28"
+                strokeWidth="26"
                 strokeLinecap="round"
               />
-              {/* Inner Dashed Line */}
+              {/* Inner Dashed Lane Divider */}
               <path
-                d="M 80 140 C 180 140, 220 40, 340 40 C 460 40, 500 170, 620 170 C 740 170, 780 70, 920 70"
+                d="M 60 140 C 160 140, 180 40, 280 40 C 380 40, 400 170, 500 170 C 600 170, 620 40, 720 40 C 820 40, 840 140, 940 140"
                 stroke="#ffffff"
                 strokeWidth="4"
                 strokeDasharray="10 10"
@@ -485,105 +487,405 @@ export default function LandingPage() {
             </svg>
           </div>
 
-          {/* NODE 01: Research (Bottom Left) */}
-          <div className="absolute left-[8%] top-[62%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
-            <div className="w-12 h-12 rounded-full bg-white border-2 border-slate-200 shadow-xl flex items-center justify-center font-bold text-blue-600 text-sm ring-4 ring-white/80">
+          {/* NODE 01: Research (Trough 1, Left 6%, Top 62%) */}
+          <div
+            onClick={() => setActiveStage(0)}
+            className="absolute left-[6%] top-[62%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center cursor-pointer group"
+          >
+            <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${activeStage === 0
+                ? "bg-blue-600 text-white ring-4 ring-blue-400/50 shadow-lg scale-110"
+                : "bg-white border-2 border-slate-200 text-blue-600 shadow-md group-hover:scale-105 group-hover:border-blue-400"
+              }`}>
               01
             </div>
             {/* Text Below */}
-            <div className="mt-4 text-center w-52">
+            <div className="mt-3 text-center w-48">
               <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">RESEARCH</p>
-              <h4 className="text-sm font-semibold text-slate-900 mt-0.5">Scrape Company Signals</h4>
+              <h4 className="text-xs font-semibold text-slate-900 mt-0.5">Scrape Company Signals</h4>
               <p className="text-[11px] text-slate-500 mt-1 leading-snug font-normal">
-                Scraping company tech stacks, engineering blogs &amp; interview insights.
+                Scraping company tech stacks, engineering blogs &amp; insights.
               </p>
             </div>
           </div>
 
-          {/* NODE 02: Extract (Top Left-Center) */}
-          <div className="absolute left-[34%] top-[18%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
+          {/* NODE 02: Extract (Crest 1, Left 28%, Top 18%) */}
+          <div
+            onClick={() => setActiveStage(1)}
+            className="absolute left-[28%] top-[18%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center cursor-pointer group"
+          >
             {/* Text Above */}
-            <div className="mb-4 text-center w-52">
+            <div className="mb-3 text-center w-48">
               <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">EXTRACT</p>
-              <h4 className="text-sm font-semibold text-slate-900 mt-0.5">Parse Job Requirements</h4>
+              <h4 className="text-xs font-semibold text-slate-900 mt-0.5">Parse Job Requirements</h4>
               <p className="text-[11px] text-slate-500 mt-1 leading-snug font-normal">
                 Parsing MUST vs NICE skills directly from the job description.
               </p>
             </div>
-            <div className="w-12 h-12 rounded-full bg-white border-2 border-slate-200 shadow-xl flex items-center justify-center font-bold text-blue-600 text-sm ring-4 ring-white/80">
+            <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${activeStage === 1
+                ? "bg-blue-600 text-white ring-4 ring-blue-400/50 shadow-lg scale-110"
+                : "bg-white border-2 border-slate-200 text-blue-600 shadow-md group-hover:scale-105 group-hover:border-blue-400"
+              }`}>
               02
             </div>
           </div>
 
-          {/* NODE 03: Synthesize (Bottom Center) */}
-          <div className="absolute left-[62%] top-[77%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
-            <div className="w-12 h-12 rounded-full bg-white border-2 border-slate-200 shadow-xl flex items-center justify-center font-bold text-blue-600 text-sm ring-4 ring-white/80">
+          {/* NODE 03: Synthesize (Trough 2, Left 50%, Top 76%) */}
+          <div
+            onClick={() => setActiveStage(2)}
+            className="absolute left-[50%] top-[76%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center cursor-pointer group"
+          >
+            <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${activeStage === 2
+                ? "bg-blue-600 text-white ring-4 ring-blue-400/50 shadow-lg scale-110"
+                : "bg-white border-2 border-slate-200 text-blue-600 shadow-md group-hover:scale-105 group-hover:border-blue-400"
+              }`}>
               03
             </div>
             {/* Text Below */}
-            <div className="mt-4 text-center w-52">
+            <div className="mt-3 text-center w-48">
               <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">SYNTHESIZE</p>
-              <h4 className="text-sm font-semibold text-slate-900 mt-0.5">Generate Questions</h4>
+              <h4 className="text-xs font-semibold text-slate-900 mt-0.5">Generate Questions</h4>
               <p className="text-[11px] text-slate-500 mt-1 leading-snug font-normal">
                 Synthesizing technical, system design &amp; behavioral questions.
               </p>
             </div>
           </div>
 
-          {/* NODE 04: Audit (Top Right-Center) */}
-          <div className="absolute left-[78%] top-[31%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
+          {/* NODE 04: Audit (Crest 2, Left 72%, Top 18%) */}
+          <div
+            onClick={() => setActiveStage(3)}
+            className="absolute left-[72%] top-[18%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center cursor-pointer group"
+          >
             {/* Text Above */}
-            <div className="mb-4 text-center w-52">
+            <div className="mb-3 text-center w-48">
               <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">AUDIT</p>
-              <h4 className="text-sm font-semibold text-slate-900 mt-0.5">Coverage Verification</h4>
+              <h4 className="text-xs font-semibold text-slate-900 mt-0.5">Coverage Verification</h4>
               <p className="text-[11px] text-slate-500 mt-1 leading-snug font-normal">
                 Automated multi-pass audit verifying 100% requirement coverage.
               </p>
             </div>
-            <div className="w-12 h-12 rounded-full bg-white border-2 border-slate-200 shadow-xl flex items-center justify-center font-bold text-blue-600 text-sm ring-4 ring-white/80">
+            <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${activeStage === 3
+                ? "bg-blue-600 text-white ring-4 ring-blue-400/50 shadow-lg scale-110"
+                : "bg-white border-2 border-slate-200 text-blue-600 shadow-md group-hover:scale-105 group-hover:border-blue-400"
+              }`}>
               04
             </div>
           </div>
 
-          {/* NODE 05: Schedule (Right End) */}
-          <div className="absolute left-[92%] top-[31%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
-            <div className="w-12 h-12 rounded-full bg-white border-2 border-slate-200 shadow-xl flex items-center justify-center font-bold text-blue-600 text-sm ring-4 ring-white/80">
+          {/* NODE 05: Schedule (Trough 3, Left 94%, Top 62%) */}
+          <div
+            onClick={() => setActiveStage(4)}
+            className="absolute left-[94%] top-[62%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center cursor-pointer group"
+          >
+            <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${activeStage === 4
+                ? "bg-blue-600 text-white ring-4 ring-blue-400/50 shadow-lg scale-110"
+                : "bg-white border-2 border-slate-200 text-blue-600 shadow-md group-hover:scale-105 group-hover:border-blue-400"
+              }`}>
               05
             </div>
             {/* Text Below */}
-            <div className="mt-4 text-center w-52">
+            <div className="mt-3 text-center w-48">
               <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">FINALIZE</p>
-              <h4 className="text-sm font-semibold text-slate-900 mt-0.5">Build Study Schedule</h4>
+              <h4 className="text-xs font-semibold text-slate-900 mt-0.5">Build Study Schedule</h4>
               <p className="text-[11px] text-slate-500 mt-1 leading-snug font-normal">
-                Structuring day-by-day practice timeline and spaced flashcards.
+                Structuring day-by-day practice timeline &amp; flashcards.
               </p>
             </div>
           </div>
         </div>
 
-        {/* ── MOBILE / TABLET RESPONSIVE STEPPER (VISIBLE ON SMALL SCREENS) ── */}
-        <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* ── MOBILE / TABLET RESPONSIVE STEPPER BAR ── */}
+        <div className="lg:hidden grid grid-cols-2 sm:grid-cols-5 gap-2 mb-6">
           {[
-            { step: "01", category: "RESEARCH", title: "Scrape Company Signals", desc: "Scraping company tech stacks, engineering blogs & interview insights." },
-            { step: "02", category: "EXTRACT", title: "Parse Job Requirements", desc: "Parsing MUST vs NICE skills directly from the job description." },
-            { step: "03", category: "SYNTHESIZE", title: "Generate Questions", desc: "Synthesizing technical, system design & behavioral questions." },
-            { step: "04", category: "AUDIT", title: "Coverage Verification", desc: "Automated multi-pass audit verifying 100% requirement coverage." },
-            { step: "05", category: "FINALIZE", title: "Build Study Schedule", desc: "Structuring day-by-day practice timeline and spaced flashcards." },
-          ].map((stg) => (
-            <div key={stg.step} className="bg-white/90 p-5 rounded-2xl border border-slate-200/80 shadow-xs flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-sm">
-                {stg.step}
-              </div>
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-wider text-blue-600">{stg.category}</p>
-                <h4 className="text-sm font-semibold text-slate-900 mt-0.5">{stg.title}</h4>
-                <p className="text-xs text-slate-500 mt-1 leading-relaxed font-normal">{stg.desc}</p>
-              </div>
-            </div>
+            { step: "01", name: "Research" },
+            { step: "02", name: "Extract" },
+            { step: "03", name: "Synthesize" },
+            { step: "04", name: "Audit" },
+            { step: "05", name: "Finalize" },
+          ].map((st, idx) => (
+            <button
+              key={st.step}
+              onClick={() => setActiveStage(idx)}
+              className={`p-3 rounded-xl text-center border text-xs font-semibold transition-all ${activeStage === idx
+                  ? "bg-blue-600 text-white border-blue-600 shadow-md"
+                  : "bg-white/80 text-slate-700 border-slate-200 hover:bg-blue-50"
+                }`}
+            >
+              <span className="block text-[10px] opacity-80 uppercase">Step {st.step}</span>
+              {st.name}
+            </button>
           ))}
         </div>
 
-        {/* Bottom Tagline */}
+        {/* ─── DYNAMIC INTERACTIVE STAGE ASSET OUTPUT SHOWCASE ─── */}
+        <div className="mt-6 bg-white/90 backdrop-blur-xl rounded-3xl border border-blue-200/80 p-6 sm:p-8 shadow-xl shadow-blue-500/5 transition-all">
+
+          {/* Top Stage Header & Tabs */}
+          <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-slate-100">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">
+                0{activeStage + 1}
+              </div>
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-wider text-blue-600">
+                  {["STAGE 01 • COMPANY RESEARCH", "STAGE 02 • JD REQUIREMENT PARSER", "STAGE 03 • AI QUESTION SYNTHESIS", "STAGE 04 • 100% COVERAGE AUDIT", "STAGE 05 • FINALIZE STUDY SCHEDULE"][activeStage]}
+                </p>
+                <h3 className="text-lg font-semibold text-slate-900">
+                  {["Scraping Real-Time Company Signals", "Parsing Skill Matrices & Priorities", "Synthesizing AI Question Bank", "Automated Multi-Pass Verification", "Generating Spaced Study Plan & Flashcards"][activeStage]}
+                </h3>
+              </div>
+            </div>
+
+            {/* Quick Stage Switcher Pills */}
+            <div className="flex items-center gap-1.5 bg-slate-100/80 p-1.5 rounded-full border border-slate-200/60 text-xs font-medium">
+              {["01 Research", "02 Extract", "03 Synthesize", "04 Audit", "05 Finalize"].map((label, idx) => (
+                <button
+                  key={label}
+                  onClick={() => setActiveStage(idx)}
+                  className={`px-3 py-1.5 rounded-full transition-all text-[11px] font-semibold ${activeStage === idx
+                      ? "bg-blue-600 text-white shadow-xs"
+                      : "text-slate-600 hover:text-blue-600 hover:bg-white/60"
+                    }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Stage Specific Asset UI Output Content */}
+          <div className="pt-6">
+
+            {/* STAGE 01: RESEARCH ASSET */}
+            {activeStage === 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="bg-slate-50/80 p-4 rounded-2xl border border-slate-200/60">
+                  <div className="flex items-center justify-between text-xs font-semibold text-slate-500 mb-2">
+                    <span>Company Tech Stack</span>
+                    <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {["Node.js", "TypeScript", "React", "PostgreSQL", "Kafka", "Docker", "AWS"].map((tag) => (
+                      <span key={tag} className="px-2.5 py-1 rounded-lg bg-blue-100/70 text-blue-700 font-medium text-xs border border-blue-200/60">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="bg-slate-50/80 p-4 rounded-2xl border border-slate-200/60">
+                  <div className="flex items-center justify-between text-xs font-semibold text-slate-500 mb-2">
+                    <span>Engineering Culture Signals</span>
+                    <Briefcase className="w-3.5 h-3.5 text-blue-600" />
+                  </div>
+                  <ul className="text-xs text-slate-600 space-y-1.5 font-normal">
+                    <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" /> High concurrency &amp; low-latency focus</li>
+                    <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" /> Strong system idempotency standards</li>
+                    <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" /> Cross-functional technical leadership</li>
+                  </ul>
+                </div>
+
+                <div className="bg-slate-50/80 p-4 rounded-2xl border border-slate-200/60">
+                  <div className="flex items-center justify-between text-xs font-semibold text-slate-500 mb-2">
+                    <span>Interview Insights Scraped</span>
+                    <BarChart3 className="w-3.5 h-3.5 text-blue-600" />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-xs">
+                      <span className="text-slate-600">System Design Weight</span>
+                      <span className="font-bold text-slate-900">45%</span>
+                    </div>
+                    <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                      <div className="bg-blue-600 h-full w-[45%]" />
+                    </div>
+                    <div className="flex justify-between text-xs">
+                      <span className="text-slate-600">Behavioral STAR Weight</span>
+                      <span className="font-bold text-slate-900">35%</span>
+                    </div>
+                    <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                      <div className="bg-sky-500 h-full w-[35%]" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* STAGE 02: EXTRACT ASSET */}
+            {activeStage === 1 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-slate-50/80 p-5 rounded-2xl border border-slate-200/60">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-bold text-blue-700 bg-blue-100 px-2.5 py-1 rounded-md">MUST-HAVE REQUIREMENTS</span>
+                    <span className="text-xs text-slate-400 font-medium">Extracted with 100% Precision</span>
+                  </div>
+                  <ul className="space-y-2 text-xs text-slate-700 font-normal">
+                    <li className="p-2.5 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
+                      <span className="font-medium text-slate-900">Distributed Microservices Architecture</span>
+                      <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">REQUIRED</span>
+                    </li>
+                    <li className="p-2.5 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
+                      <span className="font-medium text-slate-900">SQL Optimization &amp; Index Tuning</span>
+                      <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">REQUIRED</span>
+                    </li>
+                    <li className="p-2.5 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
+                      <span className="font-medium text-slate-900">Asynchronous Job Queues (Redis/RabbitMQ)</span>
+                      <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">REQUIRED</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="bg-slate-50/80 p-5 rounded-2xl border border-slate-200/60">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-bold text-slate-700 bg-slate-200 px-2.5 py-1 rounded-md">NICE-TO-HAVE SKILLS</span>
+                    <span className="text-xs text-slate-400 font-medium">Bonus Scoring Criteria</span>
+                  </div>
+                  <ul className="space-y-2 text-xs text-slate-700 font-normal">
+                    <li className="p-2.5 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
+                      <span className="font-medium text-slate-900">GraphQL Federation Schemas</span>
+                      <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">BONUS</span>
+                    </li>
+                    <li className="p-2.5 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
+                      <span className="font-medium text-slate-900">Kubernetes Helm Deployments</span>
+                      <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">BONUS</span>
+                    </li>
+                    <li className="p-2.5 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
+                      <span className="font-medium text-slate-900">Prometheus Telemetry Monitoring</span>
+                      <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">BONUS</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            {/* STAGE 03: SYNTHESIZE ASSET */}
+            {activeStage === 2 && (
+              <div className="space-y-3">
+                <div className="p-4 bg-slate-50/90 rounded-2xl border border-slate-200/70 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <span className="px-2.5 py-1 rounded-lg bg-blue-600 text-white font-bold text-[10px]">TECHNICAL</span>
+                    <div>
+                      <h4 className="text-xs font-semibold text-slate-900">Design an Idempotent Payment Queue System</h4>
+                      <p className="text-[11px] text-slate-500">Handling 50,000 requests/sec with zero duplicate charges</p>
+                    </div>
+                  </div>
+                  <span className="px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold border border-amber-200 shrink-0">HARD • SYSTEM DESIGN</span>
+                </div>
+
+                <div className="p-4 bg-slate-50/90 rounded-2xl border border-slate-200/70 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <span className="px-2.5 py-1 rounded-lg bg-sky-500 text-white font-bold text-[10px]">BEHAVIORAL</span>
+                    <div>
+                      <h4 className="text-xs font-semibold text-slate-900">Describe a Production Downtime Incident You Resolved</h4>
+                      <p className="text-[11px] text-slate-500">Using the STAR Method (Situation, Task, Action, Result)</p>
+                    </div>
+                  </div>
+                  <span className="px-2.5 py-1 rounded-full bg-blue-100 text-blue-800 text-[10px] font-bold border border-blue-200 shrink-0">MEDIUM • LEADERSHIP</span>
+                </div>
+
+                <div className="p-4 bg-slate-50/90 rounded-2xl border border-slate-200/70 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <span className="px-2.5 py-1 rounded-lg bg-indigo-600 text-white font-bold text-[10px]">COMPANY FIT</span>
+                    <div>
+                      <h4 className="text-xs font-semibold text-slate-900">How Do You Prioritize Tech Debt vs Feature Delivery?</h4>
+                      <p className="text-[11px] text-slate-500">Tailored specifically to target company's engineering values</p>
+                    </div>
+                  </div>
+                  <span className="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold border border-emerald-200 shrink-0">CULTURE FIT</span>
+                </div>
+              </div>
+            )}
+
+            {/* STAGE 04: AUDIT ASSET */}
+            {activeStage === 3 && (
+              <div className="bg-slate-50/80 p-6 rounded-2xl border border-slate-200/60">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-4 border-b border-slate-200/60">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 flex items-center justify-center">
+                      <ShieldCheck className="w-7 h-7" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h4 className="text-sm font-semibold text-slate-900">Multi-Pass Quality Audit Shield</h4>
+                        <span className="px-2 py-0.5 bg-emerald-100 text-emerald-700 text-[10px] font-bold rounded-md">VERIFIED</span>
+                      </div>
+                      <p className="text-xs text-slate-500 mt-0.5">Automated AI auditor verified 100% mapping against job requirements</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-2xl font-black text-emerald-600">100%</span>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase">REQUIREMENT COVERAGE</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 mt-4">
+                  {[
+                    { label: "Technical Skills", status: "100% Passed" },
+                    { label: "System Architecture", status: "100% Passed" },
+                    { label: "Behavioral Prompts", status: "100% Passed" },
+                    { label: "Company Alignment", status: "100% Passed" },
+                  ].map((chk) => (
+                    <div key={chk.label} className="p-3 bg-white rounded-xl border border-slate-200/70 flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                      <div>
+                        <p className="text-[11px] font-semibold text-slate-800">{chk.label}</p>
+                        <p className="text-[10px] text-emerald-600 font-bold">{chk.status}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* STAGE 05: FINALIZE ASSET */}
+            {activeStage === 4 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-slate-50/80 p-5 rounded-2xl border border-slate-200/60">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-bold text-blue-700 flex items-center gap-1.5">
+                      <Calendar className="w-4 h-4" /> 7-DAY STUDY PLAN TIMELINE
+                    </span>
+                    <span className="text-[10px] text-slate-400 font-bold">READY TO EXPORT</span>
+                  </div>
+                  <div className="space-y-2 text-xs">
+                    <div className="p-2.5 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
+                      <span className="font-semibold text-slate-800">Day 1 - 2: System Architecture &amp; Scalability</span>
+                      <span className="text-[10px] font-bold text-blue-600">3 MODULES</span>
+                    </div>
+                    <div className="p-2.5 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
+                      <span className="font-semibold text-slate-800">Day 3 - 4: Data Structures &amp; Coding Drills</span>
+                      <span className="text-[10px] font-bold text-blue-600">4 MODULES</span>
+                    </div>
+                    <div className="p-2.5 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
+                      <span className="font-semibold text-slate-800">Day 5 - 6: STAR Behavioral Mock Practice</span>
+                      <span className="text-[10px] font-bold text-blue-600">2 MODULES</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-slate-50/80 p-5 rounded-2xl border border-slate-200/60 flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-xs font-bold text-indigo-700 flex items-center gap-1.5">
+                        <Layers className="w-4 h-4" /> SPACED FLASHCARDS DECK
+                      </span>
+                      <span className="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">24 CARDS</span>
+                    </div>
+                    <div className="p-4 bg-gradient-to-br from-blue-600 to-indigo-700 text-white rounded-2xl shadow-md">
+                      <span className="text-[9px] font-bold tracking-widest uppercase text-blue-200">FLASHCARD PREVIEW</span>
+                      <h4 className="text-xs sm:text-sm font-semibold mt-1">What is the difference between Optimistic &amp; Pessimistic Locking?</h4>
+                      <p className="text-[10px] text-blue-100 mt-2 font-normal">Click to flip answer during review mode</p>
+                    </div>
+                  </div>
+                  <div className="mt-3 flex items-center justify-between text-xs text-slate-500 font-normal">
+                    <span>Target Readiness Score</span>
+                    <span className="font-bold text-emerald-600">94% Prepared</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Bottom Pipeline Tagline */}
         <p className="text-center text-xs text-slate-400 font-normal mt-10">
           AI kit generation executes end-to-end in ~15 seconds with 100% deterministic requirement coverage.
         </p>
@@ -643,13 +945,13 @@ export default function LandingPage() {
       {/* ─── FLOATING CARD FOOTER (MIDNIGHT BLUE THEME WITH PERFECT SPACING) ─── */}
       <footer className="max-w-6xl mx-auto my-12 px-4 z-10 relative">
         <div className="bg-[#0B172C] rounded-[36px] sm:rounded-[44px] border border-blue-900/50 shadow-[0_30px_90px_rgba(11,23,44,0.4)] text-white p-6 sm:p-12 relative overflow-hidden">
-          
+
           {/* Ambient Blue Radial Glow */}
           <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
 
           {/* ── TOP 5-COLUMN GRID (3 + 2 + 2 + 2 + 3 = 12) ── */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 relative z-10 pb-10">
-            
+
             {/* Column 1: Brand & Mission (3 Cols) */}
             <div className="lg:col-span-3 flex flex-col justify-between">
               <div>
