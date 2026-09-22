@@ -8,7 +8,7 @@ const config = {
   jwtSecret: process.env.JWT_SECRET || 'trao-dev-secret-change-in-production',
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '7d',
   groqApiKey: process.env.GROQ_API_KEY || '',
-  groqModel: process.env.GROQ_MODEL || 'llama-3.3-70b-versatile',
+  groqModel: process.env.GROQ_MODEL || 'openai/gpt-oss-120b',
   nodeEnv: process.env.NODE_ENV || 'development',
 };
 
