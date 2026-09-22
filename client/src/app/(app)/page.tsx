@@ -23,6 +23,9 @@ import {
   ArrowUpRight,
   Loader2,
   RefreshCw,
+  ArrowRight,
+  X,
+  Check,
 } from "lucide-react";
 
 function mapStatus(backendStatus: string): "In Progress" | "Ready" | "Complete" | "Failed" {
@@ -56,6 +59,15 @@ function extractDomain(url: string): string {
   }
 }
 
+const STAGE_INFO: Record<string, { step: number; name: string; desc: string }> = {
+  queued: { step: 1, name: "Queued", desc: "Waiting for pipeline worker..." },
+  researching: { step: 1, name: "Company Research", desc: "Scraping company website & public interview insights" },
+  extracting: { step: 2, name: "Requirement Extraction", desc: "Parsing MUST vs NICE skills from JD" },
+  generating: { step: 3, name: "Generating Content", desc: "Writing tailored interview questions & flashcards" },
+  checking_coverage: { step: 4, name: "Coverage Audit", desc: "Verifying 100% requirement coverage" },
+  building_schedule: { step: 5, name: "Building Schedule", desc: "Allocating day-by-day study timeline" },
+};
+
 export default function DashboardPage() {
   const { user } = useAuth();
   const router = useRouter();
@@ -63,11 +75,29 @@ export default function DashboardPage() {
   const [kits, setKits] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const [dismissedCompletedId, setDismissedCompletedId] = useState<string | null>(null);
+  const [justCompletedKitId, setJustCompletedKitId] = useState<string | null>(null);
+  const prevStatusesRef = React.useRef<Record<string, string>>({});
 
   const fetchKits = useCallback(async () => {
     try {
       const data = await api.get("/kits");
-      setKits(data.kits || []);
+      const currentKits = data.kits || [];
+
+      // Detect newly completed kit
+      currentKits.forEach((k: any) => {
+        const prevStatus = prevStatusesRef.current[k._id];
+        if (
+          prevStatus &&
+          ["queued", "researching", "extracting", "generating", "checking_coverage", "building_schedule"].includes(prevStatus) &&
+          (k.status === "completed" || k.status === "partial")
+        ) {
+          setJustCompletedKitId(k._id);
+        }
+        prevStatusesRef.current[k._id] = k.status;
+      });
+
+      setKits(currentKits);
       setError("");
     } catch (err: any) {
       setError(err.message);
@@ -80,18 +110,21 @@ export default function DashboardPage() {
     fetchKits();
   }, [fetchKits]);
 
-  // Poll for in-progress kits
+  // Fast polling (3s) for in-progress kits
   useEffect(() => {
     const hasInProgress = kits.some(k =>
       ["queued", "researching", "extracting", "generating", "checking_coverage", "building_schedule"].includes(k.status)
     );
     if (!hasInProgress) return;
 
-    const interval = setInterval(fetchKits, 8000);
+    const interval = setInterval(fetchKits, 3000);
     return () => clearInterval(interval);
   }, [kits, fetchKits]);
 
-  const handleKitCreated = () => {
+  const handleKitCreated = (newKit?: any) => {
+    if (newKit?._id) {
+      prevStatusesRef.current[newKit._id] = newKit.status || "queued";
+    }
     fetchKits();
   };
 
@@ -104,6 +137,17 @@ export default function DashboardPage() {
     return sum + Math.max(0, must - Math.round((cov / 100) * must));
   }, 0);
   const activeKits = kits.length;
+
+  // Active generating kit & newly completed kit
+  const inProgressKit = kits.find(k =>
+    ["queued", "researching", "extracting", "generating", "checking_coverage", "building_schedule"].includes(k.status)
+  );
+
+  const highlightKit =
+    kits.find(k => k._id === justCompletedKitId && k._id !== dismissedCompletedId) ||
+    (!justCompletedKitId && kits[0] && (kits[0].status === "completed" || kits[0].status === "partial") && kits[0]._id !== dismissedCompletedId && kits[0].created_at && (Date.now() - new Date(kits[0].created_at).getTime() < 1000 * 60 * 60 * 2)
+      ? kits[0]
+      : null);
 
   // Greeting
   const hour = new Date().getHours();
@@ -144,6 +188,131 @@ export default function DashboardPage() {
           </button>
         </div>
       </div>
+
+      {/* ⚡ ACTIVE GENERATION BANNER (Shows Live 5-Step Pipeline) */}
+      {inProgressKit && (
+        <div className="w-full bg-gradient-to-r from-blue-950 via-slate-900 to-indigo-950 text-white p-4 sm:p-5 rounded-2xl sm:rounded-3xl shadow-md border border-blue-500/40 relative overflow-hidden animate-in fade-in duration-300">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex items-start sm:items-center gap-3.5">
+              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-bold shadow-lg shadow-blue-500/30 shrink-0 animate-pulse">
+                <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-300" />
+              </div>
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-500/30 text-blue-300 border border-blue-400/30 flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-ping inline-block" />
+                    PIPELINE ACTIVE (Stage {STAGE_INFO[inProgressKit.status]?.step || 1} of 5)
+                  </span>
+                  <span className="text-[11px] text-slate-400 font-medium">Live polling active (every 3s)</span>
+                </div>
+                <h2 className="text-sm sm:text-base font-bold text-white tracking-tight mt-1 truncate">
+                  Generating Kit for {inProgressKit._computed?.company_name || extractDomain(inProgressKit.company_url)}
+                </h2>
+                <p className="text-xs text-blue-200/80 mt-0.5 truncate">
+                  <span className="font-semibold text-blue-300">{STAGE_INFO[inProgressKit.status]?.name || inProgressKit.status}:</span>{" "}
+                  {STAGE_INFO[inProgressKit.status]?.desc || "Analyzing and generating preparation materials..."}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 shrink-0 self-end md:self-center">
+              <button
+                onClick={() => router.push(`/kits/${inProgressKit._id}`)}
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-full shadow-md transition-all flex items-center gap-1.5 cursor-pointer"
+              >
+                <span>Watch Live Details</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Stepper Progress Bar */}
+          <div className="mt-4 pt-3 border-t border-white/10">
+            <div className="grid grid-cols-5 gap-2">
+              {[
+                { id: 1, label: "1. Research" },
+                { id: 2, label: "2. Extract" },
+                { id: 3, label: "3. Generate" },
+                { id: 4, label: "4. Coverage" },
+                { id: 5, label: "5. Schedule" },
+              ].map((s) => {
+                const currentStep = STAGE_INFO[inProgressKit.status]?.step || 1;
+                const isDone = s.id < currentStep;
+                const isCurrent = s.id === currentStep;
+
+                return (
+                  <div key={s.id} className="flex flex-col gap-1">
+                    <div className="h-1.5 w-full rounded-full overflow-hidden bg-white/15">
+                      <div
+                        className={`h-full rounded-full transition-all duration-500 ${
+                          isDone
+                            ? "bg-emerald-400 w-full"
+                            : isCurrent
+                              ? "bg-blue-400 w-3/4 animate-pulse"
+                              : "w-0"
+                        }`}
+                      />
+                    </div>
+                    <span className={`text-[10px] font-semibold truncate ${
+                      isCurrent ? "text-blue-300 font-bold" : isDone ? "text-emerald-400" : "text-white/40"
+                    }`}>
+                      {s.label}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 🎉 CELEBRATION / NEW KIT HIGHLIGHT BANNER */}
+      {highlightKit && (
+        <div className="w-full bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-700 text-white p-4 sm:p-5 rounded-2xl sm:rounded-3xl shadow-lg border border-emerald-300/40 relative overflow-hidden animate-in fade-in slide-in-from-top-2 duration-300">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-start sm:items-center gap-3.5 min-w-0">
+              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-white/20 backdrop-blur-md text-white flex items-center justify-center font-bold shadow-md shrink-0">
+                <CheckCircle2 className="w-6 h-6 text-white stroke-[2.5]" />
+              </div>
+              <div className="min-w-0">
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/25 text-white">
+                    ✨ Kit Generated Successfully!
+                  </span>
+                </div>
+                <h2 className="text-base sm:text-lg font-bold text-white tracking-tight mt-0.5 truncate">
+                  {highlightKit._computed?.company_name || extractDomain(highlightKit.company_url)} — {highlightKit._computed?.role_title || "Ready"}
+                </h2>
+                <p className="text-xs text-white/90 mt-0.5">
+                  {highlightKit._computed?.total_questions || 0} Questions • {highlightKit._computed?.total_flashcards || 0} Flashcards • {highlightKit._computed?.coverage_percentage || 100}% Requirement Coverage
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
+              <button
+                onClick={() => router.push(`/kits/${highlightKit._id}`)}
+                className="px-4 py-2 bg-white hover:bg-slate-50 text-emerald-800 font-bold text-xs rounded-full shadow transition-all cursor-pointer"
+              >
+                Open Prep Kit →
+              </button>
+              <button
+                onClick={() => router.push("/practice")}
+                className="px-3.5 py-2 bg-emerald-900/40 hover:bg-emerald-900/60 text-white font-semibold text-xs rounded-full transition-all cursor-pointer"
+              >
+                Practice Flashcards
+              </button>
+              <button
+                onClick={() => setDismissedCompletedId(highlightKit._id)}
+                className="p-1.5 text-white/70 hover:text-white rounded-full hover:bg-white/15 transition-colors cursor-pointer"
+                title="Dismiss banner"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Top 4 Stat Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-3.5">
@@ -274,10 +443,17 @@ export default function DashboardPage() {
                       const coverage = kit._computed?.coverage_percentage ?? 0;
                       const daysLeft = kit.days_available || 0;
 
+                      const isNewlyCompleted = highlightKit?._id === kit._id;
+                      const inProgInfo = STAGE_INFO[kit.status];
+
                       return (
                         <div
                           key={kit._id}
-                          className="grid grid-cols-[200px_110px_minmax(180px,1fr)_100px_122px_56px] gap-3 items-center px-5 sm:px-6 h-[74px] hover:bg-slate-50/70 transition-colors text-xs cursor-pointer"
+                          className={`grid grid-cols-[200px_110px_minmax(180px,1fr)_100px_122px_56px] gap-3 items-center px-5 sm:px-6 h-[74px] transition-all text-xs cursor-pointer ${
+                            isNewlyCompleted
+                              ? "bg-emerald-50/70 ring-1 ring-emerald-300 hover:bg-emerald-50"
+                              : "hover:bg-slate-50/70"
+                          }`}
                           onClick={() => router.push(`/kits/${kit._id}`)}
                         >
                           {/* Company & Role */}
@@ -288,9 +464,16 @@ export default function DashboardPage() {
                               {companyName.charAt(0).toUpperCase()}
                             </div>
                             <div className="min-w-0 flex flex-col justify-center">
-                              <p className="font-bold text-slate-900 truncate leading-tight text-xs sm:text-sm">
-                                {companyName}
-                              </p>
+                              <div className="flex items-center gap-1.5 min-w-0">
+                                <p className="font-bold text-slate-900 truncate leading-tight text-xs sm:text-sm">
+                                  {companyName}
+                                </p>
+                                {isNewlyCompleted && (
+                                  <span className="px-1.5 py-0.2 text-[9px] font-extrabold rounded-md bg-emerald-100 text-emerald-800 border border-emerald-300 shrink-0">
+                                    ✨ NEW
+                                  </span>
+                                )}
+                              </div>
                               <p className="text-[10px] sm:text-xs text-slate-500 font-medium truncate mt-0.5">
                                 {roleTitle}
                               </p>
@@ -333,9 +516,9 @@ export default function DashboardPage() {
                           {/* Status */}
                           <div className="flex items-center justify-center">
                             <span
-                              className={`w-[110px] h-7 inline-flex items-center justify-center gap-1.5 rounded-full text-[11px] font-semibold shadow-2xs shrink-0 ${
+                              className={`w-[124px] h-7 inline-flex items-center justify-center gap-1.5 rounded-full text-[11px] font-semibold shadow-2xs shrink-0 ${
                                 status === "In Progress"
-                                  ? "bg-[#fee2e2]/80 text-[#dc2626] border border-[#fecaca]/70"
+                                  ? "bg-blue-50 text-blue-700 border border-blue-200"
                                   : status === "Ready"
                                     ? "bg-[#e0f2fe]/80 text-[#0284c7] border border-[#bae6fd]/70"
                                     : status === "Complete"
@@ -344,11 +527,16 @@ export default function DashboardPage() {
                               }`}
                             >
                               {status === "In Progress" ? (
-                                <Loader2 className="w-3.5 h-3.5 animate-spin shrink-0" />
+                                <>
+                                  <Loader2 className="w-3.5 h-3.5 animate-spin shrink-0 text-blue-600" />
+                                  <span className="truncate">{inProgInfo ? `${inProgInfo.name.split(" ")[0]} (${inProgInfo.step}/5)` : "Generating..."}</span>
+                                </>
                               ) : (
-                                <CheckCircle2 className="w-3.5 h-3.5 stroke-[2.2] shrink-0" />
+                                <>
+                                  <CheckCircle2 className="w-3.5 h-3.5 stroke-[2.2] shrink-0" />
+                                  <span className="truncate">{status}</span>
+                                </>
                               )}
-                              <span className="truncate">{status}</span>
                             </span>
                           </div>
 

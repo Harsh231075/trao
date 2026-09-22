@@ -20,6 +20,7 @@ import {
   ChevronUp,
   Calendar,
   Clock,
+  Check,
 } from "lucide-react";
 
 function mapStatus(s: string): string {
@@ -28,6 +29,28 @@ function mapStatus(s: string): string {
     case "partial": return "Ready";
     case "failed": return "Failed";
     default: return "In Progress";
+  }
+}
+
+const PIPELINE_STAGES = [
+  { key: "researching", title: "1. Researching Company", desc: "Scraping company website & public interview insights" },
+  { key: "extracting", title: "2. Extracting Requirements", desc: "Parsing MUST vs NICE skills from the JD" },
+  { key: "generating", title: "3. Generating Questions & Flashcards", desc: "Crafting technical, behavioural & system design questions" },
+  { key: "checking_coverage", title: "4. Coverage Verification", desc: "Verifying 100% requirement coverage" },
+  { key: "building_schedule", title: "5. Building Study Schedule", desc: "Allocating day-by-day study timeline" },
+];
+
+function getStageIndex(status: string) {
+  switch (status) {
+    case "queued": return 0;
+    case "researching": return 0;
+    case "extracting": return 1;
+    case "generating": return 2;
+    case "checking_coverage": return 3;
+    case "building_schedule": return 4;
+    case "completed":
+    case "partial": return 5;
+    default: return 0;
   }
 }
 
@@ -65,10 +88,10 @@ export default function KitDetailPage() {
 
   useEffect(() => { fetchKit(); }, [fetchKit]);
 
-  // Poll while in progress
+  // Fast polling while in progress (2.5s)
   useEffect(() => {
     if (!kit || ["completed", "partial", "failed"].includes(kit.status)) return;
-    const i = setInterval(fetchKit, 5000);
+    const i = setInterval(fetchKit, 2500);
     return () => clearInterval(i);
   }, [kit, fetchKit]);
 
@@ -132,6 +155,8 @@ export default function KitDetailPage() {
   const flashcards = kitData.flashcards || [];
   const coverage = kitData.coverage || {};
   const schedule = kitData.schedule || [];
+
+  const currentStageIndex = getStageIndex(kit.status);
 
   const SectionHeader = ({ title, icon: Icon, sectionKey, count, onRegenerate }: any) => (
     <button
@@ -203,16 +228,99 @@ export default function KitDetailPage() {
         )}
       </div>
 
-      {/* In Progress State */}
+      {/* In Progress Pipeline Stepper */}
       {status === "In Progress" && (
-        <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6 flex items-center gap-4">
-          <Loader2 className="w-8 h-8 text-blue-600 animate-spin shrink-0" />
-          <div>
-            <h3 className="font-bold text-blue-900">AI Pipeline Running...</h3>
-            <p className="text-sm text-blue-700 mt-0.5">
-              Current stage: <span className="font-semibold capitalize">{kit.status.replace(/_/g, " ")}</span>.
-              The page will auto-refresh as each stage completes.
-            </p>
+        <div className="bg-gradient-to-r from-blue-900 via-indigo-950 to-slate-900 border border-blue-500/40 rounded-3xl p-6 text-white shadow-xl space-y-5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-bold shadow-lg shadow-blue-500/30 animate-pulse">
+                <Sparkles className="w-6 h-6 text-yellow-300" />
+              </div>
+              <div>
+                <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-blue-500/30 text-blue-300 border border-blue-400/30 inline-block mb-1">
+                  AI Pipeline Active
+                </span>
+                <h3 className="text-lg font-bold text-white">
+                  Stage {Math.min(currentStageIndex + 1, 5)} of 5: {PIPELINE_STAGES[currentStageIndex]?.title.split(". ")[1] || kit.status}
+                </h3>
+                <p className="text-xs text-blue-200/80">
+                  {PIPELINE_STAGES[currentStageIndex]?.desc || "Processing preparation materials..."}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 self-start sm:self-center">
+              <span className="text-xs text-blue-300 flex items-center gap-1.5 font-medium bg-white/10 px-3 py-1.5 rounded-full">
+                <Loader2 className="w-3.5 h-3.5 animate-spin text-blue-400" />
+                Live polling (2.5s)
+              </span>
+            </div>
+          </div>
+
+          {/* Stepper Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-5 gap-2.5 pt-2">
+            {PIPELINE_STAGES.map((s, idx) => {
+              const isPassed = currentStageIndex > idx;
+              const isCurrent = currentStageIndex === idx;
+
+              return (
+                <div
+                  key={s.key}
+                  className={`p-3 rounded-2xl border transition-all ${
+                    isCurrent
+                      ? "bg-blue-600/30 border-blue-400 text-white shadow-md ring-1 ring-blue-400"
+                      : isPassed
+                        ? "bg-emerald-950/40 border-emerald-500/40 text-emerald-200"
+                        : "bg-white/5 border-white/10 text-white/40"
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="text-[10px] font-bold uppercase tracking-wider">
+                      Step {idx + 1}
+                    </span>
+                    {isPassed ? (
+                      <Check className="w-4 h-4 text-emerald-400 stroke-[3]" />
+                    ) : isCurrent ? (
+                      <Loader2 className="w-3.5 h-3.5 text-blue-300 animate-spin" />
+                    ) : null}
+                  </div>
+                  <p className="text-xs font-bold leading-tight">{s.title.split(". ")[1]}</p>
+                  <p className="text-[10px] opacity-75 mt-1 leading-snug line-clamp-2">{s.desc}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Celebratory Banner for Completed Kit */}
+      {status === "Completed" && (
+        <div className="bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-100 border border-emerald-300/80 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-bold shadow-xs shrink-0">
+              <CheckCircle2 className="w-6 h-6 stroke-[2.5]" />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-emerald-950">
+                ✨ Preparation Kit Ready &amp; Verified
+              </p>
+              <p className="text-xs text-emerald-700 mt-0.5">
+                {Object.values(questions || {}).reduce((s: number, a: any) => s + (Array.isArray(a) ? a.length : 0), 0)} Questions • {flashcards.length} Flashcards • {coverage.covered_count || requirements.filter((r: any) => r.priority === 'must').length} MUST Requirements Covered
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={() => router.push('/practice')}
+              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-full shadow-xs transition-all cursor-pointer"
+            >
+              Practice Flashcards →
+            </button>
+            <button
+              onClick={() => router.push('/schedule')}
+              className="px-3.5 py-2 bg-white hover:bg-emerald-50 text-emerald-800 border border-emerald-300 text-xs font-semibold rounded-full transition-all cursor-pointer"
+            >
+              Study Schedule
+            </button>
           </div>
         </div>
       )}
