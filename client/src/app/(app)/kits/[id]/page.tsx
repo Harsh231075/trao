@@ -228,69 +228,7 @@ export default function KitDetailPage() {
         )}
       </div>
 
-      {/* In Progress Pipeline Stepper */}
-      {status === "In Progress" && (
-        <div className="bg-gradient-to-r from-blue-900 via-indigo-950 to-slate-900 border border-blue-500/40 rounded-3xl p-6 text-white shadow-xl space-y-5">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-bold shadow-lg shadow-blue-500/30 animate-pulse">
-                <Sparkles className="w-6 h-6 text-yellow-300" />
-              </div>
-              <div>
-                <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-blue-500/30 text-blue-300 border border-blue-400/30 inline-block mb-1">
-                  AI Pipeline Active
-                </span>
-                <h3 className="text-lg font-bold text-white">
-                  Stage {Math.min(currentStageIndex + 1, 5)} of 5: {PIPELINE_STAGES[currentStageIndex]?.title.split(". ")[1] || kit.status}
-                </h3>
-                <p className="text-xs text-blue-200/80">
-                  {PIPELINE_STAGES[currentStageIndex]?.desc || "Processing preparation materials..."}
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2 self-start sm:self-center">
-              <span className="text-xs text-blue-300 flex items-center gap-1.5 font-medium bg-white/10 px-3 py-1.5 rounded-full">
-                <Loader2 className="w-3.5 h-3.5 animate-spin text-blue-400" />
-                Live polling (2.5s)
-              </span>
-            </div>
-          </div>
 
-          {/* Stepper Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-5 gap-2.5 pt-2">
-            {PIPELINE_STAGES.map((s, idx) => {
-              const isPassed = currentStageIndex > idx;
-              const isCurrent = currentStageIndex === idx;
-
-              return (
-                <div
-                  key={s.key}
-                  className={`p-3 rounded-2xl border transition-all ${
-                    isCurrent
-                      ? "bg-blue-600/30 border-blue-400 text-white shadow-md ring-1 ring-blue-400"
-                      : isPassed
-                        ? "bg-emerald-950/40 border-emerald-500/40 text-emerald-200"
-                        : "bg-white/5 border-white/10 text-white/40"
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-[10px] font-bold uppercase tracking-wider">
-                      Step {idx + 1}
-                    </span>
-                    {isPassed ? (
-                      <Check className="w-4 h-4 text-emerald-400 stroke-[3]" />
-                    ) : isCurrent ? (
-                      <Loader2 className="w-3.5 h-3.5 text-blue-300 animate-spin" />
-                    ) : null}
-                  </div>
-                  <p className="text-xs font-bold leading-tight">{s.title.split(". ")[1]}</p>
-                  <p className="text-[10px] opacity-75 mt-1 leading-snug line-clamp-2">{s.desc}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
 
       {/* Celebratory Banner for Completed Kit */}
       {status === "Completed" && (

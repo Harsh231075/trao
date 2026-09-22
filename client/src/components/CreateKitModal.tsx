@@ -173,8 +173,8 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/60 backdrop-blur-md animate-in fade-in duration-200">
       {/* Main Modal Outer Card - Lighter Vibrant Blue (#3B82F6 / bg-blue-500) */}
-      <div className="bg-blue-500 rounded-3xl max-w-5xl w-full border border-blue-300/40 shadow-xl text-white overflow-hidden relative flex flex-col md:flex-row min-h-[560px]">
-        
+      <div className="bg-blue-400 rounded-3xl max-w-5xl w-full border border-blue-300/40 shadow-xl text-white overflow-hidden relative flex flex-col md:flex-row min-h-[560px]">
+
         {/* Top Right Close Button */}
         <button
           onClick={handleClose}
@@ -185,8 +185,8 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
         </button>
 
         {/* ─── LEFT SIDEBAR: VERTICAL STEPPER (CLEAN NO LOGO) ─── */}
-        <div className="bg-blue-600/60 border-b md:border-b-0 md:border-r border-blue-400/30 p-6 sm:p-8 w-full md:w-72 shrink-0 flex flex-col justify-center relative z-10">
-          
+        <div className="bg-blue-600/90 border-b md:border-b-0 md:border-r border-blue-400/30 p-6 sm:p-8 w-full md:w-72 shrink-0 flex flex-col justify-center relative z-10">
+
           {/* Vertical 5-Step Timeline */}
           <div className="relative space-y-7 my-auto">
             {/* Connecting Vertical Line */}
@@ -203,13 +203,12 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
                 <div key={stg.step} className="flex items-start gap-3.5 group">
                   {/* Circle Node Indicator */}
                   <div
-                    className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs shrink-0 transition-all duration-200 ${
-                      isPassed
-                        ? "bg-white text-blue-600 shadow-sm"
-                        : isCurrent || isFormScreen
+                    className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs shrink-0 transition-all duration-200 ${isPassed
+                      ? "bg-white text-blue-600 shadow-sm"
+                      : isCurrent || isFormScreen
                         ? "bg-white text-blue-600 ring-4 ring-white/30 shadow-md scale-105"
                         : "bg-blue-700/60 border border-blue-300/30 text-blue-100"
-                    }`}
+                      }`}
                   >
                     {isPassed ? (
                       <Check className="w-4 h-4 stroke-[3]" />
@@ -221,9 +220,8 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
                   {/* Step Title & Subtext */}
                   <div>
                     <h4
-                      className={`text-sm font-bold tracking-tight transition-colors ${
-                        isActiveOrPassed ? "text-white" : "text-blue-100/70"
-                      }`}
+                      className={`text-sm font-bold tracking-tight transition-colors ${isActiveOrPassed ? "text-white" : "text-blue-100/70"
+                        }`}
                     >
                       {stg.title}
                     </h4>
@@ -330,7 +328,7 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
           {/* ─── IN-MODAL SCREEN-BY-SCREEN PIPELINE STAGES (SCREENS 1 TO 5) ─── */}
           {isPipelineActive && (
             <div className="space-y-6 my-auto flex flex-col justify-between h-full animate-in fade-in duration-300">
-              
+
               {/* Header Title */}
               <div>
                 <div className="text-blue-100 text-xs font-bold mb-1">
@@ -346,10 +344,10 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
 
               {/* Center 3D AI Core & Connected Feature Cards Graphic */}
               <div className="relative py-4 my-2 flex items-center justify-center">
-                
+
                 {/* 4 Connected Floating Cards around the Center Graphic */}
                 <div className="w-full max-w-xl grid grid-cols-2 gap-4 sm:gap-6 relative z-10">
-                  
+
                   {/* Top-Left Card */}
                   <div className="bg-blue-600/70 border border-blue-300/40 rounded-xl p-3.5 shadow-md flex items-center gap-3">
                     <span className="text-xs font-bold text-white">Analyzing job description</span>
