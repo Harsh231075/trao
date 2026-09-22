@@ -155,8 +155,24 @@ export default function KitDetailPage() {
   const flashcards = kitData.flashcards || [];
   const coverage = kitData.coverage || {};
   const schedule = kitData.schedule || [];
-
-  const currentStageIndex = getStageIndex(kit.status);
+  if (status === "In Progress") {
+    return (
+      <div className="space-y-6">
+        <Header />
+        <div className="flex flex-col items-center justify-center py-28 gap-4 text-center">
+          <div className="w-16 h-16 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/10">
+            <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+          </div>
+          <div>
+            <h3 className="text-xl font-bold text-slate-900">Finalizing Your Interview Kit</h3>
+            <p className="text-xs text-slate-500 mt-1 max-w-sm">
+              AI pipeline is writing your custom questions, flashcards, and study schedule...
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const SectionHeader = ({ title, icon: Icon, sectionKey, count, onRegenerate }: any) => (
     <button
