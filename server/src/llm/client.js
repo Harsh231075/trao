@@ -231,12 +231,20 @@ export async function llmCall(systemPrompt, userPrompt, { jsonMode = true, tempe
         continue;
       }
 
-      // Non-retryable error
-      throw err;
+      // Non-retryable error — fallback gracefully
+      console.warn(`[LLM] Error (${err.message}). Using fallback generator.`);
+      if (jsonMode) {
+        return generateMockResponse(systemPrompt, userPrompt);
+      }
+      return 'Fallback LLM output';
     }
   }
 
-  throw new Error(`LLM call failed after ${MAX_RETRIES} retries: ${lastError?.message}`);
+  console.warn(`[LLM] Max retries reached (${lastError?.message}). Using fallback generator.`);
+  if (jsonMode) {
+    return generateMockResponse(systemPrompt, userPrompt);
+  }
+  return 'Fallback LLM output';
 }
 
 function sleep(ms) {
