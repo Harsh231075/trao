@@ -270,15 +270,15 @@ export default function PracticePage() {
         <div className="max-w-2xl mx-auto space-y-6">
           {/* Deck Progress Bar */}
           <div className="space-y-2">
-            <div className="flex items-center justify-between text-xs font-semibold text-slate-400">
-              <span className="flex items-center gap-1.5 text-cyan-400">
-                <Layers className="w-3.5 h-3.5" /> Card {currentIndex + 1} of {flashcards.length}
+            <div className="flex items-center justify-between text-xs font-bold text-slate-900">
+              <span className="flex items-center gap-1.5 text-slate-950 font-black">
+                <Layers className="w-3.5 h-3.5 text-blue-600" /> Card {currentIndex + 1} of {flashcards.length}
               </span>
-              <span>{Math.round(((currentIndex + 1) / flashcards.length) * 100)}% Completed</span>
+              <span className="text-slate-700 font-bold">{Math.round(((currentIndex + 1) / flashcards.length) * 100)}% Completed</span>
             </div>
-            <div className="w-full h-2.5 bg-slate-900 rounded-full overflow-hidden border border-slate-800 p-0.5">
+            <div className="w-full h-2.5 bg-slate-200/80 rounded-full overflow-hidden p-0.5 border border-slate-300/60 shadow-xs">
               <div
-                className="h-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-emerald-400 rounded-full transition-all duration-500 shadow-[0_0_12px_rgba(99,102,241,0.5)]"
+                className="h-full bg-gradient-to-r from-blue-600 to-cyan-500 rounded-full transition-all duration-500 shadow-sm"
                 style={{ width: `${((currentIndex + 1) / flashcards.length) * 100}%` }}
               />
             </div>

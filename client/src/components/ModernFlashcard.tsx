@@ -55,18 +55,15 @@ export default function ModernFlashcard({
             transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
           }}
         >
-          {/* ================= FRONT FACE (Soft Light Blue Surface) ================= */}
+          {/* ================= FRONT FACE (Lighter Blue #5b95f2 Surface) ================= */}
           <div
-            className="absolute inset-0 w-full h-full rounded-3xl p-6 sm:p-9 flex flex-col justify-between overflow-hidden bg-gradient-to-br from-sky-400 via-blue-400 to-indigo-500 text-white border-2 border-sky-200/90 shadow-[0_14px_40px_rgba(56,189,248,0.3)] hover:shadow-[0_18px_50px_rgba(56,189,248,0.45)] transition-all duration-300"
+            className="absolute inset-0 w-full h-full rounded-3xl p-6 sm:p-9 flex flex-col justify-between overflow-hidden bg-[#5b95f2] text-white border-2 border-blue-200/90 shadow-[0_14px_40px_rgba(91,149,242,0.35)] hover:shadow-[0_18px_50px_rgba(91,149,242,0.5)] transition-all duration-300"
             style={{
               backfaceVisibility: "hidden",
               WebkitBackfaceVisibility: "hidden",
               transform: "rotateY(0deg)",
             }}
           >
-            {/* Soft Ambient Glow */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white/30 via-transparent to-black/15 pointer-events-none" />
-
             {/* Top Bar Navigation & Info */}
             <div className="relative z-10 flex items-center justify-between gap-2 border-b border-white/20 pb-4">
               <div className="flex items-center gap-2">
@@ -89,7 +86,7 @@ export default function ModernFlashcard({
 
             {/* Central Question Content */}
             <div className="relative z-10 flex-1 flex flex-col justify-center my-6">
-              <p className="text-xl sm:text-2xl font-black text-white leading-relaxed tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]">
+              <p className="text-xl sm:text-2xl font-black text-white leading-relaxed tracking-tight drop-shadow-[0_2px_6px_rgba(0,0,0,0.25)]">
                 {front}
               </p>
             </div>
@@ -105,18 +102,15 @@ export default function ModernFlashcard({
             </div>
           </div>
 
-          {/* ================= BACK FACE (Ice Cyan Soft Light Blue Surface) ================= */}
+          {/* ================= BACK FACE (Lighter Blue #5b95f2 Surface) ================= */}
           <div
-            className="absolute inset-0 w-full h-full rounded-3xl p-6 sm:p-9 flex flex-col justify-between overflow-hidden bg-gradient-to-br from-cyan-400 via-sky-500 to-blue-500 text-white border-2 border-cyan-200/90 shadow-[0_14px_40px_rgba(34,211,238,0.3)] hover:shadow-[0_18px_50px_rgba(34,211,238,0.45)] transition-all duration-300"
+            className="absolute inset-0 w-full h-full rounded-3xl p-6 sm:p-9 flex flex-col justify-between overflow-hidden bg-[#5b95f2] text-white border-2 border-blue-200/90 shadow-[0_14px_40px_rgba(91,149,242,0.35)] hover:shadow-[0_18px_50px_rgba(91,149,242,0.5)] transition-all duration-300"
             style={{
               backfaceVisibility: "hidden",
               WebkitBackfaceVisibility: "hidden",
               transform: "rotateY(180deg)",
             }}
           >
-            {/* Soft Ambient Glow */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-white/30 via-transparent to-black/15 pointer-events-none" />
-
             {/* Top Bar Navigation & Info */}
             <div className="relative z-10 flex items-center justify-between gap-2 border-b border-white/20 pb-4">
               <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest bg-slate-950 text-white shadow-md">
@@ -132,7 +126,7 @@ export default function ModernFlashcard({
 
             {/* Central Answer Content */}
             <div className="relative z-10 flex-1 flex flex-col justify-center my-4 overflow-y-auto max-h-[220px] sm:max-h-[260px] pr-2 custom-scrollbar">
-              <div className="text-base sm:text-lg text-white leading-relaxed font-bold whitespace-pre-wrap drop-shadow-[0_2px_6px_rgba(0,0,0,0.35)]">
+              <div className="text-base sm:text-lg text-white leading-relaxed font-bold whitespace-pre-wrap drop-shadow-[0_2px_6px_rgba(0,0,0,0.25)]">
                 {back}
               </div>
             </div>
