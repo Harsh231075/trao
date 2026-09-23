@@ -249,18 +249,13 @@ export default function KitDetailPage() {
       {/* Celebratory Banner for Completed Kit */}
       {status === "Completed" && (
         <div className="bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-100 border border-emerald-300/80 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-bold shadow-xs shrink-0">
-              <CheckCircle2 className="w-6 h-6 stroke-[2.5]" />
-            </div>
-            <div>
-              <p className="text-sm font-bold text-emerald-950">
-                ✨ Preparation Kit Ready &amp; Verified
-              </p>
-              <p className="text-xs text-emerald-700 mt-0.5">
-                {Object.values(questions || {}).reduce((s: number, a: any) => s + (Array.isArray(a) ? a.length : 0), 0)} Questions • {flashcards.length} Flashcards • {coverage.covered_count || requirements.filter((r: any) => r.priority === 'must').length} MUST Requirements Covered
-              </p>
-            </div>
+          <div>
+            <p className="text-sm font-bold text-emerald-950">
+              ✨ Preparation Kit Ready &amp; Verified
+            </p>
+            <p className="text-xs text-emerald-700 mt-0.5">
+              {Object.values(questions || {}).reduce((s: number, a: any) => s + (Array.isArray(a) ? a.length : 0), 0)} Questions • {flashcards.length} Flashcards • {coverage.covered_count || requirements.filter((r: any) => r.priority === 'must').length} MUST Requirements Covered
+            </p>
           </div>
           <div className="flex items-center gap-2 shrink-0">
             <button
