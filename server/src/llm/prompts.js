@@ -31,21 +31,24 @@ Rules:
 - If the JD is very short, return fewer requirements honestly`;
 }
 
-export const COMPANY_BRIEF_SYSTEM = `You are a company research analyst. Summarize the company based on the research data provided. Be factual. Only use information from the sources given. Return JSON only.`;
+export const COMPANY_BRIEF_SYSTEM = `You are a senior tech research analyst. Summarize company engineering culture, products, work environment, tech stack trends, and source citations based ONLY on provided research context. Be precise and factual. Return JSON only.`;
 
 export function companyBriefPrompt(companyData, sources) {
-  return `Based on the following research data, create a company brief.
+  return `Based on the following research data, generate a comprehensive company intelligence brief.
 
 RESEARCH DATA:
 ${companyData}
 
-SOURCES USED:
-${sources.join('\n')}
+OFFICIAL & VERIFIED SOURCES:
+${Array.isArray(sources) ? sources.join('\n') : sources}
 
-Return JSON:
+Return JSON with this EXACT structure:
 {
-  "summary": "2-3 sentence company overview",
-  "what_they_do": "clear description of products/services",
+  "summary": "2-3 sentence overview of the company, mission, and tech reputation",
+  "what_they_do": "Clear description of core products, services, and target market",
+  "engineering_culture": ["Key value 1 (e.g. High Concurrency Focus)", "Key value 2 (e.g. API First Standards)", "Key value 3"],
+  "work_environment": "Detailed overview of team structure, work style, speed, and candidate expectations",
+  "tech_stack_shifts": ["Recent tech update 1", "Recent tech update 2"],
   "sources": ["url1", "url2"]
 }`;
 }

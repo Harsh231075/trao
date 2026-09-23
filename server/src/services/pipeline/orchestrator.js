@@ -65,7 +65,7 @@ export async function runPipeline(input, kitId = null) {
     // ─── STAGE 3: Generation ───
     await updateStatus('generating');
 
-    const companyBrief = await generateCompanyBrief(researchContext, companyResearch.sources);
+    const companyBrief = await generateCompanyBrief(researchContext, companyResearch.sources, companyResearch);
     const [questions, flashcards] = await Promise.all([
       generateAllQuestions(jd, requirements, companyBrief, interviewResearch.text),
       generateFlashcards(requirements, companyBrief),

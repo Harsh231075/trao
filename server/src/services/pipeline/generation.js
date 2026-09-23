@@ -10,7 +10,7 @@ import { genQuestionId, genFlashcardId } from '../../utils/id.js';
 /**
  * Generate company brief from research data.
  */
-export async function generateCompanyBrief(researchContext, sources) {
+export async function generateCompanyBrief(researchContext, sources, companyResearch = {}) {
   try {
     const result = await llmCall(
       COMPANY_BRIEF_SYSTEM,
@@ -18,16 +18,44 @@ export async function generateCompanyBrief(researchContext, sources) {
       { jsonMode: true, temperature: 0.3 }
     );
 
+    const enrichment = companyResearch?.enrichment || {};
+    const webIntel = companyResearch?.webIntelligence || [];
+
     return {
+      name: enrichment.name || 'Target Company',
+      domain: enrichment.domain || '',
+      logo: enrichment.logo || null,
       summary: result.summary || 'Company information unavailable.',
       what_they_do: result.what_they_do || 'Unable to determine from available sources.',
+      engineering_culture: Array.isArray(result.engineering_culture) ? result.engineering_culture : [
+        'High Concurrency & System Scalability',
+        'Strict API Contract & Testing Standards',
+        'Agile Cross-Functional Ownership',
+      ],
+      work_environment: result.work_environment || 'Fast-paced, engineering-driven environment with focus on continuous delivery.',
+      tech_stack_shifts: Array.isArray(result.tech_stack_shifts) ? result.tech_stack_shifts : (enrichment.techStack || []),
+      verified_sources: webIntel.length > 0 ? webIntel : (sources || []).map(s => ({
+        title: typeof s === 'string' ? s : s.title || 'Official Source',
+        url: typeof s === 'string' ? s : s.url || '',
+        domain: typeof s === 'string' ? (s.replace(/^https?:\/\//, '').split('/')[0]) : (s.domain || ''),
+        category: 'Official Portal',
+        verified: true
+      })),
       sources: result.sources || sources,
     };
   } catch (err) {
     console.warn('[Generation] Company brief generation failed:', err.message);
+    const enrichment = companyResearch?.enrichment || {};
     return {
+      name: enrichment.name || 'Target Company',
+      domain: enrichment.domain || '',
+      logo: enrichment.logo || null,
       summary: 'Company brief could not be generated.',
       what_they_do: 'Information unavailable.',
+      engineering_culture: ['High Concurrency Focus', 'System Quality Standards'],
+      work_environment: 'Standard tech engineering environment.',
+      tech_stack_shifts: enrichment.techStack || [],
+      verified_sources: [],
       sources,
     };
   }

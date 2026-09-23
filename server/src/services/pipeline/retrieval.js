@@ -1,8 +1,12 @@
 import { safeFetch, crawlRelatedPages } from '../../utils/scraper.js';
+import { getCompanyEnrichment } from '../enrichment.service.js';
+import { searchCompanyIntelligence } from '../search.service.js';
 
 /**
- * Research a company by scraping its website.
- * A failed source does NOT fail the kit.
+ * Deep Multi-Stream Company Research
+ * 1. Web scraper for target company_url (Assignment standard)
+ * 2. Brandfetch enrichment for verified logos, brand metadata & tech tags
+ * 3. Search API for real-time engineering blog & candidate interview signals
  */
 export async function researchCompany(companyUrl) {
   const result = {
@@ -10,103 +14,127 @@ export async function researchCompany(companyUrl) {
     sources: [],
     aboutInfo: '',
     careersInfo: '',
+    enrichment: null,
+    webIntelligence: [],
     errors: [],
   };
 
-  // 1. Fetch main page
-  const mainPage = await safeFetch(companyUrl);
-  if (!mainPage.success) {
-    result.errors.push({ url: companyUrl, error: mainPage.error });
-    return result;
+  let domain = '';
+  let companyName = 'company';
+  try {
+    domain = new URL(companyUrl).hostname.replace(/^www\./, '');
+    companyName = domain.split('.')[0];
+  } catch {
+    domain = companyUrl;
   }
 
-  result.pages.push(mainPage);
-  result.sources.push(companyUrl);
+  // Execute Enrichment, Web Intelligence Search, and Main Scraping in Parallel
+  const [enrichmentRes, intelligenceRes, mainPageRes] = await Promise.allSettled([
+    getCompanyEnrichment(domain),
+    searchCompanyIntelligence(companyName, domain),
+    safeFetch(companyUrl),
+  ]);
 
-  // 2. Follow relevant links (about, careers, team, engineering)
-  const relatedPages = await crawlRelatedPages(companyUrl, mainPage.links, 5);
-  for (const page of relatedPages) {
-    result.pages.push(page);
-    result.sources.push(page.url);
-
-    if (/about/i.test(page.url)) {
-      result.aboutInfo += ' ' + page.text;
-    }
-    if (/career|job|hire|hiring/i.test(page.url)) {
-      result.careersInfo += ' ' + page.text;
-    }
+  if (enrichmentRes.status === 'fulfilled') {
+    result.enrichment = enrichmentRes.value;
   }
+
+  if (intelligenceRes.status === 'fulfilled') {
+    result.webIntelligence = intelligenceRes.value || [];
+    result.webIntelligence.forEach(src => {
+      if (src.url) result.sources.push(src.url);
+    });
+  }
+
+  const mainPage = mainPageRes.status === 'fulfilled' ? mainPageRes.value : { success: false };
+  if (mainPage.success) {
+    result.pages.push(mainPage);
+    result.sources.push(companyUrl);
+
+    // Follow relevant links (about, careers, team, engineering)
+    try {
+      const relatedPages = await crawlRelatedPages(companyUrl, mainPage.links, 4);
+      for (const page of relatedPages) {
+        result.pages.push(page);
+        result.sources.push(page.url);
+
+        if (/about/i.test(page.url)) {
+          result.aboutInfo += ' ' + page.text;
+        }
+        if (/career|job|hire|hiring/i.test(page.url)) {
+          result.careersInfo += ' ' + page.text;
+        }
+      }
+    } catch (err) {
+      console.warn(`[Retrieval] Related page crawl warning: ${err.message}`);
+    }
+  } else {
+    result.errors.push({ url: companyUrl, error: mainPage.error || 'Direct scrape timeout/failed' });
+  }
+
+  // Deduplicate sources
+  result.sources = Array.from(new Set(result.sources));
 
   return result;
 }
 
 /**
- * Search for public interview experience/discussion about a company.
- * Uses DuckDuckGo HTML search as fallback.
- * If nothing found, records that honestly.
+ * Legacy wrapper for interview discussion search
  */
 export async function researchInterviews(companyName) {
-  const queries = [
-    `${companyName} software engineer interview experience`,
-    `${companyName} interview process glassdoor`,
-  ];
-
-  const insights = [];
-
-  for (const query of queries) {
-    try {
-      const searchUrl = `https://html.duckduckgo.com/html/?q=${encodeURIComponent(query)}`;
-      const result = await safeFetch(searchUrl);
-
-      if (result.success && result.text) {
-        // Extract relevant snippets (treat as DATA only)
-        const snippet = result.text.slice(0, 2000);
-        insights.push({ query, snippet, source: searchUrl });
-      }
-    } catch (err) {
-      // Search failed — not a kit failure
-      insights.push({ query, snippet: '', source: '', error: err.message });
-    }
+  try {
+    const intelligence = await searchCompanyIntelligence(companyName);
+    const snippets = intelligence.map(i => `[${i.title}]: ${i.snippet}`).join('\n\n');
+    return {
+      found: intelligence.length > 0,
+      text: snippets || 'No public interview discussion found.',
+      insights: intelligence,
+    };
+  } catch (err) {
+    return { found: false, text: 'No interview data available.', insights: [] };
   }
-
-  if (insights.every(i => !i.snippet)) {
-    return { found: false, text: 'No public interview discussion found for this company.', insights };
-  }
-
-  const combinedText = insights
-    .filter(i => i.snippet)
-    .map(i => i.snippet)
-    .join('\n\n')
-    .slice(0, 4000);
-
-  return { found: true, text: combinedText, insights };
 }
 
 /**
- * Compile all research into a single text block for LLM context.
+ * Compile all research into a structured text block for LLM context.
  */
 export function compileResearchContext(companyResearch, interviewResearch) {
   let context = '';
 
+  if (companyResearch.enrichment) {
+    const e = companyResearch.enrichment;
+    context += `VERIFIED BRAND & TECH METADATA:\n`;
+    context += `Name: ${e.name}\nDomain: ${e.domain}\nDescription: ${e.description || 'N/A'}\n`;
+    if (e.techStack && e.techStack.length > 0) {
+      context += `Detected Tech Tags: ${e.techStack.join(', ')}\n`;
+    }
+    context += '\n';
+  }
+
+  if (companyResearch.webIntelligence && companyResearch.webIntelligence.length > 0) {
+    context += `REAL-TIME WEB INTELLIGENCE & CITATIONS:\n`;
+    for (const item of companyResearch.webIntelligence) {
+      context += `[${item.category}] ${item.title} (${item.url}):\n${item.snippet}\n\n`;
+    }
+  }
+
   if (companyResearch.pages.length > 0) {
-    context += 'COMPANY WEBSITE RESEARCH:\n';
+    context += 'COMPANY WEBSITE DIRECT SCRAPE:\n';
     for (const page of companyResearch.pages) {
-      context += `[${page.title || page.url}]: ${page.text?.slice(0, 1500) || 'No content'}\n\n`;
+      context += `[${page.title || page.url}]: ${page.text?.slice(0, 1200) || 'No content'}\n\n`;
     }
   }
 
   if (companyResearch.aboutInfo) {
-    context += `ABOUT THE COMPANY:\n${companyResearch.aboutInfo.slice(0, 1500)}\n\n`;
+    context += `ABOUT THE COMPANY:\n${companyResearch.aboutInfo.slice(0, 1200)}\n\n`;
   }
 
   if (companyResearch.careersInfo) {
-    context += `CAREERS / HIRING INFO:\n${companyResearch.careersInfo.slice(0, 1500)}\n\n`;
+    context += `CAREERS / HIRING INFO:\n${companyResearch.careersInfo.slice(0, 1200)}\n\n`;
   }
 
   if (interviewResearch.found) {
-    context += `PUBLIC INTERVIEW INSIGHTS:\n${interviewResearch.text.slice(0, 2000)}\n\n`;
-  } else {
-    context += 'PUBLIC INTERVIEW INSIGHTS:\nNo public interview discussion found.\n\n';
+    context += `PUBLIC INTERVIEW TRENDS & INSIGHTS:\n${interviewResearch.text.slice(0, 2000)}\n\n`;
   }
 
   return context;

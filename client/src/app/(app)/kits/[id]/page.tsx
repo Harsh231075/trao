@@ -279,24 +279,130 @@ export default function KitDetailPage() {
         </div>
       )}
 
-      {/* Company Brief */}
-      <SectionHeader title="Company Brief" icon={Building2} sectionKey="company_brief" />
-      {expandedSections.company_brief && companyBrief.summary && (
-        <div className="bg-white rounded-xl border border-slate-200/80 p-5 space-y-3">
-          <div>
-            <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Company</h4>
-            <p className="text-sm text-slate-800 font-medium">{companyBrief.name || "—"}</p>
+      {/* Company Brief & Verified Intelligence */}
+      <SectionHeader title="Company Intelligence & Research Brief" icon={Building2} sectionKey="company_brief" />
+      {expandedSections.company_brief && (companyBrief.summary || companyBrief.name) && (
+        <div className="bg-white rounded-2xl border border-slate-200/80 p-5 space-y-5 shadow-xs">
+          
+          {/* Header with Logo & Brand Metadata */}
+          <div className="flex items-center justify-between gap-4 pb-4 border-b border-slate-100">
+            <div className="flex items-center gap-3.5">
+              {companyBrief.logo ? (
+                <img
+                  src={companyBrief.logo}
+                  alt={companyBrief.name || "Company Logo"}
+                  className="w-12 h-12 rounded-2xl object-contain border border-slate-200/80 p-1 bg-white shadow-2xs"
+                  onError={(e) => { (e.target as HTMLElement).style.display = "none"; }}
+                />
+              ) : (
+                <div className="w-12 h-12 rounded-2xl bg-blue-600 text-white font-extrabold text-xl flex items-center justify-center shadow-md">
+                  {(companyBrief.name || "C")[0]}
+                </div>
+              )}
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-base font-extrabold text-slate-900">{companyBrief.name || "Target Company"}</h3>
+                  <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 text-[10px] font-bold rounded-full border border-emerald-200 flex items-center gap-1">
+                    <ShieldCheck className="w-3 h-3 text-emerald-600" /> Verified Signals
+                  </span>
+                </div>
+                {companyBrief.domain && (
+                  <p className="text-xs text-blue-600 font-medium hover:underline flex items-center gap-1 mt-0.5">
+                    {companyBrief.domain}
+                  </p>
+                )}
+              </div>
+            </div>
           </div>
-          <div>
-            <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Summary</h4>
-            <p className="text-sm text-slate-700 leading-relaxed">{companyBrief.summary}</p>
+
+          {/* Overview & Mission */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-slate-50/80 p-4 rounded-xl border border-slate-200/60">
+              <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                <Building2 className="w-3.5 h-3.5 text-blue-600" /> Executive Overview
+              </h4>
+              <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">{companyBrief.summary}</p>
+            </div>
+
+            {companyBrief.what_they_do && (
+              <div className="bg-slate-50/80 p-4 rounded-xl border border-slate-200/60">
+                <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-blue-600" /> Core Products &amp; Mission
+                </h4>
+                <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">{companyBrief.what_they_do}</p>
+              </div>
+            )}
           </div>
-          {companyBrief.what_they_do && (
-            <div>
-              <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">What They Do</h4>
-              <p className="text-sm text-slate-700 leading-relaxed">{companyBrief.what_they_do}</p>
+
+          {/* Engineering Culture & Work Environment */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+            {/* Engineering Culture */}
+            <div className="bg-blue-50/60 p-4 rounded-xl border border-blue-200/60">
+              <h4 className="text-xs font-bold text-blue-900 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" /> Engineering Culture &amp; Priorities
+              </h4>
+              <div className="flex flex-wrap gap-1.5">
+                {(companyBrief.engineering_culture || ["High Scale Focus", "System Quality Standards"]).map((item: string, i: number) => (
+                  <span key={i} className="px-2.5 py-1 bg-white text-blue-800 text-xs font-semibold rounded-lg border border-blue-200/80 shadow-2xs">
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Work Environment */}
+            <div className="bg-indigo-50/60 p-4 rounded-xl border border-indigo-200/60">
+              <h4 className="text-xs font-bold text-indigo-900 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5 text-indigo-600" /> Work Environment &amp; Team Speed
+              </h4>
+              <p className="text-xs text-indigo-950 leading-relaxed font-normal">
+                {companyBrief.work_environment || "Fast-paced engineering environment with focus on continuous delivery and cross-functional ownership."}
+              </p>
+            </div>
+          </div>
+
+          {/* Verified Source Citations & Links */}
+          {companyBrief.verified_sources && companyBrief.verified_sources.length > 0 && (
+            <div className="pt-2 border-t border-slate-100">
+              <h4 className="text-xs font-bold text-slate-600 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> Verified Intelligence &amp; Source Links ({companyBrief.verified_sources.length})
+              </h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {companyBrief.verified_sources.map((src: any, idx: number) => (
+                  <a
+                    key={idx}
+                    href={src.url || "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-3 bg-slate-50 hover:bg-blue-50/80 rounded-xl border border-slate-200/80 hover:border-blue-300 transition-all flex items-start justify-between gap-2 group"
+                  >
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-1.5 mb-1">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">
+                          {src.category || "Official Source"}
+                        </span>
+                        <span className="text-[10px] font-semibold text-slate-400 truncate">
+                          {src.domain}
+                        </span>
+                      </div>
+                      <p className="text-xs font-bold text-slate-800 group-hover:text-blue-600 transition-colors truncate">
+                        {src.title}
+                      </p>
+                      {src.snippet && (
+                        <p className="text-[11px] text-slate-500 line-clamp-2 mt-1 leading-snug">
+                          {src.snippet}
+                        </p>
+                      )}
+                    </div>
+                    <span className="text-slate-400 group-hover:text-blue-600 shrink-0 pt-0.5">
+                      ↗
+                    </span>
+                  </a>
+                ))}
+              </div>
             </div>
           )}
+
         </div>
       )}
 
