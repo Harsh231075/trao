@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { Volume2, VolumeX } from "lucide-react";
 
 interface ModernFlashcardProps {
   front: string;
@@ -23,12 +24,52 @@ export default function ModernFlashcard({
   cardIndex,
   totalCards,
 }: ModernFlashcardProps) {
+  const [soundEnabled, setSoundEnabled] = useState(true);
   const [shockwave, setShockwave] = useState(false);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+
+  // Play crisp haptic audio pop on flip using Web Audio API
+  const playFlipSound = () => {
+    if (!soundEnabled) return;
+    try {
+      if (!audioCtxRef.current) {
+        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtxRef.current = new AudioContextClass();
+        }
+      }
+      if (audioCtxRef.current && audioCtxRef.current.state === "suspended") {
+        audioCtxRef.current.resume();
+      }
+      if (audioCtxRef.current) {
+        const ctx = audioCtxRef.current;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = "sine";
+        const startTime = ctx.currentTime;
+        osc.frequency.setValueAtTime(isFlipped ? 520 : 340, startTime);
+        osc.frequency.exponentialRampToValueAtTime(isFlipped ? 340 : 680, startTime + 0.08);
+
+        gain.gain.setValueAtTime(0.12, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.09);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(startTime);
+        osc.stop(startTime + 0.09);
+      }
+    } catch (e) {
+      // Audio safely ignored if blocked by browser policy
+    }
+  };
 
   const handleCardClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     setShockwave(true);
     setTimeout(() => setShockwave(false), 500);
+    playFlipSound();
     onFlip();
   };
 
@@ -55,9 +96,9 @@ export default function ModernFlashcard({
             transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
           }}
         >
-          {/* ================= FRONT FACE (Light Blue Surface - White Text) ================= */}
+          {/* ================= FRONT FACE (Soft Light Blue Surface) ================= */}
           <div
-            className="absolute inset-0 w-full h-full rounded-3xl p-6 sm:p-9 flex flex-col justify-between overflow-hidden bg-gradient-to-br from-blue-500 via-sky-500 to-blue-600 text-white border-2 border-sky-300 shadow-[0_15px_45px_rgba(37,99,235,0.35)] hover:shadow-[0_20px_60px_rgba(37,99,235,0.55)] transition-all duration-300"
+            className="absolute inset-0 w-full h-full rounded-3xl p-6 sm:p-9 flex flex-col justify-between overflow-hidden bg-gradient-to-br from-sky-400 via-blue-400 to-indigo-500 text-white border-2 border-sky-200/90 shadow-[0_14px_40px_rgba(56,189,248,0.3)] hover:shadow-[0_18px_50px_rgba(56,189,248,0.45)] transition-all duration-300"
             style={{
               backfaceVisibility: "hidden",
               WebkitBackfaceVisibility: "hidden",
@@ -65,7 +106,7 @@ export default function ModernFlashcard({
             }}
           >
             {/* Soft Ambient Glow */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white/25 via-transparent to-black/20 pointer-events-none" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white/30 via-transparent to-black/15 pointer-events-none" />
 
             {/* Top Bar Navigation & Info */}
             <div className="relative z-10 flex items-center justify-between gap-2 border-b border-white/20 pb-4">
@@ -80,16 +121,30 @@ export default function ModernFlashcard({
                 )}
               </div>
 
-              {cardIndex !== undefined && totalCards !== undefined && (
-                <span className="text-xs font-mono font-bold text-white bg-slate-950/40 px-2.5 py-1 rounded-lg border border-white/20 shadow-sm">
-                  {cardIndex + 1} / {totalCards}
-                </span>
-              )}
+              <div className="flex items-center gap-3">
+                {cardIndex !== undefined && totalCards !== undefined && (
+                  <span className="text-xs font-mono font-bold text-white bg-slate-950/40 px-2.5 py-1 rounded-lg border border-white/20 shadow-sm">
+                    {cardIndex + 1} / {totalCards}
+                  </span>
+                )}
+                {/* Audio Toggle Button */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSoundEnabled(!soundEnabled);
+                  }}
+                  className="p-1.5 rounded-lg text-white/80 hover:text-white hover:bg-white/20 transition-colors"
+                  title={soundEnabled ? "Mute flip sound" : "Enable flip sound"}
+                >
+                  {soundEnabled ? <Volume2 className="w-4 h-4 text-white" /> : <VolumeX className="w-4 h-4 text-white/50" />}
+                </button>
+              </div>
             </div>
 
             {/* Central Question Content */}
             <div className="relative z-10 flex-1 flex flex-col justify-center my-6">
-              <p className="text-xl sm:text-2xl font-black text-white leading-relaxed tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
+              <p className="text-xl sm:text-2xl font-black text-white leading-relaxed tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]">
                 {front}
               </p>
             </div>
@@ -105,9 +160,9 @@ export default function ModernFlashcard({
             </div>
           </div>
 
-          {/* ================= BACK FACE (Soft Cyan Light Blue Surface - White Text) ================= */}
+          {/* ================= BACK FACE (Ice Cyan Soft Light Blue Surface) ================= */}
           <div
-            className="absolute inset-0 w-full h-full rounded-3xl p-6 sm:p-9 flex flex-col justify-between overflow-hidden bg-gradient-to-br from-cyan-500 via-sky-600 to-blue-600 text-white border-2 border-cyan-300 shadow-[0_15px_45px_rgba(6,182,212,0.35)] hover:shadow-[0_20px_60px_rgba(6,182,212,0.55)] transition-all duration-300"
+            className="absolute inset-0 w-full h-full rounded-3xl p-6 sm:p-9 flex flex-col justify-between overflow-hidden bg-gradient-to-br from-cyan-400 via-sky-500 to-blue-500 text-white border-2 border-cyan-200/90 shadow-[0_14px_40px_rgba(34,211,238,0.3)] hover:shadow-[0_18px_50px_rgba(34,211,238,0.45)] transition-all duration-300"
             style={{
               backfaceVisibility: "hidden",
               WebkitBackfaceVisibility: "hidden",
@@ -115,7 +170,7 @@ export default function ModernFlashcard({
             }}
           >
             {/* Soft Ambient Glow */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-white/25 via-transparent to-black/20 pointer-events-none" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-white/30 via-transparent to-black/15 pointer-events-none" />
 
             {/* Top Bar Navigation & Info */}
             <div className="relative z-10 flex items-center justify-between gap-2 border-b border-white/20 pb-4">
@@ -123,16 +178,28 @@ export default function ModernFlashcard({
                 ANSWER SOLUTION
               </span>
 
-              {cardIndex !== undefined && totalCards !== undefined && (
-                <span className="text-xs font-mono font-bold text-white bg-slate-950/40 px-2.5 py-1 rounded-lg border border-white/20 shadow-sm">
-                  {cardIndex + 1} / {totalCards}
-                </span>
-              )}
+              <div className="flex items-center gap-3">
+                {cardIndex !== undefined && totalCards !== undefined && (
+                  <span className="text-xs font-mono font-bold text-white bg-slate-950/40 px-2.5 py-1 rounded-lg border border-white/20 shadow-sm">
+                    {cardIndex + 1} / {totalCards}
+                  </span>
+                )}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSoundEnabled(!soundEnabled);
+                  }}
+                  className="p-1.5 rounded-lg text-white/80 hover:text-white hover:bg-white/20 transition-colors"
+                >
+                  {soundEnabled ? <Volume2 className="w-4 h-4 text-white" /> : <VolumeX className="w-4 h-4 text-white/50" />}
+                </button>
+              </div>
             </div>
 
             {/* Central Answer Content */}
             <div className="relative z-10 flex-1 flex flex-col justify-center my-4 overflow-y-auto max-h-[220px] sm:max-h-[260px] pr-2 custom-scrollbar">
-              <div className="text-base sm:text-lg text-white leading-relaxed font-bold whitespace-pre-wrap drop-shadow-[0_2px_6px_rgba(0,0,0,0.4)]">
+              <div className="text-base sm:text-lg text-white leading-relaxed font-bold whitespace-pre-wrap drop-shadow-[0_2px_6px_rgba(0,0,0,0.35)]">
                 {back}
               </div>
             </div>

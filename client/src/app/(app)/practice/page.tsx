@@ -81,7 +81,7 @@ export default function PracticePage() {
         flashcard_id: currentCard.id,
         confidence,
       });
-      
+
       // Update local progress counter visually
       if (progress) {
         const newTotal = (progress.total_reviews || 0) + 1;
@@ -231,18 +231,15 @@ export default function PracticePage() {
         )}
       </div>
 
-      {/* Kit Selector Bar */}
+      {/* Kit Selector Bar — Centered Compact Glassmorphic Studio Bar */}
       {kits.length > 0 ? (
-        <div className="flex items-center justify-between gap-4 bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm">
-          <div className="flex items-center gap-3">
-            <label className="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
-              <Layers className="w-4 h-4 text-amber-500" />
-              Kit:
-            </label>
+        <div className="max-w-2xl mx-auto flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white/90 backdrop-blur-md p-3 sm:px-4 rounded-2xl border border-blue-100 shadow-md shadow-blue-500/5">
+          <div className="flex items-center gap-2.5 flex-1 min-w-0">
+
             <select
               value={selectedKitId}
               onChange={(e) => setSelectedKitId(e.target.value)}
-              className="px-4 py-2 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 text-slate-800 font-medium"
+              className="w-full text-xs sm:text-sm bg-blue-50/60 border border-blue-200/80 rounded-xl px-3 py-2 text-blue-950 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500/30 truncate"
             >
               {kits.map((k) => (
                 <option key={k._id} value={k._id}>
@@ -254,35 +251,35 @@ export default function PracticePage() {
 
           {/* Quick Deck Actions */}
           {flashcards.length > 0 && (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 justify-end">
               <button
                 type="button"
                 onClick={handleShuffle}
-                className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold rounded-xl bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white border border-blue-200 transition-all active:scale-95 shadow-sm"
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-xl bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white border border-blue-200 transition-all active:scale-95 shadow-sm"
                 title="Shuffle flashcard deck"
               >
-                <Shuffle className="w-3.5 h-3.5 text-blue-600" />
+                <Shuffle className="w-3.5 h-3.5" />
                 <span>Shuffle</span>
               </button>
               <button
                 type="button"
                 onClick={handleRestart}
-                className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold rounded-xl bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white border border-blue-200 transition-all active:scale-95 shadow-sm"
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-xl bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white border border-blue-200 transition-all active:scale-95 shadow-sm"
                 title="Restart deck from start"
               >
-                <RotateCcw className="w-3.5 h-3.5 text-blue-600" />
+                <RotateCcw className="w-3.5 h-3.5" />
                 <span>Restart</span>
               </button>
             </div>
           )}
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center py-20 gap-3 bg-white rounded-3xl border border-slate-200 shadow-sm">
-          <div className="w-14 h-14 rounded-2xl bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center shadow-sm">
+        <div className="max-w-2xl mx-auto flex flex-col items-center justify-center py-16 gap-3 bg-white rounded-3xl border border-blue-100 shadow-sm">
+          <div className="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-200 text-blue-600 flex items-center justify-center shadow-sm">
             <BookOpen className="w-7 h-7" />
           </div>
-          <p className="text-sm font-semibold text-slate-700">No completed kits yet</p>
-          <p className="text-xs text-slate-400">Create and complete a kit to start practicing flashcards.</p>
+          <p className="text-sm font-bold text-slate-800">No completed kits yet</p>
+          <p className="text-xs text-slate-500">Create and complete a kit to start practicing flashcards.</p>
         </div>
       )}
 
