@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import Header from "@/components/Header";
+import ModernFlashcard from "@/components/ModernFlashcard";
 import api from "@/lib/api";
 import {
   Loader2,
@@ -15,6 +16,10 @@ import {
   Target,
   Award,
   Star,
+  Shuffle,
+  Layers,
+  Keyboard,
+  TrendingUp
 } from "lucide-react";
 
 export default function PracticePage() {
@@ -30,14 +35,17 @@ export default function PracticePage() {
 
   // Fetch kits
   useEffect(() => {
-    api.get("/kits").then(data => {
-      const completedKits = (data.kits || []).filter((k: any) => k.status === "completed");
-      setKits(completedKits);
-      if (completedKits.length > 0) {
-        setSelectedKitId(completedKits[0]._id);
-      }
-      setIsLoading(false);
-    }).catch(() => setIsLoading(false));
+    api
+      .get("/kits")
+      .then((data) => {
+        const completedKits = (data.kits || []).filter((k: any) => k.status === "completed");
+        setKits(completedKits);
+        if (completedKits.length > 0) {
+          setSelectedKitId(completedKits[0]._id);
+        }
+        setIsLoading(false);
+      })
+      .catch(() => setIsLoading(false));
   }, []);
 
   // Fetch deck when kit changes
@@ -59,7 +67,9 @@ export default function PracticePage() {
     }
   }, [selectedKitId]);
 
-  useEffect(() => { fetchDeck(); }, [fetchDeck]);
+  useEffect(() => {
+    fetchDeck();
+  }, [fetchDeck]);
 
   const currentCard = flashcards[currentIndex];
 
@@ -71,12 +81,24 @@ export default function PracticePage() {
         flashcard_id: currentCard.id,
         confidence,
       });
+      
+      // Update local progress counter visually
+      if (progress) {
+        const newTotal = (progress.total_reviews || 0) + 1;
+        const newAvg = (((progress.average_confidence || 3) * (progress.total_reviews || 0)) + confidence) / newTotal;
+        setProgress({
+          ...progress,
+          total_reviews: newTotal,
+          average_confidence: newAvg
+        });
+      }
+
       // Move to next card
       if (currentIndex < flashcards.length - 1) {
-        setCurrentIndex(prev => prev + 1);
+        setCurrentIndex((prev) => prev + 1);
         setIsFlipped(false);
       } else {
-        // Deck complete — refresh
+        // Deck completed — refresh deck
         await fetchDeck();
       }
     } catch (err: any) {
@@ -86,27 +108,108 @@ export default function PracticePage() {
     }
   };
 
+  // Shuffle Deck function
+  const handleShuffle = () => {
+    if (flashcards.length <= 1) return;
+    const shuffled = [...flashcards].sort(() => Math.random() - 0.5);
+    setFlashcards(shuffled);
+    setCurrentIndex(0);
+    setIsFlipped(false);
+  };
+
+  // Restart Deck function
+  const handleRestart = () => {
+    setCurrentIndex(0);
+    setIsFlipped(false);
+  };
+
+  // Global Keyboard Navigation Shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ignore key combinations inside input or select elements
+      if (["INPUT", "TEXTAREA", "SELECT"].includes((e.target as HTMLElement)?.tagName)) {
+        return;
+      }
+
+      if (e.code === "Space" || e.code === "Enter") {
+        e.preventDefault();
+        setIsFlipped((prev) => !prev);
+      } else if (e.code === "ArrowLeft") {
+        e.preventDefault();
+        setCurrentIndex((prev) => Math.max(0, prev - 1));
+        setIsFlipped(false);
+      } else if (e.code === "ArrowRight") {
+        e.preventDefault();
+        setCurrentIndex((prev) => Math.min(flashcards.length - 1, prev + 1));
+        setIsFlipped(false);
+      } else if (isFlipped && ["1", "2", "3", "4", "5"].includes(e.key)) {
+        e.preventDefault();
+        handleRate(parseInt(e.key, 10));
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [flashcards.length, isFlipped, currentCard, ratingSubmitting]);
+
+  // 5 Glowing Neon Rating Buttons with distinct Cyber HSL/Hex themes
   const ratings = [
-    { value: 1, label: "Again", color: "bg-red-50 text-red-700 border-red-200 hover:bg-red-100", icon: RotateCcw },
-    { value: 2, label: "Hard", color: "bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100", icon: Zap },
-    { value: 3, label: "Good", color: "bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100", icon: Target },
-    { value: 4, label: "Easy", color: "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100", icon: CheckCircle2 },
-    { value: 5, label: "Mastered", color: "bg-violet-50 text-violet-700 border-violet-200 hover:bg-violet-100", icon: Award },
+    {
+      value: 1,
+      label: "Again",
+      shortcut: "1",
+      icon: RotateCcw,
+      style:
+        "bg-rose-950/60 text-rose-300 border-rose-500/50 shadow-[0_0_20px_rgba(244,63,94,0.25)] hover:bg-rose-900/80 hover:border-rose-400 hover:shadow-[0_0_30px_rgba(244,63,94,0.45)] hover:scale-105",
+    },
+    {
+      value: 2,
+      label: "Hard",
+      shortcut: "2",
+      icon: Zap,
+      style:
+        "bg-amber-950/60 text-amber-300 border-amber-500/50 shadow-[0_0_20px_rgba(245,158,11,0.25)] hover:bg-amber-900/80 hover:border-amber-400 hover:shadow-[0_0_30px_rgba(245,158,11,0.45)] hover:scale-105",
+    },
+    {
+      value: 3,
+      label: "Good",
+      shortcut: "3",
+      icon: Target,
+      style:
+        "bg-cyan-950/60 text-cyan-300 border-cyan-500/50 shadow-[0_0_20px_rgba(6,182,212,0.25)] hover:bg-cyan-900/80 hover:border-cyan-400 hover:shadow-[0_0_30px_rgba(6,182,212,0.45)] hover:scale-105",
+    },
+    {
+      value: 4,
+      label: "Easy",
+      shortcut: "4",
+      icon: CheckCircle2,
+      style:
+        "bg-emerald-950/60 text-emerald-300 border-emerald-500/50 shadow-[0_0_20px_rgba(16,185,129,0.25)] hover:bg-emerald-900/80 hover:border-emerald-400 hover:shadow-[0_0_30px_rgba(16,185,129,0.45)] hover:scale-105",
+    },
+    {
+      value: 5,
+      label: "Mastered",
+      shortcut: "5",
+      icon: Award,
+      style:
+        "bg-violet-950/60 text-violet-300 border-violet-500/50 shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:bg-violet-900/80 hover:border-violet-400 hover:shadow-[0_0_35px_rgba(139,92,246,0.55)] hover:scale-105",
+    },
   ];
 
   if (isLoading) {
     return (
       <div className="space-y-6">
         <Header />
-        <div className="flex items-center justify-center py-32">
-          <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+        <div className="flex flex-col items-center justify-center py-32 gap-3">
+          <Loader2 className="w-10 h-10 text-cyan-400 animate-spin" />
+          <p className="text-sm font-medium text-slate-400">Loading study deck...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pb-12">
       <Header />
 
       {/* Header Row */}
@@ -122,140 +225,180 @@ export default function PracticePage() {
 
         {progress && (
           <div className="px-4 py-2 bg-emerald-50 text-emerald-700 rounded-full text-xs font-semibold border border-emerald-200 flex items-center gap-1.5">
-            <Star className="w-4 h-4 fill-current" />
+            <Star className="w-4 h-4 fill-current text-emerald-600" />
             <span>Avg Confidence: {(progress.average_confidence || 0).toFixed(1)} / 5</span>
           </div>
         )}
       </div>
 
-      {/* Kit Selector */}
+      {/* Kit Selector Bar */}
       {kits.length > 0 ? (
-        <div className="flex items-center gap-3">
-          <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider">Kit:</label>
-          <select
-            value={selectedKitId}
-            onChange={(e) => setSelectedKitId(e.target.value)}
-            className="px-4 py-2 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800"
-          >
-            {kits.map(k => (
-              <option key={k._id} value={k._id}>
-                {k._computed?.company_name || "Kit"} — {k._computed?.role_title || "Processing"}
-              </option>
-            ))}
-          </select>
+        <div className="flex items-center justify-between gap-4 bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm">
+          <div className="flex items-center gap-3">
+            <label className="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
+              <Layers className="w-4 h-4 text-amber-500" />
+              Kit:
+            </label>
+            <select
+              value={selectedKitId}
+              onChange={(e) => setSelectedKitId(e.target.value)}
+              className="px-4 py-2 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 text-slate-800 font-medium"
+            >
+              {kits.map((k) => (
+                <option key={k._id} value={k._id}>
+                  {k._computed?.company_name || "Kit"} — {k._computed?.role_title || "Processing"}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Quick Deck Actions */}
+          {flashcards.length > 0 && (
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={handleShuffle}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl bg-slate-100 text-slate-700 hover:bg-amber-50 hover:text-amber-600 border border-slate-200 transition-all active:scale-95"
+                title="Shuffle flashcard deck"
+              >
+                <Shuffle className="w-3.5 h-3.5 text-amber-500" />
+                <span>Shuffle</span>
+              </button>
+              <button
+                type="button"
+                onClick={handleRestart}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 border border-slate-200 transition-all active:scale-95"
+                title="Restart deck from start"
+              >
+                <RotateCcw className="w-3.5 h-3.5 text-emerald-500" />
+                <span>Restart</span>
+              </button>
+            </div>
+          )}
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center py-20 gap-3">
-          <div className="w-14 h-14 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center">
+        <div className="flex flex-col items-center justify-center py-20 gap-3 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div className="w-14 h-14 rounded-2xl bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center shadow-sm">
             <BookOpen className="w-7 h-7" />
           </div>
-          <p className="text-sm font-medium text-slate-600">No completed kits yet</p>
+          <p className="text-sm font-semibold text-slate-700">No completed kits yet</p>
           <p className="text-xs text-slate-400">Create and complete a kit to start practicing flashcards.</p>
         </div>
       )}
 
-      {/* Flashcard Area */}
+      {/* Main Flashcard Interactive Stage */}
       {isDeckLoading ? (
-        <div className="flex items-center justify-center py-20">
-          <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+        <div className="flex flex-col items-center justify-center py-24 gap-3">
+          <Loader2 className="w-10 h-10 text-cyan-400 animate-spin" />
+          <p className="text-xs font-medium text-slate-400">Loading flashcards...</p>
         </div>
       ) : flashcards.length === 0 && selectedKitId ? (
-        <div className="flex flex-col items-center justify-center py-20 gap-3">
-          <CheckCircle2 className="w-12 h-12 text-emerald-400" />
-          <p className="text-sm font-medium text-slate-600">All caught up!</p>
-          <p className="text-xs text-slate-400">No flashcards to practice right now.</p>
+        <div className="flex flex-col items-center justify-center py-20 gap-3 bg-slate-950/40 rounded-3xl border border-slate-800">
+          <CheckCircle2 className="w-14 h-14 text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.4)]" />
+          <p className="text-lg font-bold text-slate-200">All Deck Cards Completed!</p>
+          <p className="text-xs text-slate-400">Great job! You have reviewed all flashcards in this deck.</p>
+          <button
+            onClick={() => fetchDeck()}
+            className="mt-2 px-5 py-2.5 rounded-xl bg-cyan-500/20 text-cyan-300 font-semibold text-xs border border-cyan-500/40 hover:bg-cyan-500/30 transition-all shadow-[0_0_20px_rgba(6,182,212,0.2)]"
+          >
+            Practice Again
+          </button>
         </div>
       ) : currentCard ? (
         <div className="max-w-2xl mx-auto space-y-6">
-          {/* Progress Bar */}
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-semibold text-slate-500">{currentIndex + 1} / {flashcards.length}</span>
-            <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
+          {/* Deck Progress Bar */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between text-xs font-semibold text-slate-400">
+              <span className="flex items-center gap-1.5 text-cyan-400">
+                <Layers className="w-3.5 h-3.5" /> Card {currentIndex + 1} of {flashcards.length}
+              </span>
+              <span>{Math.round(((currentIndex + 1) / flashcards.length) * 100)}% Completed</span>
+            </div>
+            <div className="w-full h-2.5 bg-slate-900 rounded-full overflow-hidden border border-slate-800 p-0.5">
               <div
-                className="h-full bg-blue-600 rounded-full transition-all duration-300"
+                className="h-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-emerald-400 rounded-full transition-all duration-500 shadow-[0_0_12px_rgba(99,102,241,0.5)]"
                 style={{ width: `${((currentIndex + 1) / flashcards.length) * 100}%` }}
               />
             </div>
           </div>
 
-          {/* Card */}
-          <div
-            onClick={() => setIsFlipped(!isFlipped)}
-            className="min-h-[300px] bg-white rounded-3xl border border-slate-200/80 shadow-md hover:shadow-lg transition-all cursor-pointer flex flex-col items-center justify-center p-8 sm:p-12 text-center relative"
-          >
-            {/* Card Header */}
-            <div className="absolute top-4 left-4 flex items-center gap-2">
-              <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-600">
-                {isFlipped ? "ANSWER" : "QUESTION"}
-              </span>
-              {currentCard.requirement_ids?.length > 0 && (
-                <span className="text-[10px] font-medium text-slate-400">
-                  {currentCard.requirement_ids.length} req linked
-                </span>
-              )}
-            </div>
+          {/* 3D Vibrant Flashcard */}
+          <ModernFlashcard
+            front={currentCard.front}
+            back={currentCard.back}
+            category={currentCard.category}
+            requirementCount={currentCard.requirement_ids?.length}
+            isFlipped={isFlipped}
+            onFlip={() => setIsFlipped(!isFlipped)}
+            cardIndex={currentIndex}
+            totalCards={flashcards.length}
+          />
 
-            <div className="absolute top-4 right-4">
-              <span className="text-[10px] text-slate-400 font-medium">Click to flip</span>
-            </div>
+          {/* Rating Buttons Stage — Active when flipped */}
+          <div className="min-h-[100px] flex flex-col items-center justify-center transition-all duration-300">
+            {isFlipped ? (
+              <div className="w-full space-y-3 animate-in fade-in slide-in-from-bottom-3 duration-300">
+                <div className="flex items-center justify-center gap-2">
+                  <span className="text-xs font-bold uppercase tracking-widest text-slate-400">
+                    Rate Your Recall Confidence
+                  </span>
+                </div>
 
-            {/* Content */}
-            <div className="flex-1 flex items-center justify-center">
-              {!isFlipped ? (
-                <p className="text-lg sm:text-xl font-semibold text-slate-900 leading-relaxed">
-                  {currentCard.front}
-                </p>
-              ) : (
-                <p className="text-base sm:text-lg text-slate-700 leading-relaxed">
-                  {currentCard.back}
-                </p>
-              )}
-            </div>
-
-            {/* Flip indicator */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
-              <Sparkles className="w-4 h-4 text-slate-300" />
-            </div>
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
+                  {ratings.map((r) => {
+                    const Icon = r.icon;
+                    return (
+                      <button
+                        key={r.value}
+                        type="button"
+                        onClick={() => handleRate(r.value)}
+                        disabled={ratingSubmitting}
+                        className={`flex flex-col items-center justify-center gap-1.5 py-3 px-2 rounded-2xl border text-xs font-bold transition-all duration-200 active:scale-95 disabled:opacity-50 ${r.style}`}
+                      >
+                        <div className="flex items-center gap-1">
+                          <Icon className="w-4 h-4" />
+                          <span className="font-mono text-[10px] opacity-80">[{r.shortcut}]</span>
+                        </div>
+                        <span>{r.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : (
+              <div className="text-center py-2 px-4 rounded-xl bg-slate-950/60 border border-slate-800 text-xs text-slate-400 flex items-center justify-center gap-2">
+                <Keyboard className="w-4 h-4 text-cyan-400" />
+                <span>Tip: Use <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-slate-900 text-slate-200 border border-slate-700 rounded">Space</kbd> to flip, <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-slate-900 text-slate-200 border border-slate-700 rounded">←</kbd> <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-slate-900 text-slate-200 border border-slate-700 rounded">→</kbd> to navigate, and keys <kbd className="px-1 py-0.5 text-[10px] font-mono bg-slate-900 text-slate-200 border border-slate-700 rounded">1-5</kbd> to rate</span>
+              </div>
+            )}
           </div>
 
-          {/* Rating Buttons — only show when flipped */}
-          {isFlipped && (
-            <div className="space-y-3">
-              <p className="text-center text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                Rate your confidence
-              </p>
-              <div className="flex items-center justify-center gap-2 flex-wrap">
-                {ratings.map(r => {
-                  const Icon = r.icon;
-                  return (
-                    <button
-                      key={r.value}
-                      onClick={() => handleRate(r.value)}
-                      disabled={ratingSubmitting}
-                      className={`flex items-center gap-1.5 px-4 py-2.5 text-xs font-semibold rounded-xl border transition-all active:scale-95 disabled:opacity-50 ${r.color}`}
-                    >
-                      <Icon className="w-3.5 h-3.5" />
-                      <span>{r.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* Nav */}
-          <div className="flex items-center justify-between">
+          {/* Navigation Controls */}
+          <div className="flex items-center justify-between border-t border-slate-800/80 pt-4">
             <button
-              onClick={() => { setCurrentIndex(prev => Math.max(0, prev - 1)); setIsFlipped(false); }}
+              type="button"
+              onClick={() => {
+                setCurrentIndex((prev) => Math.max(0, prev - 1));
+                setIsFlipped(false);
+              }}
               disabled={currentIndex === 0}
-              className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-900 disabled:opacity-30"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-slate-300 bg-slate-900 border border-slate-800 hover:border-slate-700 hover:text-white disabled:opacity-30 disabled:hover:border-slate-800 transition-all"
             >
               <ChevronLeft className="w-4 h-4" /> Previous
             </button>
+
+            <span className="text-xs font-mono text-slate-400">
+              {currentIndex + 1} / {flashcards.length}
+            </span>
+
             <button
-              onClick={() => { setCurrentIndex(prev => Math.min(flashcards.length - 1, prev + 1)); setIsFlipped(false); }}
+              type="button"
+              onClick={() => {
+                setCurrentIndex((prev) => Math.min(flashcards.length - 1, prev + 1));
+                setIsFlipped(false);
+              }}
               disabled={currentIndex === flashcards.length - 1}
-              className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-900 disabled:opacity-30"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-slate-300 bg-slate-900 border border-slate-800 hover:border-slate-700 hover:text-white disabled:opacity-30 disabled:hover:border-slate-800 transition-all"
             >
               Next <ChevronRight className="w-4 h-4" />
             </button>
