@@ -37,7 +37,7 @@ export default function ModernFlashcard({
       {/* Shockwave Radial Energy Ripple Overlay */}
       {shockwave && (
         <div className="absolute inset-0 pointer-events-none z-30 flex items-center justify-center overflow-hidden rounded-3xl">
-          <div className="w-full h-full rounded-3xl animate-ping border-2 border-sky-300/80 bg-sky-400/20 shadow-[0_0_60px_rgba(56,189,248,0.8)] opacity-75" />
+          <div className="w-full h-full rounded-3xl animate-ping border-2 border-white/80 bg-white/20 shadow-[0_0_60px_rgba(255,255,255,0.8)] opacity-75" />
         </div>
       )}
 
@@ -55,9 +55,9 @@ export default function ModernFlashcard({
             transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
           }}
         >
-          {/* ================= FRONT FACE (Light Blue Surface) ================= */}
+          {/* ================= FRONT FACE (Light Blue Surface - White Text) ================= */}
           <div
-            className="absolute inset-0 w-full h-full rounded-3xl p-6 sm:p-9 flex flex-col justify-between overflow-hidden bg-gradient-to-br from-sky-400 via-blue-400 to-sky-500 text-slate-950 border-2 border-sky-300 shadow-[0_15px_45px_rgba(56,189,248,0.35)] hover:shadow-[0_20px_60px_rgba(56,189,248,0.55)] transition-all duration-300"
+            className="absolute inset-0 w-full h-full rounded-3xl p-6 sm:p-9 flex flex-col justify-between overflow-hidden bg-gradient-to-br from-blue-500 via-sky-500 to-blue-600 text-white border-2 border-sky-300 shadow-[0_15px_45px_rgba(37,99,235,0.35)] hover:shadow-[0_20px_60px_rgba(37,99,235,0.55)] transition-all duration-300"
             style={{
               backfaceVisibility: "hidden",
               WebkitBackfaceVisibility: "hidden",
@@ -65,23 +65,23 @@ export default function ModernFlashcard({
             }}
           >
             {/* Soft Ambient Glow */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white/30 via-transparent to-black/10 pointer-events-none" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white/25 via-transparent to-black/20 pointer-events-none" />
 
             {/* Top Bar Navigation & Info */}
-            <div className="relative z-10 flex items-center justify-between gap-2 border-b border-slate-950/15 pb-4">
+            <div className="relative z-10 flex items-center justify-between gap-2 border-b border-white/20 pb-4">
               <div className="flex items-center gap-2">
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest bg-slate-950 text-sky-300 shadow-md">
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest bg-slate-950 text-white shadow-md">
                   QUESTION
                 </span>
                 {category && (
-                  <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-slate-950/10 text-slate-950 border border-slate-950/20">
+                  <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-white/20 text-white border border-white/30">
                     {category}
                   </span>
                 )}
               </div>
 
               {cardIndex !== undefined && totalCards !== undefined && (
-                <span className="text-xs font-mono font-bold text-slate-950 bg-white/70 px-2.5 py-1 rounded-lg border border-slate-950/10 shadow-sm">
+                <span className="text-xs font-mono font-bold text-white bg-slate-950/40 px-2.5 py-1 rounded-lg border border-white/20 shadow-sm">
                   {cardIndex + 1} / {totalCards}
                 </span>
               )}
@@ -89,25 +89,25 @@ export default function ModernFlashcard({
 
             {/* Central Question Content */}
             <div className="relative z-10 flex-1 flex flex-col justify-center my-6">
-              <p className="text-xl sm:text-2xl font-black text-slate-950 leading-relaxed tracking-tight">
+              <p className="text-xl sm:text-2xl font-black text-white leading-relaxed tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
                 {front}
               </p>
             </div>
 
             {/* Bottom Interaction Cue */}
-            <div className="relative z-10 flex items-center justify-between border-t border-slate-950/15 pt-4">
-              <div className="text-xs text-slate-950 font-bold">
-                Click card or press <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-slate-950 text-sky-300 rounded shadow">Space</kbd> to reveal
+            <div className="relative z-10 flex items-center justify-between border-t border-white/20 pt-4">
+              <div className="text-xs text-white font-semibold">
+                Click card or press <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-slate-950 text-white rounded shadow">Space</kbd> to reveal
               </div>
-              <div className="px-3 py-1 rounded-xl bg-slate-950 text-sky-300 text-xs font-bold shadow-md">
+              <div className="px-3 py-1 rounded-xl bg-slate-950 text-white text-xs font-bold shadow-md">
                 Reveal Answer
               </div>
             </div>
           </div>
 
-          {/* ================= BACK FACE (Soft Cyan Light Blue Surface) ================= */}
+          {/* ================= BACK FACE (Soft Cyan Light Blue Surface - White Text) ================= */}
           <div
-            className="absolute inset-0 w-full h-full rounded-3xl p-6 sm:p-9 flex flex-col justify-between overflow-hidden bg-gradient-to-br from-cyan-400 via-sky-400 to-cyan-500 text-slate-950 border-2 border-cyan-300 shadow-[0_15px_45px_rgba(34,211,238,0.35)] hover:shadow-[0_20px_60px_rgba(34,211,238,0.55)] transition-all duration-300"
+            className="absolute inset-0 w-full h-full rounded-3xl p-6 sm:p-9 flex flex-col justify-between overflow-hidden bg-gradient-to-br from-cyan-500 via-sky-600 to-blue-600 text-white border-2 border-cyan-300 shadow-[0_15px_45px_rgba(6,182,212,0.35)] hover:shadow-[0_20px_60px_rgba(6,182,212,0.55)] transition-all duration-300"
             style={{
               backfaceVisibility: "hidden",
               WebkitBackfaceVisibility: "hidden",
@@ -115,16 +115,16 @@ export default function ModernFlashcard({
             }}
           >
             {/* Soft Ambient Glow */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-white/30 via-transparent to-black/10 pointer-events-none" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-white/25 via-transparent to-black/20 pointer-events-none" />
 
             {/* Top Bar Navigation & Info */}
-            <div className="relative z-10 flex items-center justify-between gap-2 border-b border-slate-950/15 pb-4">
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest bg-slate-950 text-cyan-300 shadow-md">
+            <div className="relative z-10 flex items-center justify-between gap-2 border-b border-white/20 pb-4">
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest bg-slate-950 text-white shadow-md">
                 ANSWER SOLUTION
               </span>
 
               {cardIndex !== undefined && totalCards !== undefined && (
-                <span className="text-xs font-mono font-bold text-slate-950 bg-white/70 px-2.5 py-1 rounded-lg border border-slate-950/10 shadow-sm">
+                <span className="text-xs font-mono font-bold text-white bg-slate-950/40 px-2.5 py-1 rounded-lg border border-white/20 shadow-sm">
                   {cardIndex + 1} / {totalCards}
                 </span>
               )}
@@ -132,17 +132,17 @@ export default function ModernFlashcard({
 
             {/* Central Answer Content */}
             <div className="relative z-10 flex-1 flex flex-col justify-center my-4 overflow-y-auto max-h-[220px] sm:max-h-[260px] pr-2 custom-scrollbar">
-              <div className="text-base sm:text-lg text-slate-950 leading-relaxed font-bold whitespace-pre-wrap">
+              <div className="text-base sm:text-lg text-white leading-relaxed font-bold whitespace-pre-wrap drop-shadow-[0_2px_6px_rgba(0,0,0,0.4)]">
                 {back}
               </div>
             </div>
 
             {/* Bottom Controls / Prompt */}
-            <div className="relative z-10 flex items-center justify-between border-t border-slate-950/15 pt-4">
-              <div className="text-xs text-slate-950 font-bold">
+            <div className="relative z-10 flex items-center justify-between border-t border-white/20 pt-4">
+              <div className="text-xs text-white font-semibold">
                 Rate your confidence below to schedule spaced review
               </div>
-              <div className="text-xs font-mono font-bold text-cyan-300 bg-slate-950 px-2.5 py-1 rounded-lg shadow-md">
+              <div className="text-xs font-mono font-bold text-white bg-slate-950 px-2.5 py-1 rounded-lg shadow-md">
                 Flipped ✓
               </div>
             </div>
