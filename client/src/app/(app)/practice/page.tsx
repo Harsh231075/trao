@@ -9,6 +9,9 @@ import {
   RotateCcw,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
+  Check,
+  Building2,
   BookOpen,
   CheckCircle2,
   Sparkles,
@@ -32,6 +35,18 @@ export default function PracticePage() {
   const [isDeckLoading, setIsDeckLoading] = useState(false);
   const [ratingSubmitting, setRatingSubmitting] = useState(false);
   const [progress, setProgress] = useState<any>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  // Close custom kit dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (!(e.target as HTMLElement).closest("#custom-kit-select")) {
+        setIsDropdownOpen(false);
+      }
+    };
+    window.addEventListener("click", handleClickOutside);
+    return () => window.removeEventListener("click", handleClickOutside);
+  }, []);
 
   // Fetch kits
   useEffect(() => {
@@ -173,6 +188,8 @@ export default function PracticePage() {
     );
   }
 
+  const selectedKit = kits.find((k) => k._id === selectedKitId) || kits[0];
+
   return (
     <div className="space-y-6 pb-12">
       <Header />
@@ -196,31 +213,67 @@ export default function PracticePage() {
         )}
       </div>
 
-      {/* Kit Selector Bar — Centered Compact Glassmorphic Studio Bar */}
+      {/* Kit Selector Bar — Translucent Glass Studio Bar */}
       {kits.length > 0 ? (
-        <div className="max-w-2xl mx-auto flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white/90 backdrop-blur-md p-3 sm:px-4 rounded-2xl border border-blue-100 shadow-md shadow-blue-500/5">
-          <div className="flex items-center gap-2.5 flex-1 min-w-0">
+        <div className="relative z-40 max-w-2xl mx-auto flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-blue-50/70 backdrop-blur-md p-2.5 sm:px-3.5 rounded-2xl border border-blue-200/70 shadow-xs">
 
-            <select
-              value={selectedKitId}
-              onChange={(e) => setSelectedKitId(e.target.value)}
-              className="w-full text-xs sm:text-sm bg-blue-50/60 border border-blue-200/80 rounded-xl px-3 py-2 text-blue-950 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500/30 truncate"
+          {/* Custom Sleek Dropdown */}
+          <div id="custom-kit-select" className="relative flex-1 min-w-0">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsDropdownOpen((prev) => !prev);
+              }}
+              className="w-full flex items-center justify-between gap-2 bg-white hover:bg-blue-50/60 text-slate-800 font-medium text-xs sm:text-sm px-3.5 py-2 rounded-xl border border-blue-200/80 shadow-2xs transition-all cursor-pointer truncate"
             >
-              {kits.map((k) => (
-                <option key={k._id} value={k._id}>
-                  {k._computed?.company_name || "Kit"} — {k._computed?.role_title || "Processing"}
-                </option>
-              ))}
-            </select>
+              <div className="flex items-center gap-2.5 truncate">
+                <span className="truncate">
+                  {selectedKit ? `${selectedKit._computed?.company_name || "Kit"} — ${selectedKit._computed?.role_title || "Processing"}` : "Select Interview Kit"}
+                </span>
+              </div>
+              <ChevronDown className={`w-4 h-4 text-blue-600 shrink-0 transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`} />
+            </button>
+
+            {/* Custom Dropdown Menu */}
+            {isDropdownOpen && (
+              <div className="absolute top-full left-0 mt-2 z-50 w-full min-w-[280px] bg-white border border-blue-200 shadow-2xl rounded-2xl p-1.5 animate-in fade-in zoom-in-95 duration-150 space-y-1 ring-1 ring-blue-500/10">
+                {kits.map((k) => {
+                  const isSelected = k._id === selectedKitId;
+                  return (
+                    <button
+                      key={k._id}
+                      type="button"
+                      onClick={() => {
+                        setSelectedKitId(k._id);
+                        setIsDropdownOpen(false);
+                      }}
+                      className={`w-full flex items-center justify-between gap-3 px-3.5 py-2 text-xs font-medium rounded-xl transition-all text-left cursor-pointer ${isSelected
+                        ? "bg-blue-600 text-white shadow-xs"
+                        : "text-slate-800 hover:bg-blue-50"
+                        }`}
+                    >
+                      <div className="truncate">
+                        <span className="block font-semibold truncate">{k._computed?.company_name || "Kit"}</span>
+                        <span className={`block text-[11px] font-normal truncate ${isSelected ? "text-blue-100" : "text-slate-500"}`}>
+                          {k._computed?.role_title || "Processing"}
+                        </span>
+                      </div>
+                      {isSelected && <Check className="w-4 h-4 text-white shrink-0 stroke-[2]" />}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           {/* Quick Deck Actions */}
           {flashcards.length > 0 && (
-            <div className="flex items-center gap-2 justify-end">
+            <div className="flex items-center gap-2 justify-end shrink-0">
               <button
                 type="button"
                 onClick={handleShuffle}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-xl bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white border border-blue-200 transition-all active:scale-95 shadow-sm"
+                className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium rounded-xl bg-white/90 hover:bg-blue-600 text-blue-800 hover:text-white border border-blue-200/80 transition-all active:scale-95 shadow-2xs cursor-pointer"
                 title="Shuffle flashcard deck"
               >
                 <Shuffle className="w-3.5 h-3.5" />
@@ -229,7 +282,7 @@ export default function PracticePage() {
               <button
                 type="button"
                 onClick={handleRestart}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-xl bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white border border-blue-200 transition-all active:scale-95 shadow-sm"
+                className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium rounded-xl bg-white/90 hover:bg-blue-600 text-blue-800 hover:text-white border border-blue-200/80 transition-all active:scale-95 shadow-2xs cursor-pointer"
                 title="Restart deck from start"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
@@ -239,12 +292,12 @@ export default function PracticePage() {
           )}
         </div>
       ) : (
-        <div className="max-w-2xl mx-auto flex flex-col items-center justify-center py-16 gap-3 bg-white rounded-3xl border border-blue-100 shadow-sm">
-          <div className="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-200 text-blue-600 flex items-center justify-center shadow-sm">
+        <div className="max-w-2xl mx-auto flex flex-col items-center justify-center py-16 gap-3 bg-blue-50/70 backdrop-blur-md rounded-3xl border border-blue-200/70 shadow-xs">
+          <div className="w-14 h-14 rounded-2xl bg-blue-100/80 border border-blue-200/80 text-blue-600 flex items-center justify-center shadow-xs">
             <BookOpen className="w-7 h-7" />
           </div>
-          <p className="text-sm font-bold text-slate-800">No completed kits yet</p>
-          <p className="text-xs text-slate-500">Create and complete a kit to start practicing flashcards.</p>
+          <p className="text-sm font-bold text-slate-900">No completed kits yet</p>
+          <p className="text-xs font-semibold text-slate-500">Create and complete a kit to start practicing flashcards.</p>
         </div>
       )}
 
@@ -267,7 +320,7 @@ export default function PracticePage() {
           </button>
         </div>
       ) : currentCard ? (
-        <div className="max-w-2xl mx-auto space-y-6">
+        <div className="relative z-10 max-w-2xl mx-auto space-y-6">
           {/* Deck Progress Bar */}
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs font-bold text-slate-900">
