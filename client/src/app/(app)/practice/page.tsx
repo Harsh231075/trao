@@ -284,17 +284,50 @@ export default function PracticePage() {
             </div>
           </div>
 
-          {/* 3D Vibrant Flashcard */}
-          <ModernFlashcard
-            front={currentCard.front}
-            back={currentCard.back}
-            category={currentCard.category}
-            requirementCount={currentCard.requirement_ids?.length}
-            isFlipped={isFlipped}
-            onFlip={() => setIsFlipped(!isFlipped)}
-            cardIndex={currentIndex}
-            totalCards={flashcards.length}
-          />
+          {/* 3D Vibrant Flashcard with Left & Right Circular Arrow Navigation Buttons */}
+          <div className="relative flex items-center gap-3 sm:gap-5">
+            {/* Left Previous Arrow Button */}
+            <button
+              type="button"
+              onClick={() => {
+                setCurrentIndex((prev) => Math.max(0, prev - 1));
+                setIsFlipped(false);
+              }}
+              disabled={currentIndex === 0}
+              className="w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white disabled:bg-slate-200 disabled:text-slate-400 shadow-md hover:shadow-lg disabled:shadow-none transition-all hover:scale-110 active:scale-95 cursor-pointer shrink-0"
+              title="Previous Card (←)"
+            >
+              <ChevronLeft className="w-6 h-6 stroke-[2.5]" />
+            </button>
+
+            {/* Card Container */}
+            <div className="flex-1 min-w-0">
+              <ModernFlashcard
+                front={currentCard.front}
+                back={currentCard.back}
+                category={currentCard.category}
+                requirementCount={currentCard.requirement_ids?.length}
+                isFlipped={isFlipped}
+                onFlip={() => setIsFlipped(!isFlipped)}
+                cardIndex={currentIndex}
+                totalCards={flashcards.length}
+              />
+            </div>
+
+            {/* Right Next Arrow Button */}
+            <button
+              type="button"
+              onClick={() => {
+                setCurrentIndex((prev) => Math.min(flashcards.length - 1, prev + 1));
+                setIsFlipped(false);
+              }}
+              disabled={currentIndex === flashcards.length - 1}
+              className="w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white disabled:bg-slate-200 disabled:text-slate-400 shadow-md hover:shadow-lg disabled:shadow-none transition-all hover:scale-110 active:scale-95 cursor-pointer shrink-0"
+              title="Next Card (→)"
+            >
+              <ChevronRight className="w-6 h-6 stroke-[2.5]" />
+            </button>
+          </div>
 
           {/* Rating Buttons Stage — Active when flipped */}
           <div className="min-h-[70px] flex flex-col items-center justify-center transition-all duration-300">
@@ -327,37 +360,6 @@ export default function PracticePage() {
                 <span>Tip: Use <kbd className="px-2 py-0.5 text-[10px] font-mono bg-blue-600 text-white rounded shadow-xs">Space</kbd> to flip, <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-blue-600 text-white rounded shadow-xs">←</kbd> <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-blue-600 text-white rounded shadow-xs">→</kbd> to navigate, and keys <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-blue-600 text-white rounded shadow-xs">1-5</kbd> to rate</span>
               </div>
             )}
-          </div>
-
-          {/* Navigation Controls */}
-          <div className="flex items-center justify-between border-t border-slate-200/80 pt-4">
-            <button
-              type="button"
-              onClick={() => {
-                setCurrentIndex((prev) => Math.max(0, prev - 1));
-                setIsFlipped(false);
-              }}
-              disabled={currentIndex === 0}
-              className="flex items-center gap-1.5 px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-400 shadow-sm disabled:shadow-none transition-all hover:scale-105 active:scale-95 cursor-pointer"
-            >
-              <ChevronLeft className="w-4 h-4" /> Previous
-            </button>
-
-            <span className="text-xs font-mono font-bold text-blue-900 bg-blue-50 px-3.5 py-1.5 rounded-full border border-blue-200/80 shadow-xs">
-              {currentIndex + 1} / {flashcards.length}
-            </span>
-
-            <button
-              type="button"
-              onClick={() => {
-                setCurrentIndex((prev) => Math.min(flashcards.length - 1, prev + 1));
-                setIsFlipped(false);
-              }}
-              disabled={currentIndex === flashcards.length - 1}
-              className="flex items-center gap-1.5 px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-400 shadow-sm disabled:shadow-none transition-all hover:scale-105 active:scale-95 cursor-pointer"
-            >
-              Next <ChevronRight className="w-4 h-4" />
-            </button>
           </div>
         </div>
       ) : null}
