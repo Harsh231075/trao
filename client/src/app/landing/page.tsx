@@ -21,7 +21,6 @@ import {
   Sparkles,
   ArrowRight,
   ShieldCheck,
-  Zap,
   Layers,
   Calendar,
   Mail,
@@ -1212,7 +1211,6 @@ export default function LandingPage() {
                   <li><Link href="/practice" className="hover:text-blue-600 transition-colors">Question Bank</Link></li>
                   <li><Link href="/practice" className="hover:text-blue-600 transition-colors">Flashcards</Link></li>
                   <li><Link href="/schedule" className="hover:text-blue-600 transition-colors">Study Schedule</Link></li>
-                  <li><Link href="/analytics" className="hover:text-blue-600 transition-colors">Analytics</Link></li>
                 </ul>
               </div>
 
