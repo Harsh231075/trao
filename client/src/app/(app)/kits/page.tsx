@@ -8,7 +8,6 @@ import CreateKitModal from "@/components/CreateKitModal";
 import api from "@/lib/api";
 import {
   Plus,
-  Search,
   ArrowRight,
   MoreVertical,
   Calendar,
@@ -47,7 +46,6 @@ export default function InterviewKitsPage() {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState("All");
-  const [search, setSearch] = useState("");
   const [kits, setKits] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -85,13 +83,7 @@ export default function InterviewKitsPage() {
 
   const filteredKits = kits.filter((k) => {
     const status = mapStatus(k.status);
-    const matchesFilter = activeFilter === "All" || status === activeFilter;
-    const companyName = k._computed?.company_name || extractDomain(k.company_url);
-    const roleTitle = k._computed?.role_title || "";
-    const matchesSearch =
-      companyName.toLowerCase().includes(search.toLowerCase()) ||
-      roleTitle.toLowerCase().includes(search.toLowerCase());
-    return matchesFilter && matchesSearch;
+    return activeFilter === "All" || status === activeFilter;
   });
 
   return (
@@ -116,45 +108,21 @@ export default function InterviewKitsPage() {
         </button>
       </div>
 
-      {/* Filter & Search */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pb-2 border-b border-slate-100">
-        <div className="flex items-center gap-1.5 overflow-x-auto">
-          {["All", "In Progress", "Completed", "Failed"].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveFilter(tab)}
-              className={`px-3.5 py-1.5 text-xs font-semibold rounded-full transition-all whitespace-nowrap ${
-                activeFilter === tab
-                  ? "bg-blue-600 text-white shadow-xs"
-                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
-        <div className="relative max-w-xs w-full group">
-          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-700 pointer-events-none" strokeWidth={1.8} />
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search company or role..."
-            className="w-full h-9 pl-10 pr-8 text-xs bg-white text-slate-800 placeholder:text-slate-500 rounded-full border border-slate-200/90 shadow-[0_1px_4px_rgba(0,0,0,0.03)] hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/80 transition-all"
-          />
-          {search && (
-            <button
-              type="button"
-              onClick={() => setSearch("")}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 p-0.5 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100 transition-colors"
-            >
-              <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
-            </button>
-          )}
-        </div>
+      {/* Filter Tabs */}
+      <div className="flex items-center gap-1.5 overflow-x-auto pb-2 border-b border-slate-100">
+        {["All", "In Progress", "Completed", "Failed"].map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setActiveFilter(tab)}
+            className={`px-3.5 py-1.5 text-xs font-semibold rounded-full transition-all whitespace-nowrap ${
+              activeFilter === tab
+                ? "bg-blue-600 text-white shadow-xs"
+                : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+            }`}
+          >
+            {tab}
+          </button>
+        ))}
       </div>
 
       {/* Kits Grid */}
