@@ -86,25 +86,25 @@ export async function generateQuestions(jd, requirements, companyBrief, intervie
 }
 
 /**
- * Generate all 4 question categories.
+ * Generate all 4 question categories sequentially with pacing to avoid TPM rate limits.
  */
 export async function generateAllQuestions(jd, requirements, companyBrief, interviewInsights) {
   const categories = ['technical', 'behavioural', 'system_design', 'company_fit'];
-
-  const results = await Promise.allSettled(
-    categories.map(cat => generateQuestions(jd, requirements, companyBrief, interviewInsights, cat))
-  );
-
   const questions = {};
-  categories.forEach((cat, index) => {
-    const res = results[index];
-    if (res.status === 'fulfilled') {
-      questions[cat] = res.value;
-    } else {
-      console.warn(`[Generation] ${cat} questions failed:`, res.reason?.message);
+
+  for (const cat of categories) {
+    try {
+      console.log(`[LLM Pipeline] 🧠 Generating category: ${cat.toUpperCase()}...`);
+      const res = await generateQuestions(jd, requirements, companyBrief, interviewInsights, cat);
+      questions[cat] = res || [];
+      console.log(`[LLM Pipeline] ✅ ${cat.toUpperCase()}: ${questions[cat].length} questions generated`);
+      // Pacing delay (300ms) to respect LLM TPM rate limits
+      await new Promise(r => setTimeout(r, 300));
+    } catch (err) {
+      console.warn(`[Generation] ${cat} questions warning:`, err.message);
       questions[cat] = [];
     }
-  });
+  }
 
   return questions;
 }

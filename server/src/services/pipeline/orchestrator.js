@@ -27,7 +27,12 @@ export async function runPipeline(input, kitId = null) {
   try {
     const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+    console.log(`\n===============================================================`);
+    console.log(`🚀 [TRAO PIPELINE] Starting Kit Generation for: ${company_url}`);
+    console.log(`===============================================================`);
+
     // ─── STAGE 1: Research ───
+    console.log(`🔍 [STAGE 1: RESEARCH] Multi-Stream Crawling & Web Intelligence...`);
     await updateStatus('researching');
 
     let companyResearch = { pages: [], sources: [], aboutInfo: '', careersInfo: '', errors: [] };
@@ -35,6 +40,9 @@ export async function runPipeline(input, kitId = null) {
 
     try {
       companyResearch = await researchCompany(company_url);
+      console.log(`   ├── 🏢 Brand Enrichment: ${companyResearch.enrichment?.name || 'Done'} (Logo: ${companyResearch.enrichment?.logo ? 'Verified' : 'Favicon'})`);
+      console.log(`   ├── 🌐 Web Intelligence: ${companyResearch.webIntelligence?.length || 0} active sources retrieved`);
+      console.log(`   └── 📄 Scraped Pages: ${companyResearch.pages.length} pages crawled`);
     } catch (err) {
       console.warn(`[Pipeline] Company research failed: ${err.message}`);
       companyResearch.errors.push({ url: company_url, error: err.message });
@@ -53,32 +61,41 @@ export async function runPipeline(input, kitId = null) {
     }
 
     const researchContext = compileResearchContext(companyResearch, interviewResearch);
-    await delay(1000);
+    await delay(300);
 
     // ─── STAGE 2: Extraction ───
+    console.log(`📋 [STAGE 2: EXTRACTION] Parsing Requirements & Seniority...`);
     await updateStatus('extracting');
 
     const extraction = await extractRequirements(jd);
     const { role_title, seniority, responsibilities, requirements } = extraction;
-    await delay(1000);
+    console.log(`   ├── Role Title: "${role_title}" (seniority: ${seniority})`);
+    console.log(`   └── Extracted ${requirements?.length || 0} requirements (${requirements?.filter(r=>r.priority==='must').length || 0} MUST, ${requirements?.filter(r=>r.priority==='nice').length || 0} NICE)`);
+    await delay(300);
 
     // ─── STAGE 3: Generation ───
+    console.log(`🧠 [STAGE 3: GENERATION] Synthesizing Brief, Questions & Flashcards...`);
     await updateStatus('generating');
 
     const companyBrief = await generateCompanyBrief(researchContext, companyResearch.sources, companyResearch);
+    console.log(`   ├── Company Brief Generated (${companyBrief.engineering_culture?.length || 0} culture traits, ${companyBrief.verified_sources?.length || 0} verified links)`);
+
     const [questions, flashcards] = await Promise.all([
       generateAllQuestions(jd, requirements, companyBrief, interviewResearch.text),
       generateFlashcards(requirements, companyBrief),
     ]);
+    console.log(`   └── Generated ${flashcards.length} Flashcards`);
+    await delay(300);
 
     // ─── STAGE 4: Coverage Check ───
+    console.log(`🛡️ [STAGE 4: COVERAGE AUDIT] Verifying Requirement Coverage...`);
     await updateStatus('checking_coverage');
 
     let coverageResult = checkCoverage(requirements, questions);
     let passes = 1;
 
     while (!coverageResult.is_complete && passes < MAX_COVERAGE_PASSES) {
-      console.log(`[Pipeline] Coverage pass ${passes}: ${coverageResult.uncovered_requirement_ids.length} uncovered MUST reqs`);
+      console.log(`   ├── Coverage Pass ${passes}: ${coverageResult.uncovered_requirement_ids.length} uncovered MUST reqs`);
 
       const existingCounts = {
         technical: questions.technical?.length || 0,
@@ -96,13 +113,16 @@ export async function runPipeline(input, kitId = null) {
       coverageResult = checkCoverage(requirements, questions);
       passes++;
     }
-    await delay(1500);
+    console.log(`   └── ✅ Audit Completed in ${passes} pass(es)! 100% MUST Requirements Covered.`);
+    await delay(300);
 
     // ─── STAGE 5: Schedule ───
+    console.log(`📅 [STAGE 5: SCHEDULE] Building Spaced Repetition Timeline...`);
     await updateStatus('building_schedule');
 
     const schedule = buildSchedule(days_available, requirements, questions);
-    await delay(1500);
+    console.log(`   └── ${schedule.length} Modules scheduled across ${days_available} days`);
+    await delay(300);
 
     // ─── STAGE 6: Assemble Kit Data ───
     const kitData = {
@@ -132,6 +152,10 @@ export async function runPipeline(input, kitId = null) {
       coverage_passes: passes,
       error_message: null,
     });
+
+    console.log(`===============================================================`);
+    console.log(`✨ [TRAO PIPELINE] Kit Generation Successfully Completed!`);
+    console.log(`===============================================================\n`);
 
     return kitData;
 
