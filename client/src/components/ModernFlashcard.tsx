@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { Volume2, VolumeX } from "lucide-react";
+import React, { useState } from "react";
 
 interface ModernFlashcardProps {
   front: string;
@@ -24,52 +23,12 @@ export default function ModernFlashcard({
   cardIndex,
   totalCards,
 }: ModernFlashcardProps) {
-  const [soundEnabled, setSoundEnabled] = useState(true);
   const [shockwave, setShockwave] = useState(false);
-  const audioCtxRef = useRef<AudioContext | null>(null);
-
-  // Play crisp haptic audio pop on flip using Web Audio API
-  const playFlipSound = () => {
-    if (!soundEnabled) return;
-    try {
-      if (!audioCtxRef.current) {
-        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
-        if (AudioContextClass) {
-          audioCtxRef.current = new AudioContextClass();
-        }
-      }
-      if (audioCtxRef.current && audioCtxRef.current.state === "suspended") {
-        audioCtxRef.current.resume();
-      }
-      if (audioCtxRef.current) {
-        const ctx = audioCtxRef.current;
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-
-        osc.type = "sine";
-        const startTime = ctx.currentTime;
-        osc.frequency.setValueAtTime(isFlipped ? 520 : 340, startTime);
-        osc.frequency.exponentialRampToValueAtTime(isFlipped ? 340 : 680, startTime + 0.08);
-
-        gain.gain.setValueAtTime(0.12, startTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.09);
-
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-
-        osc.start(startTime);
-        osc.stop(startTime + 0.09);
-      }
-    } catch (e) {
-      // Audio safely ignored if blocked by browser policy
-    }
-  };
 
   const handleCardClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     setShockwave(true);
     setTimeout(() => setShockwave(false), 500);
-    playFlipSound();
     onFlip();
   };
 
@@ -121,25 +80,11 @@ export default function ModernFlashcard({
                 )}
               </div>
 
-              <div className="flex items-center gap-3">
-                {cardIndex !== undefined && totalCards !== undefined && (
-                  <span className="text-xs font-mono font-bold text-white bg-slate-950/40 px-2.5 py-1 rounded-lg border border-white/20 shadow-sm">
-                    {cardIndex + 1} / {totalCards}
-                  </span>
-                )}
-                {/* Audio Toggle Button */}
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSoundEnabled(!soundEnabled);
-                  }}
-                  className="p-1.5 rounded-lg text-white/80 hover:text-white hover:bg-white/20 transition-colors"
-                  title={soundEnabled ? "Mute flip sound" : "Enable flip sound"}
-                >
-                  {soundEnabled ? <Volume2 className="w-4 h-4 text-white" /> : <VolumeX className="w-4 h-4 text-white/50" />}
-                </button>
-              </div>
+              {cardIndex !== undefined && totalCards !== undefined && (
+                <span className="text-xs font-mono font-bold text-white bg-slate-950/40 px-2.5 py-1 rounded-lg border border-white/20 shadow-sm">
+                  {cardIndex + 1} / {totalCards}
+                </span>
+              )}
             </div>
 
             {/* Central Question Content */}
@@ -178,23 +123,11 @@ export default function ModernFlashcard({
                 ANSWER SOLUTION
               </span>
 
-              <div className="flex items-center gap-3">
-                {cardIndex !== undefined && totalCards !== undefined && (
-                  <span className="text-xs font-mono font-bold text-white bg-slate-950/40 px-2.5 py-1 rounded-lg border border-white/20 shadow-sm">
-                    {cardIndex + 1} / {totalCards}
-                  </span>
-                )}
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSoundEnabled(!soundEnabled);
-                  }}
-                  className="p-1.5 rounded-lg text-white/80 hover:text-white hover:bg-white/20 transition-colors"
-                >
-                  {soundEnabled ? <Volume2 className="w-4 h-4 text-white" /> : <VolumeX className="w-4 h-4 text-white/50" />}
-                </button>
-              </div>
+              {cardIndex !== undefined && totalCards !== undefined && (
+                <span className="text-xs font-mono font-bold text-white bg-slate-950/40 px-2.5 py-1 rounded-lg border border-white/20 shadow-sm">
+                  {cardIndex + 1} / {totalCards}
+                </span>
+              )}
             </div>
 
             {/* Central Answer Content */}

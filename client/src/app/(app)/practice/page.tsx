@@ -152,48 +152,13 @@ export default function PracticePage() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [flashcards.length, isFlipped, currentCard, ratingSubmitting]);
 
-  // 5 Glowing Neon Rating Buttons with distinct Cyber HSL/Hex themes
+  // 5 Compact Pill Rating Buttons
   const ratings = [
-    {
-      value: 1,
-      label: "Again",
-      shortcut: "1",
-      icon: RotateCcw,
-      style:
-        "bg-rose-950/60 text-rose-300 border-rose-500/50 shadow-[0_0_20px_rgba(244,63,94,0.25)] hover:bg-rose-900/80 hover:border-rose-400 hover:shadow-[0_0_30px_rgba(244,63,94,0.45)] hover:scale-105",
-    },
-    {
-      value: 2,
-      label: "Hard",
-      shortcut: "2",
-      icon: Zap,
-      style:
-        "bg-amber-950/60 text-amber-300 border-amber-500/50 shadow-[0_0_20px_rgba(245,158,11,0.25)] hover:bg-amber-900/80 hover:border-amber-400 hover:shadow-[0_0_30px_rgba(245,158,11,0.45)] hover:scale-105",
-    },
-    {
-      value: 3,
-      label: "Good",
-      shortcut: "3",
-      icon: Target,
-      style:
-        "bg-cyan-950/60 text-cyan-300 border-cyan-500/50 shadow-[0_0_20px_rgba(6,182,212,0.25)] hover:bg-cyan-900/80 hover:border-cyan-400 hover:shadow-[0_0_30px_rgba(6,182,212,0.45)] hover:scale-105",
-    },
-    {
-      value: 4,
-      label: "Easy",
-      shortcut: "4",
-      icon: CheckCircle2,
-      style:
-        "bg-emerald-950/60 text-emerald-300 border-emerald-500/50 shadow-[0_0_20px_rgba(16,185,129,0.25)] hover:bg-emerald-900/80 hover:border-emerald-400 hover:shadow-[0_0_30px_rgba(16,185,129,0.45)] hover:scale-105",
-    },
-    {
-      value: 5,
-      label: "Mastered",
-      shortcut: "5",
-      icon: Award,
-      style:
-        "bg-violet-950/60 text-violet-300 border-violet-500/50 shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:bg-violet-900/80 hover:border-violet-400 hover:shadow-[0_0_35px_rgba(139,92,246,0.55)] hover:scale-105",
-    },
+    { value: 1, label: "Again", shortcut: "1" },
+    { value: 2, label: "Hard", shortcut: "2" },
+    { value: 3, label: "Good", shortcut: "3" },
+    { value: 4, label: "Easy", shortcut: "4" },
+    { value: 5, label: "Mastered", shortcut: "5" },
   ];
 
   if (isLoading) {
@@ -332,46 +297,40 @@ export default function PracticePage() {
           />
 
           {/* Rating Buttons Stage — Active when flipped */}
-          <div className="min-h-[100px] flex flex-col items-center justify-center transition-all duration-300">
+          <div className="min-h-[70px] flex flex-col items-center justify-center transition-all duration-300">
             {isFlipped ? (
-              <div className="w-full space-y-3 animate-in fade-in slide-in-from-bottom-3 duration-300">
+              <div className="w-full space-y-2.5 animate-in fade-in slide-in-from-bottom-3 duration-300">
                 <div className="flex items-center justify-center gap-2">
-                  <span className="text-xs font-bold uppercase tracking-widest text-blue-700">
-                    Rate Your Recall Confidence
+                  <span className="text-[11px] font-extrabold uppercase tracking-widest text-blue-700">
+                    Rate Recall Confidence
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
-                  {ratings.map((r) => {
-                    const Icon = r.icon;
-                    return (
-                      <button
-                        key={r.value}
-                        type="button"
-                        onClick={() => handleRate(r.value)}
-                        disabled={ratingSubmitting}
-                        className="flex flex-col items-center justify-center gap-1 py-2.5 px-2 rounded-2xl bg-white border border-blue-200 text-blue-700 hover:bg-blue-600 hover:text-white hover:border-blue-600 font-bold text-xs shadow-sm hover:shadow-md transition-all duration-200 active:scale-95 disabled:opacity-50"
-                      >
-                        <div className="flex items-center gap-1">
-                          <Icon className="w-3.5 h-3.5" />
-                          <span className="font-mono text-[10px] opacity-80">[{r.shortcut}]</span>
-                        </div>
-                        <span>{r.label}</span>
-                      </button>
-                    );
-                  })}
+                <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
+                  {ratings.map((r) => (
+                    <button
+                      key={r.value}
+                      type="button"
+                      onClick={() => handleRate(r.value)}
+                      disabled={ratingSubmitting}
+                      className="px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-white hover:bg-blue-600 text-blue-700 hover:text-white border border-blue-200/90 font-bold text-xs sm:text-sm shadow-xs hover:shadow-md transition-all duration-200 active:scale-95 disabled:opacity-50 cursor-pointer flex items-center gap-1.5"
+                    >
+                      <span className="opacity-60 text-[10px] font-mono">[{r.shortcut}]</span>
+                      <span>{r.label}</span>
+                    </button>
+                  ))}
                 </div>
               </div>
             ) : (
-              <div className="w-full py-3 px-5 rounded-2xl bg-blue-50/80 border border-blue-200/80 text-xs text-blue-900 font-medium flex items-center justify-center gap-2 shadow-sm">
+              <div className="w-full py-2.5 px-4 rounded-2xl bg-blue-50/80 border border-blue-200/80 text-xs text-blue-900 font-medium flex items-center justify-center gap-2 shadow-xs">
                 <Keyboard className="w-4 h-4 text-blue-600" />
-                <span>Tip: Use <kbd className="px-2 py-0.5 text-[10px] font-mono bg-blue-600 text-white rounded shadow-sm">Space</kbd> to flip, <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-blue-600 text-white rounded shadow-sm">←</kbd> <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-blue-600 text-white rounded shadow-sm">→</kbd> to navigate, and keys <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-blue-600 text-white rounded shadow-sm">1-5</kbd> to rate</span>
+                <span>Tip: Use <kbd className="px-2 py-0.5 text-[10px] font-mono bg-blue-600 text-white rounded shadow-xs">Space</kbd> to flip, <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-blue-600 text-white rounded shadow-xs">←</kbd> <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-blue-600 text-white rounded shadow-xs">→</kbd> to navigate, and keys <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-blue-600 text-white rounded shadow-xs">1-5</kbd> to rate</span>
               </div>
             )}
           </div>
 
           {/* Navigation Controls */}
-          <div className="flex items-center justify-between border-t border-slate-200 pt-4">
+          <div className="flex items-center justify-between border-t border-slate-200/80 pt-4">
             <button
               type="button"
               onClick={() => {
@@ -379,12 +338,12 @@ export default function PracticePage() {
                 setIsFlipped(false);
               }}
               disabled={currentIndex === 0}
-              className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-400 shadow-md disabled:shadow-none transition-all active:scale-95"
+              className="flex items-center gap-1.5 px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-400 shadow-sm disabled:shadow-none transition-all hover:scale-105 active:scale-95 cursor-pointer"
             >
               <ChevronLeft className="w-4 h-4" /> Previous
             </button>
 
-            <span className="text-xs font-mono font-semibold text-slate-600 bg-slate-100 px-3 py-1 rounded-lg border border-slate-200">
+            <span className="text-xs font-mono font-bold text-blue-900 bg-blue-50 px-3.5 py-1.5 rounded-full border border-blue-200/80 shadow-xs">
               {currentIndex + 1} / {flashcards.length}
             </span>
 
@@ -395,7 +354,7 @@ export default function PracticePage() {
                 setIsFlipped(false);
               }}
               disabled={currentIndex === flashcards.length - 1}
-              className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-400 shadow-md disabled:shadow-none transition-all active:scale-95"
+              className="flex items-center gap-1.5 px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-400 shadow-sm disabled:shadow-none transition-all hover:scale-105 active:scale-95 cursor-pointer"
             >
               Next <ChevronRight className="w-4 h-4" />
             </button>
