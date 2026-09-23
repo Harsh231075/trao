@@ -1,6 +1,6 @@
 "use client";
 
-const API_BASE = process.env.API_URL || "https://trao-vuf3.onrender.com/api";
+const API_BASE = process.env.API_URL || "http://localhost:5001/api";
 
 interface ApiOptions extends RequestInit {
   skipAuth?: boolean;

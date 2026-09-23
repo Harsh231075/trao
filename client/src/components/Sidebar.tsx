@@ -10,7 +10,6 @@ import {
   Play,
   Calendar,
   BookOpen,
-  BarChart3,
   User,
   Settings,
   Menu,
@@ -29,7 +28,6 @@ const mainNavItems: NavItem[] = [
   { name: "Practice", href: "/practice", icon: Play },
   { name: "Schedule", href: "/schedule", icon: Calendar },
   { name: "Resources", href: "/resources", icon: BookOpen },
-  { name: "Analytics", href: "/analytics", icon: BarChart3 },
 ];
 
 const bottomNavItems: NavItem[] = [
