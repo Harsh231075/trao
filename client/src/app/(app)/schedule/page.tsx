@@ -84,11 +84,11 @@ export default function SchedulePage() {
       {kits.length > 0 ? (
         <>
           <div className="flex items-center gap-3">
-            <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider">Kit:</label>
+            <label className="text-xs font-bold text-slate-600 uppercase tracking-wider">Kit:</label>
             <select
               value={selectedKitId}
               onChange={(e) => setSelectedKitId(e.target.value)}
-              className="px-4 py-2 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800"
+              className="px-4 py-2 text-sm bg-blue-50/70 backdrop-blur-md border border-blue-200/70 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 font-bold shadow-2xs"
             >
               {kits.map(k => (
                 <option key={k._id} value={k._id}>
@@ -101,24 +101,24 @@ export default function SchedulePage() {
           {/* Summary Stats */}
           {schedule.length > 0 && (
             <div className="grid grid-cols-3 gap-3">
-              <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 text-center">
-                <p className="text-2xl font-bold text-blue-700">{schedule.length}</p>
-                <p className="text-xs font-semibold text-blue-600 mt-1">Total Days</p>
+              <div className="bg-blue-50/70 backdrop-blur-md border border-blue-200/70 rounded-2xl p-4 text-center shadow-2xs">
+                <p className="text-2xl font-black text-blue-700">{schedule.length}</p>
+                <p className="text-xs font-bold text-blue-600 mt-1">Total Days</p>
               </div>
-              <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-center">
-                <p className="text-2xl font-bold text-emerald-700">{totalMinutes}</p>
-                <p className="text-xs font-semibold text-emerald-600 mt-1">Total Minutes</p>
+              <div className="bg-emerald-50/70 backdrop-blur-md border border-emerald-200/70 rounded-2xl p-4 text-center shadow-2xs">
+                <p className="text-2xl font-black text-emerald-700">{totalMinutes}</p>
+                <p className="text-xs font-bold text-emerald-600 mt-1">Total Minutes</p>
               </div>
-              <div className="bg-violet-50 border border-violet-200 rounded-2xl p-4 text-center">
-                <p className="text-2xl font-bold text-violet-700">{totalQuestions}</p>
-                <p className="text-xs font-semibold text-violet-600 mt-1">Questions Assigned</p>
+              <div className="bg-violet-50/70 backdrop-blur-md border border-violet-200/70 rounded-2xl p-4 text-center shadow-2xs">
+                <p className="text-2xl font-black text-violet-700">{totalQuestions}</p>
+                <p className="text-xs font-bold text-violet-600 mt-1">Questions Assigned</p>
               </div>
             </div>
           )}
         </>
       ) : (
         <div className="flex flex-col items-center justify-center py-20 gap-3">
-          <div className="w-14 h-14 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center">
+          <div className="w-14 h-14 rounded-2xl bg-blue-100/80 text-blue-600 flex items-center justify-center">
             <CalendarIcon className="w-7 h-7" />
           </div>
           <p className="text-sm font-medium text-slate-600">No completed kits yet</p>
@@ -143,14 +143,14 @@ export default function SchedulePage() {
             return (
               <div
                 key={i}
-                className={`bg-white rounded-2xl border p-5 transition-all hover:shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
-                  isToday ? "border-blue-300 shadow-sm ring-1 ring-blue-100" : "border-slate-200/80 shadow-2xs"
+                className={`bg-blue-50/70 backdrop-blur-md rounded-2xl border p-5 transition-all hover:bg-blue-100/80 hover:shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
+                  isToday ? "border-blue-300/90 shadow-md ring-1 ring-blue-200/50" : "border-blue-200/70 shadow-2xs"
                 }`}
               >
                 <div className="flex items-start gap-4 flex-1 min-w-0">
                   {/* Day Badge */}
                   <div className={`w-14 h-14 rounded-2xl flex flex-col items-center justify-center shrink-0 ${
-                    isToday ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-700"
+                    isToday ? "bg-blue-600 text-white shadow-md" : "bg-blue-100/80 text-blue-900 border border-blue-200/80"
                   }`}>
                     <span className="text-[10px] font-bold uppercase leading-none">Day</span>
                     <span className="text-xl font-black leading-none">{day.day}</span>
@@ -160,19 +160,19 @@ export default function SchedulePage() {
                     <div className="flex items-center gap-2 flex-wrap">
                       <h3 className="text-base font-bold text-slate-900">{day.focus}</h3>
                       {isToday && (
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 border border-blue-200">
                           TODAY
                         </span>
                       )}
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500 mt-2">
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-3.5 h-3.5 text-slate-400" />
+                    <div className="flex flex-wrap items-center gap-4 text-xs font-bold text-slate-600 mt-2">
+                      <span className="flex items-center gap-1.5">
+                        <Clock className="w-3.5 h-3.5 text-blue-600" />
                         {day.minutes} minutes
                       </span>
-                      <span className="flex items-center gap-1">
-                        <Target className="w-3.5 h-3.5 text-slate-400" />
+                      <span className="flex items-center gap-1.5">
+                        <Target className="w-3.5 h-3.5 text-blue-600" />
                         {day.question_ids?.length || 0} questions
                       </span>
                     </div>
@@ -181,13 +181,13 @@ export default function SchedulePage() {
 
                 {/* Progress indicator */}
                 <div className="flex items-center gap-2 shrink-0">
-                  <div className="w-24 h-2 bg-slate-100 rounded-full overflow-hidden">
+                  <div className="w-24 h-2 bg-blue-100/80 rounded-full overflow-hidden border border-blue-200/50">
                     <div
-                      className="h-full bg-blue-500 rounded-full"
+                      className="h-full bg-blue-600 rounded-full"
                       style={{ width: `${Math.min(100, ((day.minutes || 0) / Math.max(...schedule.map((s: any) => s.minutes || 1))) * 100)}%` }}
                     />
                   </div>
-                  <span className="text-[11px] font-semibold text-slate-500 w-10 text-right">
+                  <span className="text-[11px] font-bold text-slate-700 w-10 text-right">
                     {day.minutes}m
                   </span>
                 </div>
