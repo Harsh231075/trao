@@ -172,6 +172,15 @@ export async function llmCall(systemPrompt, userPrompt, { jsonMode = true, tempe
   }
   let lastError = null;
 
+  const candidateModels = [
+    'openai/gpt-oss-120b',
+    'openai/gpt-oss-20b',
+    'qwen/qwen3.8-27b',
+    config.groqModel,
+  ].filter(m => m && !m.includes('llama'));
+
+  let targetModel = candidateModels[0] || 'openai/gpt-oss-120b';
+
   for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
     try {
       const messages = [
@@ -180,15 +189,11 @@ export async function llmCall(systemPrompt, userPrompt, { jsonMode = true, tempe
       ];
 
       const options = {
-        model: config.groqModel,
+        model: targetModel,
         messages,
         temperature,
         max_tokens: maxTokens,
       };
-
-      if (jsonMode) {
-        options.response_format = { type: 'json_object' };
-      }
 
       const completion = await client.chat.completions.create(options);
       const content = completion.choices?.[0]?.message?.content || '';
@@ -214,6 +219,17 @@ export async function llmCall(systemPrompt, userPrompt, { jsonMode = true, tempe
       return content;
     } catch (err) {
       lastError = err;
+
+      // Handle Model Not Found (404) or Decommissioned (400) - try next active model
+      const isModelError = err.status === 404 || err.code === 'model_not_found' || err.error?.code === 'model_decommissioned';
+      if (isModelError) {
+        const nextModel = candidateModels.find(m => m !== targetModel);
+        if (nextModel) {
+          console.warn(`[LLM] Model '${targetModel}' decommissioned/unavailable. Switching to active Groq model: '${nextModel}'`);
+          targetModel = nextModel;
+          continue;
+        }
+      }
 
       // Rate limit — wait and retry
       if (err.status === 429 || err.error?.type === 'rate_limit_error') {

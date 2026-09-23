@@ -26,7 +26,7 @@ export async function searchCompanyIntelligence(companyName, domain = '') {
           max_results: 6,
           include_answer: false,
         },
-        { timeout: 3000 }
+        { timeout: 5000 }
       );
       if (response.data?.results) {
         rawResults = response.data.results.map(r => ({
@@ -51,7 +51,7 @@ export async function searchCompanyIntelligence(companyName, domain = '') {
         },
         {
           headers: { 'X-API-KEY': serperKey },
-          timeout: 3000,
+          timeout: 5000,
         }
       );
       if (response.data?.organic) {
