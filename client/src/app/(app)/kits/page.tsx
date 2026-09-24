@@ -164,8 +164,8 @@ export default function InterviewKitsPage() {
                 <div>
                   <div className="flex items-start justify-between gap-3 relative z-10">
                     <div>
-                      <h3 className="font-black text-slate-900 text-base sm:text-lg group-hover:text-blue-700 transition-colors">{roleTitle}</h3>
-                      <p className="text-xs font-bold text-slate-600 mt-0.5">{companyName}</p>
+                      <h3 className="font-semibold text-slate-900 text-base sm:text-lg group-hover:text-blue-700 transition-colors">{roleTitle}</h3>
+                      <p className="text-xs font-semibold text-slate-600 mt-0.5">{companyName}</p>
                     </div>
                     <button
                       type="button"
