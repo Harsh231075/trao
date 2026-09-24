@@ -18,7 +18,6 @@ import {
   ArrowUpRight,
   Loader2,
   RefreshCw,
-  ArrowRight,
   X,
 } from "lucide-react";
 
@@ -142,6 +141,42 @@ export default function DashboardPage() {
     (!justCompletedKitId && kits[0] && (kits[0].status === "completed" || kits[0].status === "partial") && kits[0]._id !== dismissedCompletedId && kits[0].created_at && (Date.now() - new Date(kits[0].created_at).getTime() < 1000 * 60 * 60 * 2)
       ? kits[0]
       : null);
+
+  // Computed dynamic category distribution for Requirement Coverage
+  const categoryCounts = kits.reduce(
+    (acc, k) => {
+      const qs = k.kit_data?.questions;
+      if (qs && typeof qs === "object") {
+        Object.entries(qs).forEach(([catKey, qList]) => {
+          if (Array.isArray(qList)) {
+            const keyLower = catKey.toLowerCase();
+            if (keyLower.includes("company") || keyLower.includes("fit") || keyLower.includes("culture")) {
+              acc.companyFit += qList.length;
+            } else if (keyLower.includes("behavioral") || keyLower.includes("behavioural") || keyLower.includes("star")) {
+              acc.behavioural += qList.length;
+            } else {
+              acc.technical += qList.length;
+            }
+          }
+        });
+      } else {
+        const total = k._computed?.total_questions || 0;
+        if (total > 0) {
+          acc.technical += Math.round(total * 0.70);
+          acc.behavioural += Math.round(total * 0.20);
+          acc.companyFit += Math.max(1, total - Math.round(total * 0.70) - Math.round(total * 0.20));
+        }
+      }
+      return acc;
+    },
+    { technical: 0, behavioural: 0, companyFit: 0 }
+  );
+
+  const totalCatQuestions = categoryCounts.technical + categoryCounts.behavioural + categoryCounts.companyFit;
+
+  const techPct = totalCatQuestions > 0 ? Math.round((categoryCounts.technical / totalCatQuestions) * 100) : 80;
+  const behavPct = totalCatQuestions > 0 ? Math.round((categoryCounts.behavioural / totalCatQuestions) * 100) : 15;
+  const compPct = totalCatQuestions > 0 ? Math.max(0, 100 - techPct - behavPct) : 5;
 
   // Greeting
   const hour = new Date().getHours();
@@ -600,15 +635,15 @@ export default function DashboardPage() {
                 </span>
               </div>
               <div className="absolute left-0.5 sm:left-1 top-[44%] -translate-y-1/2 text-left pointer-events-none">
-                <span className="block text-[#2f70f5] font-black text-base sm:text-lg lg:text-xl leading-tight">82%</span>
+                <span className="block text-[#2f70f5] font-black text-base sm:text-lg lg:text-xl leading-tight">{techPct}%</span>
                 <span className="block text-slate-800 font-bold text-xs sm:text-[13px] leading-tight mt-0.5">Technical</span>
               </div>
               <div className="absolute right-0.5 sm:right-1 top-[16%] -translate-y-1/2 text-left pointer-events-none">
-                <span className="block text-[#2f70f5] font-black text-base sm:text-lg lg:text-xl leading-tight">13%</span>
+                <span className="block text-[#2f70f5] font-black text-base sm:text-lg lg:text-xl leading-tight">{behavPct}%</span>
                 <span className="block text-slate-800 font-bold text-xs sm:text-[13px] leading-tight mt-0.5">Behavioural</span>
               </div>
               <div className="absolute right-0.5 sm:right-1 bottom-[8%] translate-y-0 text-left pointer-events-none">
-                <span className="block text-[#ef4444] font-black text-base sm:text-lg lg:text-xl leading-tight">5%</span>
+                <span className="block text-[#ef4444] font-black text-base sm:text-lg lg:text-xl leading-tight">{compPct}%</span>
                 <span className="block text-slate-800 font-bold text-xs sm:text-[13px] leading-tight mt-0.5">Company-Fit</span>
               </div>
             </div>
