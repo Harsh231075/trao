@@ -473,27 +473,27 @@ export default function SchedulePage() {
                 {getTopicsForDay(selectedDrawerDay).map((topic, idx) => (
                   <div
                     key={idx}
-                    className="p-4 rounded-2xl bg-white border border-slate-200/80 hover:border-blue-300 hover:shadow-xs transition-all flex items-start gap-3.5 group"
+                    className="p-4 rounded-2xl bg-blue-50/70 backdrop-blur-md border border-blue-200/70 hover:bg-blue-100/80 hover:border-blue-300/90 shadow-2xs transition-all flex items-start gap-3.5 group"
                   >
-                    {/* Number Box - Clean Light Style */}
-                    <div className="w-7 h-7 rounded-lg bg-slate-100 text-slate-600 border border-slate-200/60 flex items-center justify-center text-xs font-semibold shrink-0 mt-0.5 group-hover:bg-blue-50 group-hover:text-blue-600 group-hover:border-blue-200 transition-colors">
+                    {/* Number Box - Styled to match kit card badges */}
+                    <div className="w-7 h-7 rounded-lg bg-blue-100/80 text-blue-700 border border-blue-200/80 flex items-center justify-center text-xs font-semibold shrink-0 mt-0.5 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-colors">
                       {topic.number}
                     </div>
 
                     <div className="flex-1 min-w-0">
                       {/* Topic Title with Regular / Medium Weight for superior readability */}
-                      <h4 className="text-xs sm:text-sm font-medium text-slate-800 leading-relaxed group-hover:text-blue-600 transition-colors">
+                      <h4 className="text-xs sm:text-sm font-medium text-slate-900 leading-relaxed group-hover:text-blue-700 transition-colors">
                         {topic.title}
                       </h4>
                       
                       {/* Metadata Row */}
-                      <div className="flex items-center gap-2 mt-2 pt-1">
+                      <div className="flex items-center gap-2 mt-2 pt-1 border-t border-blue-200/40">
                         <span className="text-[11px] font-normal text-slate-500 flex items-center gap-1">
                           <Target className="w-3 h-3 text-blue-500" />
                           {topic.questionsCount} question{topic.questionsCount > 1 ? "s" : ""}
                         </span>
                         <span className="text-slate-300">•</span>
-                        <span className="text-[11px] font-medium text-blue-600">
+                        <span className="text-[11px] font-semibold text-blue-600">
                           {topic.category}
                         </span>
                       </div>
@@ -549,10 +549,10 @@ function MilestoneCard({
       onClick={onViewTopics}
       className={`w-full max-w-sm sm:max-w-md p-5 rounded-2xl sm:rounded-3xl border transition-all duration-200 cursor-pointer relative overflow-hidden group hover:-translate-y-1 ${
         isToday
-          ? "bg-white border-2 border-blue-400 shadow-md shadow-blue-500/10 ring-2 ring-blue-300/30"
+          ? "bg-blue-100/90 border-2 border-blue-400 shadow-md shadow-blue-500/10 ring-2 ring-blue-300/40"
           : isCompleted
-          ? "bg-white border-emerald-200/90 shadow-2xs hover:shadow-md hover:border-emerald-300"
-          : "bg-white border-slate-200/80 shadow-2xs hover:border-blue-300 hover:shadow-sm"
+          ? "bg-blue-50/70 backdrop-blur-md border-emerald-200/90 shadow-2xs hover:shadow-md hover:bg-emerald-50/50 hover:border-emerald-300"
+          : "bg-blue-50/70 backdrop-blur-md border-blue-200/70 shadow-2xs hover:bg-blue-100/80 hover:border-blue-300"
       }`}
     >
       {/* Top Badges Row */}
@@ -573,7 +573,7 @@ function MilestoneCard({
       </div>
 
       {/* Title & Description with clean typography */}
-      <h3 className="text-base sm:text-lg font-semibold text-slate-900 group-hover:text-blue-600 transition-colors tracking-tight leading-snug">
+      <h3 className="text-base sm:text-lg font-semibold text-slate-900 group-hover:text-blue-700 transition-colors tracking-tight leading-snug">
         {day.focus}
       </h3>
       <p className="text-xs text-slate-500 font-normal mt-1 leading-relaxed line-clamp-2">
@@ -581,7 +581,7 @@ function MilestoneCard({
       </p>
 
       {/* Details Bar (Duration + Topics Count) */}
-      <div className="flex items-center gap-4 text-xs font-medium text-slate-600 mt-4 pt-3 border-t border-slate-100">
+      <div className="flex items-center gap-4 text-xs font-medium text-slate-600 mt-4 pt-3 border-t border-blue-200/50">
         <span className="flex items-center gap-1.5 text-slate-600">
           <Clock className="w-3.5 h-3.5 text-blue-600" />
           {day.minutes} min
@@ -601,7 +601,7 @@ function MilestoneCard({
             e.stopPropagation();
             onViewTopics();
           }}
-          className="px-3.5 py-1.5 rounded-xl bg-slate-50 hover:bg-blue-600 hover:text-white border border-slate-200/80 text-slate-700 font-semibold text-xs transition-all shadow-2xs group-hover:border-blue-400 flex items-center gap-1.5 cursor-pointer"
+          className="px-3.5 py-1.5 rounded-xl bg-white/90 hover:bg-blue-600 hover:text-white border border-blue-200/80 text-blue-700 font-semibold text-xs transition-all shadow-2xs group-hover:border-blue-400 flex items-center gap-1.5 cursor-pointer"
         >
           <span>View Topics</span>
           <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
