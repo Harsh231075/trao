@@ -28,6 +28,10 @@ import {
   X,
   Save,
   Wrench,
+  Globe,
+  ExternalLink,
+  Layers,
+  Cpu,
 } from "lucide-react";
 
 function mapStatus(s: string): string {
@@ -367,6 +371,88 @@ export default function KitDetailPage() {
               </div>
             )}
           </div>
+
+          {/* Engineering Culture & Principles */}
+          {Array.isArray(companyBrief.engineering_culture) && companyBrief.engineering_culture.length > 0 && (
+            <div className="bg-blue-100/60 p-4 rounded-xl border border-blue-200/70 shadow-2xs space-y-2">
+              <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                <Layers className="w-3.5 h-3.5 text-blue-700" /> Engineering Culture &amp; Principles
+              </h4>
+              <div className="flex flex-wrap gap-2 pt-1">
+                {companyBrief.engineering_culture.map((cultureItem: string, idx: number) => (
+                  <span
+                    key={idx}
+                    className="px-3 py-1 bg-white/90 text-blue-900 text-xs font-semibold rounded-xl border border-blue-200/80 shadow-2xs flex items-center gap-1.5"
+                  >
+                    <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                    {cultureItem}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Work & Delivery Environment */}
+          {companyBrief.work_environment && (
+            <div className="bg-blue-100/60 p-4 rounded-xl border border-blue-200/70 shadow-2xs">
+              <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                <BookOpen className="w-3.5 h-3.5 text-blue-700" /> Work &amp; Delivery Environment
+              </h4>
+              <p className="text-xs sm:text-sm text-slate-900 leading-relaxed font-semibold">{companyBrief.work_environment}</p>
+            </div>
+          )}
+
+          {/* Tech Stack & Architecture Shifts */}
+          {Array.isArray(companyBrief.tech_stack_shifts) && companyBrief.tech_stack_shifts.length > 0 && (
+            <div className="bg-blue-100/60 p-4 rounded-xl border border-blue-200/70 shadow-2xs space-y-2">
+              <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                <Cpu className="w-3.5 h-3.5 text-blue-700" /> Tech Stack &amp; Key Architecture
+              </h4>
+              <div className="flex flex-wrap gap-2 pt-1">
+                {companyBrief.tech_stack_shifts.map((tech: string, idx: number) => (
+                  <span
+                    key={idx}
+                    className="px-3 py-1 bg-blue-600 text-white text-xs font-bold rounded-xl shadow-2xs"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Verified Research Sources & Web Signals */}
+          {((Array.isArray(companyBrief.verified_sources) && companyBrief.verified_sources.length > 0) ||
+            (Array.isArray(companyBrief.sources) && companyBrief.sources.length > 0)) && (
+            <div className="bg-blue-100/60 p-4 rounded-xl border border-blue-200/70 shadow-2xs space-y-2.5">
+              <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                <Globe className="w-3.5 h-3.5 text-blue-700" /> Verified Research Sources &amp; Signals
+              </h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                {(companyBrief.verified_sources || companyBrief.sources || []).map((src: any, idx: number) => {
+                  const title = typeof src === "string" ? src : src.title || src.domain || "Web Source";
+                  const url = typeof src === "string" ? src : src.url || "#";
+                  const domain = typeof src === "string" ? src : src.domain || "web";
+
+                  return (
+                    <a
+                      key={idx}
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2.5 bg-white/90 hover:bg-blue-600 hover:text-white rounded-xl border border-blue-200/80 transition-all text-slate-900 group shadow-2xs flex items-center justify-between gap-2"
+                    >
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold truncate group-hover:text-white">{title}</p>
+                        <p className="text-[10px] text-slate-500 font-medium truncate group-hover:text-blue-100 mt-0.5">{domain}</p>
+                      </div>
+                      <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-white shrink-0" />
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
       )}
 
