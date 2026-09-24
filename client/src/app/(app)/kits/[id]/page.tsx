@@ -3,6 +3,8 @@
 import React from "react";
 import { useParams, useRouter } from "next/navigation";
 import Header from "@/components/Header";
+import Toast from "@/components/Toast";
+import ConfirmModal from "@/components/ConfirmModal";
 import { useKitDetail } from "@/hooks/useKitDetail";
 import {
   ArrowLeft,
@@ -49,6 +51,10 @@ export default function KitDetailPage() {
     error,
     expandedSections,
     regenerating,
+    toasts,
+    removeToast,
+    confirmState,
+    closeConfirm,
     toggleSection,
     handleRegenerate,
     handleRestartPipeline,
@@ -1000,6 +1006,21 @@ export default function KitDetailPage() {
           </div>
         </div>
       )}
+
+      {/* Toast Notifications System */}
+      <Toast toasts={toasts} onDismiss={removeToast} />
+
+      {/* Custom Confirmation UI Modal */}
+      <ConfirmModal
+        isOpen={confirmState.isOpen}
+        title={confirmState.title}
+        message={confirmState.message}
+        confirmText={confirmState.confirmText}
+        cancelText={confirmState.cancelText}
+        variant={confirmState.variant}
+        onConfirm={confirmState.onConfirm}
+        onCancel={closeConfirm}
+      />
     </div>
   );
 }
