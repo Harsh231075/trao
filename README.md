@@ -21,7 +21,7 @@ The system:
 
 ## 2. Key Features
 
-- **Company research**: Automated web intelligence gathering across company pages and hiring signals.
+- **Company research & brand enrichment**: Multi-stream research engine combining safe web crawling with an extra brand intelligence layer (verified logo, tech tags, engineering signals).
 - **Job description analysis**: Extraction of core responsibilities, seniority level, and technical stack.
 - **Requirement extraction**: Classification of requirements into MUST-have vs. NICE-to-have items across technical and behavioral categories.
 - **Interview question generation**: Category-targeted questions (Technical, Behavioral, System Design, Company Fit) with difficulty levels (1–3) and answer outlines.
@@ -55,12 +55,12 @@ The system:
 - **Model**: `llama-3.3-70b-versatile` (Llama 3.3 70B)
 
 ### Scraping / Retrieval
-- **Web Parser**: Cheerio (Safe HTML parsing & text extraction)
+- **Multi-Stream Engine**: Safe Cheerio HTML Parser + Brand Enrichment Layer (`enrichment.service.js`) + Web Intelligence Search Layer (`search.service.js`)
 - **HTTP Client**: Node Fetch with 10s timeouts & 2MB payload limits
 - **Security**: Custom SSRF validator (`url-validator.js`) blocking private & loopback IPs
 
 ### Deployment
-- **Frontend**: [https://trao.vercel.app](https://trao.vercel.app) (Vercel)
+- **Frontend**: [https://client-two-pi-58.vercel.app/](https://client-two-pi-58.vercel.app) (Vercel)
 - **Backend**: [https://trao-vuf3.onrender.com](https://trao-vuf3.onrender.com) (Render)
 
 ---
@@ -80,9 +80,9 @@ User / Client
                             │
                             ▼
 ┌─────────────────────────────────────────────────────────┐
-│ 2. Retrieval Layer                                      │
-│    • SSRF URL validation                                │
-│    • Cheerio web crawler (About, Careers, Tech pages)   │
+│ 2. Multi-Stream Retrieval & Brand Enrichment Layer      │
+│    • SSRF URL validation & Cheerio web crawler          │
+│    • Brand Enrichment (Logos, domain metadata, tech)    │
 │    • Public interview insights aggregation              │
 └───────────────────────────┬─────────────────────────────┘
                             │
@@ -130,7 +130,7 @@ User / Client
 ### Major Layer Responsibilities
 
 1. **Authentication & Routing Layer**: Manages user accounts, JWT issuance, and secures endpoints to ensure strict multi-tenant data isolation.
-2. **Retrieval Layer**: Crawls company domains safely and aggregates web intelligence without exposing internal networks or evaluating untrusted web scripts.
+2. **Multi-Stream Retrieval & Brand Enrichment Layer**: Executes parallel web scraping, brand enrichment (fetching verified logos, domains, and tech tags), and real-time interview intelligence search without evaluating untrusted web scripts or exposing internal networks.
 3. **Extraction Layer**: Leverages LLMs with strict JSON schemas to identify key seniority markers and parse job requirements into discrete, trackable entities.
 4. **Generation Layer**: Synthesizes structured questions (with answer outlines and difficulty scores) and flashcards explicitly mapped to extracted requirement IDs.
 5. **Coverage Audit Loop**: Inspects generated question sets against extracted MUST-have requirements, dynamically invoking second-pass generation if gaps are found.
@@ -140,6 +140,12 @@ User / Client
 ---
 
 ## 5. Research & Retrieval Strategy
+
+### Deep Multi-Stream Company Research (Extra Intelligence Layer)
+Trao implements a **3-Stream Parallel Retrieval Engine** (`retrieval.js`) to extract company insights:
+1. **Direct Web Crawler Stream**: SSRF-validated Cheerio web crawler that scrapes homepage and prioritized relative links.
+2. **Brand & Tech Stack Enrichment Stream**: Dedicated enrichment layer (`enrichment.service.js`) that resolves official company brand assets, verified high-resolution logos, primary tech tags, and company domain metadata.
+3. **Real-Time Web Intelligence Search Stream**: Search layer (`search.service.js`) that aggregates public engineering blog posts, architecture shifts, and candidate interview experiences.
 
 ### Company Website Retrieval
 - **Initial Fetch**: The user-provided company URL is validated against SSRF rules. If valid, the homepage is fetched using Node Fetch with a 10-second timeout and 2MB payload cap.
@@ -151,9 +157,9 @@ User / Client
   4. **Culture**: `/culture`, `/values`, `/team`
 - **Text Extraction**: HTML scripts, styles, navbars, and footers are stripped to extract clean plain-text context.
 
-### Public Interview Research
+### Public Interview Research & Brand Enrichment
 - Public interview feedback and company engineering signals (e.g. tech stack, glassdoor-style interview rubrics) are retrieved using company brand search terms.
-- This research is compiled into a sanitized `researchContext` block and passed to the LLM alongside the JD to tailor questions to the company's real interview style.
+- Brand metadata (verified logo, tech tags) and public interview insights are compiled into a sanitized `researchContext` block and passed to the LLM alongside the JD to tailor questions to the company's real interview style.
 
 ### Job Description Analysis
 The JD is parsed by the LLM to extract:
@@ -167,7 +173,7 @@ The JD is parsed by the LLM to extract:
 
 The generation pipeline executes in an 8-stage sequence:
 
-1. **Company Research**: Safe multi-page crawling and public hiring signals retrieval.
+1. **Company Research**: Safe multi-page crawling, brand enrichment, and public hiring signals retrieval.
 2. **Job Requirement Extraction**: Parsing the JD into structured requirements with priority tags.
 3. **Role Analysis**: Categorizing seniority and identifying key domain topics.
 4. **Interview Question Synthesis**: Generating targeted questions across 4 categories (Technical, Behavioral, System Design, Company Fit) complete with difficulty levels (1–3) and answer outlines.
