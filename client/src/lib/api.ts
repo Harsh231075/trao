@@ -1,6 +1,6 @@
 "use client";
 
-const API_BASE = process.env.API_URL || "https://client-two-pi-58.vercel.app";
+const API_BASE = process.env.API_URL || "https://client-two-pi-58.vercel.app/api";
 
 interface ApiOptions extends RequestInit {
   skipAuth?: boolean;
