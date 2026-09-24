@@ -213,7 +213,7 @@ export default function LandingPage() {
             href="/login"
             className="px-7 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs sm:text-sm rounded-full shadow-md shadow-blue-500/20 transition-all hover:scale-105 cursor-pointer flex items-center gap-2"
           >
-            <span>Download The App</span>
+            <span>Build Your Kit</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
           <a
