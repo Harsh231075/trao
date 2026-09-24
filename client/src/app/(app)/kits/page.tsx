@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import Link from "next/link";
+
 import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import CreateKitModal from "@/components/CreateKitModal";
@@ -9,9 +9,7 @@ import api from "@/lib/api";
 import {
   Plus,
   ArrowRight,
-  MoreVertical,
   Calendar,
-  CheckCircle2,
   Clock,
   Loader2,
   Trash2,
@@ -114,11 +112,10 @@ export default function InterviewKitsPage() {
           <button
             key={tab}
             onClick={() => setActiveFilter(tab)}
-            className={`px-3.5 py-1.5 text-xs font-semibold rounded-full transition-all whitespace-nowrap ${
-              activeFilter === tab
-                ? "bg-blue-600 text-white shadow-xs"
-                : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-            }`}
+            className={`px-3.5 py-1.5 text-xs font-semibold rounded-full transition-all whitespace-nowrap ${activeFilter === tab
+              ? "bg-blue-600 text-white shadow-xs"
+              : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+              }`}
           >
             {tab}
           </button>
@@ -191,15 +188,14 @@ export default function InterviewKitsPage() {
                         <span>{totalQ} questions</span>
                       </div>
                     </div>
-                    <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full border shadow-2xs ${
-                      status === "Completed"
-                        ? "bg-white/90 text-emerald-700 border-emerald-300/80"
-                        : status === "In Progress"
-                          ? "bg-white/90 text-blue-700 border-blue-300/80"
-                          : status === "Failed"
-                            ? "bg-white/90 text-red-700 border-red-300/80"
-                            : "bg-white/90 text-slate-700 border-slate-300/80"
-                    }`}>
+                    <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full border shadow-2xs ${status === "Completed"
+                      ? "bg-white/90 text-emerald-700 border-emerald-300/80"
+                      : status === "In Progress"
+                        ? "bg-white/90 text-blue-700 border-blue-300/80"
+                        : status === "Failed"
+                          ? "bg-white/90 text-red-700 border-red-300/80"
+                          : "bg-white/90 text-slate-700 border-slate-300/80"
+                      }`}>
                       {status === "In Progress" && <Loader2 className="w-3 h-3 animate-spin inline mr-1 text-blue-600" />}
                       {status}
                     </span>

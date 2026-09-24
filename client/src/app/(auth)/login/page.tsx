@@ -1,96 +1,57 @@
 "use client";
 
-import React, { useState, Suspense } from "react";
+import React, { Suspense } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
+import { useAuthForm } from "@/hooks/useAuthForm";
 import { Mail, Lock, User as UserIcon, Sparkles, Eye, EyeOff } from "lucide-react";
 
 function AuthForm({ initialMode = "login" }: { initialMode?: "login" | "register" }) {
-  const searchParams = useSearchParams();
-  const modeParam = searchParams.get("mode");
-  const [mode, setMode] = useState<"login" | "register">(
-    modeParam === "register" ? "register" : initialMode
-  );
-
-  const { login, register, isAuthenticated } = useAuth();
-  const router = useRouter();
-
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // Redirect if already logged in
-  React.useEffect(() => {
-    if (isAuthenticated) router.replace("/");
-  }, [isAuthenticated, router]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-
-    if (mode === "register") {
-      if (password !== confirmPassword) {
-        setError("Passwords do not match");
-        return;
-      }
-      if (password.length < 6) {
-        setError("Password must be at least 6 characters");
-        return;
-      }
-    }
-
-    setIsSubmitting(true);
-    try {
-      if (mode === "login") {
-        await login(email, password);
-      } else {
-        await register(name, email, password);
-      }
-      router.replace("/");
-    } catch (err: any) {
-      setError(
-        err.message ||
-        (mode === "login" ? "Invalid email or password" : "Registration failed. Please try again.")
-      );
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const {
+    mode,
+    setMode,
+    name,
+    setName,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    confirmPassword,
+    setConfirmPassword,
+    showPassword,
+    setShowPassword,
+    error,
+    setError,
+    isSubmitting,
+    handleSubmit,
+  } = useAuthForm(initialMode);
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-[#EAF3FF] via-[#BBD8FF] to-[#91B9F8] flex items-center justify-center font-sans py-8 px-4 sm:px-8 lg:px-16 selection:bg-[#2166F3] selection:text-white relative overflow-hidden">
       {/* Subtle Atmospheric Blue Glow */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-blue-400/20 rounded-full blur-[140px] pointer-events-none -z-10" />
 
-      {/* ── SPLIT LAYOUT (NO OUTER WHITE CARD CONTAINER) ── */}
+      {/* ── SPLIT LAYOUT ── */}
       <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
 
-        {/* ── LEFT SIDE: DEDICATED BLUE VISUAL AREA ── */}
-        <div className="lg:col-span-6 bg-gradient-to-br from-[#1769F5] via-[#16A9E8] to-[#4C5BFF] rounded-[36px] p-8 sm:p-10 lg:p-12 text-white flex flex-col justify-between relative overflow-hidden min-h-[540px] lg:min-h-[600px] ">
+        {/* ── LEFT SIDE: VISUAL BRAND AREA ── */}
+        <div className="lg:col-span-6 bg-gradient-to-br from-[#1769F5] via-[#16A9E8] to-[#4C5BFF] rounded-[36px] p-8 sm:p-10 lg:p-12 text-white flex flex-col justify-between relative overflow-hidden min-h-[540px] lg:min-h-[600px]">
 
-          {/* Subtle Abstract Light Shapes */}
+          {/* Abstract Light Shapes */}
           <div className="absolute -top-24 -right-24 w-80 h-80 bg-white/10 rounded-full blur-2xl pointer-events-none" />
 
           {/* Top Text Content */}
           <div className="relative z-10">
-            {/* Headline */}
             <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-white tracking-tight leading-[1.18]">
               Master your next <br />
               tech interview <span className="text-sky-200">with precision.</span>
             </h1>
 
-            {/* Supporting Text */}
             <p className="text-blue-100/90 text-sm sm:text-base mt-3.5 leading-relaxed font-normal max-w-md">
               AI-powered preparation built around your role, skills, and interview requirements.
             </p>
           </div>
 
-          {/* Prominent Transparent Character Asset */}
+          {/* Transparent Character Asset */}
           <div className="relative z-10 mt-8 flex justify-center items-center">
             <img
               src="/ChatGPT Image Sep 22, 2026, 09_51_05 PM.png"
@@ -100,13 +61,12 @@ function AuthForm({ initialMode = "login" }: { initialMode?: "login" | "register
           </div>
         </div>
 
-        {/* ── RIGHT SIDE: CARDLESS LOGIN FORM (WITH SPACED PADDING FROM LEFT CARD) ── */}
+        {/* ── RIGHT SIDE: AUTH FORM ── */}
         <div className="lg:col-span-6 flex flex-col items-center lg:items-start justify-center lg:pl-8 xl:pl-12">
 
-          {/* Form wrapper (No outer white box, sits directly on full-screen blue gradient) */}
           <div className="w-full max-w-[440px]">
 
-            {/* Logo / Wordmark */}
+            {/* Logo */}
             <div className="flex items-center gap-2.5 mb-8">
               <Link href="/" className="text-2xl font-extrabold tracking-tight text-[#0F172A]">
                 Trao<span className="text-[#2166F3]">.ai</span>
@@ -222,7 +182,7 @@ function AuthForm({ initialMode = "login" }: { initialMode?: "login" | "register
                 </div>
               )}
 
-              {/* Demo Account Fill & Forgot Password Row */}
+              {/* Demo Fill & Forgot Password */}
               {mode === "login" && (
                 <div className="flex justify-between items-center pt-1">
                   <button
@@ -249,7 +209,7 @@ function AuthForm({ initialMode = "login" }: { initialMode?: "login" | "register
                 </div>
               )}
 
-              {/* Flat Primary Submit Button (No Shadows, Solid Blue #2166F3) */}
+              {/* Primary Submit Button */}
               <button
                 type="submit"
                 disabled={isSubmitting}
@@ -269,7 +229,7 @@ function AuthForm({ initialMode = "login" }: { initialMode?: "login" | "register
               </button>
             </form>
 
-            {/* Bottom Mode Toggle Link */}
+            {/* Mode Switcher */}
             <div className="mt-8 text-center text-xs sm:text-sm text-slate-600 font-medium">
               {mode === "login" ? (
                 <p>

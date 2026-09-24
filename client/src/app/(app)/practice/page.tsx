@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React from "react";
 import Header from "@/components/Header";
 import ModernFlashcard from "@/components/ModernFlashcard";
-import api from "@/lib/api";
+import { usePractice } from "@/hooks/usePractice";
 import {
   Loader2,
   RotateCcw,
@@ -11,163 +11,36 @@ import {
   ChevronRight,
   ChevronDown,
   Check,
-  Building2,
   BookOpen,
   CheckCircle2,
-  Sparkles,
-  Zap,
-  Target,
-  Award,
   Star,
   Shuffle,
   Layers,
   Keyboard,
-  TrendingUp
 } from "lucide-react";
 
 export default function PracticePage() {
-  const [kits, setKits] = useState<any[]>([]);
-  const [selectedKitId, setSelectedKitId] = useState<string>("");
-  const [flashcards, setFlashcards] = useState<any[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isFlipped, setIsFlipped] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isDeckLoading, setIsDeckLoading] = useState(false);
-  const [ratingSubmitting, setRatingSubmitting] = useState(false);
-  const [progress, setProgress] = useState<any>(null);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const {
+    kits,
+    selectedKitId,
+    setSelectedKitId,
+    flashcards,
+    currentIndex,
+    setCurrentIndex,
+    isFlipped,
+    setIsFlipped,
+    isLoading,
+    isDeckLoading,
+    ratingSubmitting,
+    progress,
+    isDropdownOpen,
+    setIsDropdownOpen,
+    currentCard,
+    handleRate,
+    handleShuffle,
+    handleRestart,
+  } = usePractice();
 
-  // Close custom kit dropdown on outside click
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (!(e.target as HTMLElement).closest("#custom-kit-select")) {
-        setIsDropdownOpen(false);
-      }
-    };
-    window.addEventListener("click", handleClickOutside);
-    return () => window.removeEventListener("click", handleClickOutside);
-  }, []);
-
-  // Fetch kits
-  useEffect(() => {
-    api
-      .get("/kits")
-      .then((data) => {
-        const completedKits = (data.kits || []).filter((k: any) => k.status === "completed");
-        setKits(completedKits);
-        if (completedKits.length > 0) {
-          setSelectedKitId(completedKits[0]._id);
-        }
-        setIsLoading(false);
-      })
-      .catch(() => setIsLoading(false));
-  }, []);
-
-  // Fetch deck when kit changes
-  const fetchDeck = useCallback(async () => {
-    if (!selectedKitId) return;
-    setIsDeckLoading(true);
-    try {
-      const data = await api.get(`/kits/${selectedKitId}/practice`);
-      setFlashcards(data.flashcards || []);
-      setCurrentIndex(0);
-      setIsFlipped(false);
-
-      const prog = await api.get(`/kits/${selectedKitId}/practice/progress`);
-      setProgress(prog);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsDeckLoading(false);
-    }
-  }, [selectedKitId]);
-
-  useEffect(() => {
-    fetchDeck();
-  }, [fetchDeck]);
-
-  const currentCard = flashcards[currentIndex];
-
-  const handleRate = async (confidence: number) => {
-    if (!currentCard || ratingSubmitting) return;
-    setRatingSubmitting(true);
-    try {
-      await api.post(`/kits/${selectedKitId}/practice`, {
-        flashcard_id: currentCard.id,
-        confidence,
-      });
-
-      // Update local progress counter visually
-      if (progress) {
-        const newTotal = (progress.total_reviews || 0) + 1;
-        const newAvg = (((progress.average_confidence || 3) * (progress.total_reviews || 0)) + confidence) / newTotal;
-        setProgress({
-          ...progress,
-          total_reviews: newTotal,
-          average_confidence: newAvg
-        });
-      }
-
-      // Move to next card
-      if (currentIndex < flashcards.length - 1) {
-        setCurrentIndex((prev) => prev + 1);
-        setIsFlipped(false);
-      } else {
-        // Deck completed — refresh deck
-        await fetchDeck();
-      }
-    } catch (err: any) {
-      console.error(err);
-    } finally {
-      setRatingSubmitting(false);
-    }
-  };
-
-  // Shuffle Deck function
-  const handleShuffle = () => {
-    if (flashcards.length <= 1) return;
-    const shuffled = [...flashcards].sort(() => Math.random() - 0.5);
-    setFlashcards(shuffled);
-    setCurrentIndex(0);
-    setIsFlipped(false);
-  };
-
-  // Restart Deck function
-  const handleRestart = () => {
-    setCurrentIndex(0);
-    setIsFlipped(false);
-  };
-
-  // Global Keyboard Navigation Shortcuts
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Ignore key combinations inside input or select elements
-      if (["INPUT", "TEXTAREA", "SELECT"].includes((e.target as HTMLElement)?.tagName)) {
-        return;
-      }
-
-      if (e.code === "Space" || e.code === "Enter") {
-        e.preventDefault();
-        setIsFlipped((prev) => !prev);
-      } else if (e.code === "ArrowLeft") {
-        e.preventDefault();
-        setCurrentIndex((prev) => Math.max(0, prev - 1));
-        setIsFlipped(false);
-      } else if (e.code === "ArrowRight") {
-        e.preventDefault();
-        setCurrentIndex((prev) => Math.min(flashcards.length - 1, prev + 1));
-        setIsFlipped(false);
-      } else if (isFlipped && ["1", "2", "3", "4", "5"].includes(e.key)) {
-        e.preventDefault();
-        handleRate(parseInt(e.key, 10));
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [flashcards.length, isFlipped, currentCard, ratingSubmitting]);
-
-  // 5 Compact Pill Rating Buttons
   const ratings = [
     { value: 1, label: "Again", shortcut: "1" },
     { value: 2, label: "Hard", shortcut: "2" },
@@ -312,12 +185,6 @@ export default function PracticePage() {
           <CheckCircle2 className="w-14 h-14 text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.4)]" />
           <p className="text-lg font-bold text-slate-200">All Deck Cards Completed!</p>
           <p className="text-xs text-slate-400">Great job! You have reviewed all flashcards in this deck.</p>
-          <button
-            onClick={() => fetchDeck()}
-            className="mt-2 px-5 py-2.5 rounded-xl bg-cyan-500/20 text-cyan-300 font-semibold text-xs border border-cyan-500/40 hover:bg-cyan-500/30 transition-all shadow-[0_0_20px_rgba(6,182,212,0.2)]"
-          >
-            Practice Again
-          </button>
         </div>
       ) : currentCard ? (
         <div className="relative z-10 max-w-2xl mx-auto space-y-6">
