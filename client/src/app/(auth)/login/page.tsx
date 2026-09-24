@@ -277,3 +277,4 @@ export default function AuthPage({ initialMode = "login" }: { initialMode?: "log
     </Suspense>
   );
 }
+
