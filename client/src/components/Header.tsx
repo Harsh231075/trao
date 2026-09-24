@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Search, Bell, Mail, ChevronDown, LogOut, User, Settings } from "lucide-react";
+import { Search, Bell, Mail, ChevronDown, LogOut, User } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
 interface HeaderProps {
@@ -61,26 +61,6 @@ export default function Header({ onOpenCreateKit }: HeaderProps) {
 
       {/* Right Controls: Notifications, Messages, User Profile */}
       <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-2.5 shrink-0">
-        {/* Notification Bell */}
-        {/* <button
-          type="button"
-          className="relative w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-full bg-white/90 hover:bg-white border border-slate-200/80 text-slate-600 hover:text-slate-900 flex items-center justify-center shadow-2xs transition-all"
-          title="Notifications"
-        >
-          <Bell className="w-4 h-4" />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white" />
-        </button> */}
-
-        {/* Messages / Mail */}
-        {/* <button
-          type="button"
-          className="relative w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-full bg-white/90 hover:bg-white border border-slate-200/80 text-slate-600 hover:text-slate-900 flex items-center justify-center shadow-2xs transition-all"
-          title="Messages"
-        >
-          <Mail className="w-4 h-4" />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white" />
-        </button> */}
-
         {/* User Profile */}
         <div className="relative">
           <button
@@ -109,12 +89,6 @@ export default function Header({ onOpenCreateKit }: HeaderProps) {
                 className="flex items-center gap-2 w-full text-left px-3.5 py-1.5 text-slate-700 hover:bg-slate-50"
               >
                 <User className="w-3.5 h-3.5" /> Profile Details
-              </button>
-              <button
-                onClick={() => { setShowProfileMenu(false); router.push("/settings"); }}
-                className="flex items-center gap-2 w-full text-left px-3.5 py-1.5 text-slate-700 hover:bg-slate-50"
-              >
-                <Settings className="w-3.5 h-3.5" /> Preferences
               </button>
               <div className="border-t border-slate-100 mt-1 pt-1">
                 <button
