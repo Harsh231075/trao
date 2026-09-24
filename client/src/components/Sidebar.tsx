@@ -26,7 +26,7 @@ const mainNavItems: NavItem[] = [
   { name: "Interview Kits", href: "/kits", icon: FileText },
   { name: "Practice", href: "/practice", icon: Play },
   { name: "Schedule", href: "/schedule", icon: Calendar },
-  { name: "Resources", href: "/resources", icon: BookOpen },
+  // { name: "Resources", href: "/resources", icon: BookOpen },
 ];
 
 const bottomNavItems: NavItem[] = [
@@ -98,8 +98,8 @@ export default function Sidebar() {
                       href={item.href}
                       onClick={() => setIsMobileOpen(false)}
                       className={`flex items-center gap-3.5 px-3.5 py-3 rounded-2xl text-sm font-bold transition-all ${isActive
-                          ? "bg-blue-600 text-white shadow-md shadow-blue-500/30"
-                          : "text-slate-300 hover:bg-white/10 hover:text-white"
+                        ? "bg-blue-600 text-white shadow-md shadow-blue-500/30"
+                        : "text-slate-300 hover:bg-white/10 hover:text-white"
                         }`}
                     >
                       <Icon className="w-5 h-5 stroke-[2.2]" />
@@ -125,8 +125,8 @@ export default function Sidebar() {
                     href={item.href}
                     onClick={() => setIsMobileOpen(false)}
                     className={`flex items-center gap-3.5 px-3.5 py-2.5 rounded-2xl text-sm font-bold transition-all ${isActive
-                        ? "bg-blue-600 text-white shadow-md"
-                        : "text-slate-300 hover:bg-white/10 hover:text-white"
+                      ? "bg-blue-600 text-white shadow-md"
+                      : "text-slate-300 hover:bg-white/10 hover:text-white"
                       }`}
                   >
                     <Icon className="w-5 h-5 stroke-[2.2]" />
