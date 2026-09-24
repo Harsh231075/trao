@@ -114,7 +114,7 @@ export default function Sidebar() {
               <span className="text-xl sm:text-xl font-black text-white group-hover:text-blue-100 transition-colors drop-shadow-sm">
                 Trao
               </span>
-              <span className="text-xl sm:text-2xl font-extrabold text-blue-500 tracking-tight ml-0.5 group-hover:text-amber-300 transition-colors">
+              <span className="text-xl sm:text-xl font-extrabold text-blue-500 tracking-tight ml-0.5 group-hover:text-amber-300 transition-colors">
                 .ai
               </span>
             </div>
