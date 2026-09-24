@@ -1,6 +1,32 @@
 "use client";
 
-const API_BASE = process.env.API_URL || "https://trao-vuf3.onrender.com/api";
+function getApiBaseUrl(): string {
+  // 1. Next.js standard client-side env variable
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL;
+  }
+  // 2. Fallback client-side env variable
+  if (process.env.NEXT_PUBLIC_BACKEND_URL) {
+    return process.env.NEXT_PUBLIC_BACKEND_URL;
+  }
+  // 3. Fallback server-side env variable
+  if (process.env.API_URL) {
+    return process.env.API_URL;
+  }
+
+  // 4. Auto-detect production deployment (Vercel / Production domain)
+  if (typeof window !== "undefined") {
+    const hostname = window.location.hostname;
+    if (hostname !== "localhost" && hostname !== "127.0.0.1") {
+      return "https://trao-vuf3.onrender.com/api";
+    }
+  }
+
+  // 5. Local development default
+  return "http://localhost:5001/api";
+}
+
+const API_BASE = getApiBaseUrl();
 
 interface ApiOptions extends RequestInit {
   skipAuth?: boolean;
