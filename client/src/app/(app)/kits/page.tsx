@@ -103,20 +103,29 @@ export default function InterviewKitsPage() {
         </button>
       </div>
 
-      {/* Filter Tabs */}
-      <div className="flex items-center gap-1.5 overflow-x-auto pb-2 border-b border-slate-100">
-        {["All", "In Progress", "Completed", "Failed"].map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActiveFilter(tab)}
-            className={`px-3.5 py-1.5 text-xs font-semibold rounded-full transition-all whitespace-nowrap cursor-pointer ${activeFilter === tab
-              ? "bg-blue-600 text-white shadow-xs"
-              : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-              }`}
-          >
-            {tab}
-          </button>
-        ))}
+      {/* Filter Tabs - Full Width Equal Space with Underline Indicator */}
+      <div className="w-full border-b border-blue-200/60">
+        <div className="grid grid-cols-4 w-full">
+          {["All", "In Progress", "Completed", "Failed"].map((tab) => {
+            const isActive = activeFilter === tab;
+            return (
+              <button
+                key={tab}
+                onClick={() => setActiveFilter(tab)}
+                className={`py-3 px-2 text-center text-xs sm:text-sm font-bold transition-all relative cursor-pointer ${
+                  isActive
+                    ? "text-blue-600 font-extrabold"
+                    : "text-slate-500 hover:text-slate-800 font-medium"
+                }`}
+              >
+                <span>{tab}</span>
+                {isActive && (
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600 rounded-t-full shadow-xs" />
+                )}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Kits Grid */}
