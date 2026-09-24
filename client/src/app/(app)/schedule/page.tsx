@@ -121,7 +121,7 @@ export default function SchedulePage() {
   // Extract topics for topic detail drawer
   const getTopicsForDay = (day: any): DrawerTopic[] => {
     if (!day) return [];
-    
+
     if (selectedKit?.kit_data?.questions && Array.isArray(day.question_ids) && day.question_ids.length > 0) {
       const matchedQs: any[] = [];
       Object.values(selectedKit.kit_data.questions).forEach((catQs: any) => {
@@ -173,9 +173,6 @@ export default function SchedulePage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-1">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-700 border border-blue-200">
-              Interactive Learning Roadmap
-            </span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
             Day-by-Day Study Schedule
@@ -207,17 +204,17 @@ export default function SchedulePage() {
       {/* Summary Stats Header Bar */}
       {kits.length > 0 && schedule.length > 0 && (
         <div className="grid grid-cols-3 gap-3 sm:gap-4">
-          <div className="bg-gradient-to-br from-blue-50/90 to-indigo-50/50 backdrop-blur-md border border-blue-200/80 rounded-2xl p-3.5 sm:p-4 text-center shadow-2xs">
-            <p className="text-2xl sm:text-3xl font-black text-blue-700 tracking-tight">{schedule.length}</p>
-            <p className="text-[11px] sm:text-xs font-bold text-blue-600 mt-0.5">Total Days</p>
+          <div className="bg-gradient-to-br from-blue-50 to-indigo-50/50 backdrop-blur-md border border-blue-200/80 rounded-2xl p-3.5 sm:p-4 text-center shadow-2xs">
+            <p className="text-2xl sm:text-3xl font-semibold text-blue-700 tracking-tight">{schedule.length}</p>
+            <p className="text-[11px] sm:text-xs  text-blue-600 mt-0.5">Total Days</p>
           </div>
-          <div className="bg-gradient-to-br from-emerald-50/90 to-teal-50/50 backdrop-blur-md border border-emerald-200/80 rounded-2xl p-3.5 sm:p-4 text-center shadow-2xs">
-            <p className="text-2xl sm:text-3xl font-black text-emerald-700 tracking-tight">{totalMinutes}</p>
-            <p className="text-[11px] sm:text-xs font-bold text-emerald-600 mt-0.5">Total Minutes</p>
+          <div className="bg-gradient-to-br from-emerald-50 to-teal-50/50 backdrop-blur-md border border-emerald-200/80 rounded-2xl p-3.5 sm:p-4 text-center shadow-2xs">
+            <p className="text-2xl sm:text-3xl font-semibold text-emerald-700 tracking-tight">{totalMinutes}</p>
+            <p className="text-[11px] sm:text-xs  text-emerald-600 mt-0.5">Total Minutes</p>
           </div>
-          <div className="bg-gradient-to-br from-violet-50/90 to-purple-50/50 backdrop-blur-md border border-violet-200/80 rounded-2xl p-3.5 sm:p-4 text-center shadow-2xs">
-            <p className="text-2xl sm:text-3xl font-black text-violet-700 tracking-tight">{totalQuestions}</p>
-            <p className="text-[11px] sm:text-xs font-bold text-violet-600 mt-0.5">Questions Assigned</p>
+          <div className="bg-gradient-to-br from-violet-50 to-purple-50/50 backdrop-blur-md border border-violet-200/80 rounded-2xl p-3.5 sm:p-4 text-center shadow-2xs">
+            <p className="text-2xl sm:text-3xl font-semibold text-violet-700 tracking-tight">{totalQuestions}</p>
+            <p className="text-[11px] sm:text-xs  text-violet-600 mt-0.5">Questions Assigned</p>
           </div>
         </div>
       )}
@@ -243,7 +240,7 @@ export default function SchedulePage() {
       ) : (
         /* ==================== LEARNING ROADMAP CONTAINER ==================== */
         <div className="relative pt-6 pb-12 max-w-5xl mx-auto px-2">
-          
+
           {/* Desktop Curved S-Curve Timeline Background Ribbon */}
           <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-48 pointer-events-none hidden md:block overflow-hidden">
             <svg
@@ -292,7 +289,7 @@ export default function SchedulePage() {
 
               return (
                 <div key={day.day} className="grid grid-cols-[1fr_90px_1fr] items-center gap-4 group">
-                  
+
                   {/* LEFT COLUMN */}
                   <div className="flex justify-end pr-2">
                     {isLeftCard ? (
@@ -317,13 +314,12 @@ export default function SchedulePage() {
                   {/* CENTER COLUMN: CIRCULAR NODE */}
                   <div className="flex flex-col items-center justify-center relative">
                     <div
-                      className={`w-16 h-16 rounded-full flex flex-col items-center justify-center transition-all duration-300 shadow-md cursor-pointer ${
-                        isCompleted
-                          ? "bg-emerald-500 text-white ring-4 ring-emerald-200 shadow-emerald-500/20"
-                          : isToday
+                      className={`w-16 h-16 rounded-full flex flex-col items-center justify-center transition-all duration-300 shadow-md cursor-pointer ${isCompleted
+                        ? "bg-emerald-500 text-white ring-4 ring-emerald-200 shadow-emerald-500/20"
+                        : isToday
                           ? "bg-gradient-to-br from-blue-600 to-indigo-600 text-white ring-8 ring-blue-400/40 shadow-xl shadow-blue-500/40 scale-110 animate-pulse-subtle"
                           : "bg-white text-slate-600 border-2 border-blue-200/80 shadow-2xs group-hover:border-blue-400 group-hover:scale-105"
-                      }`}
+                        }`}
                       onClick={() => setSelectedDrawerDay(day)}
                     >
                       {isCompleted ? (
@@ -385,13 +381,12 @@ export default function SchedulePage() {
                 <div key={day.day} className="relative">
                   {/* Mobile Circle Node on Timeline Line */}
                   <div
-                    className={`absolute -left-[54px] top-4 w-11 h-11 rounded-full flex flex-col items-center justify-center text-xs font-black shadow-md cursor-pointer ${
-                      isCompleted
-                        ? "bg-emerald-500 text-white ring-2 ring-emerald-200"
-                        : isToday
+                    className={`absolute -left-[54px] top-4 w-11 h-11 rounded-full flex flex-col items-center justify-center text-xs font-black shadow-md cursor-pointer ${isCompleted
+                      ? "bg-emerald-500 text-white ring-2 ring-emerald-200"
+                      : isToday
                         ? "bg-blue-600 text-white ring-4 ring-blue-300 scale-105"
                         : "bg-white text-slate-700 border-2 border-blue-200"
-                    }`}
+                      }`}
                     onClick={() => setSelectedDrawerDay(day)}
                   >
                     {isCompleted ? <Check className="w-5 h-5 stroke-[3]" /> : `0${day.day}`}
@@ -426,7 +421,7 @@ export default function SchedulePage() {
           {/* Slide-over Drawer Panel */}
           <div className="fixed inset-y-0 right-0 max-w-full flex pl-6 sm:pl-10">
             <div className="w-screen max-w-md bg-white border-l border-blue-100 shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
-              
+
               {/* Drawer Header */}
               <div className="p-5 sm:p-6 border-b border-slate-100 bg-gradient-to-r from-blue-50/90 via-indigo-50/40 to-slate-50 flex items-start justify-between gap-4 shrink-0">
                 <div>
@@ -449,7 +444,7 @@ export default function SchedulePage() {
                     <span>🎯 {selectedDrawerDay.question_ids?.length || 6} questions</span>
                   </p>
                 </div>
-                
+
                 <button
                   type="button"
                   onClick={() => setSelectedDrawerDay(null)}
@@ -485,7 +480,7 @@ export default function SchedulePage() {
                       <h4 className="text-xs sm:text-sm font-medium text-slate-900 leading-relaxed group-hover:text-blue-700 transition-colors">
                         {topic.title}
                       </h4>
-                      
+
                       {/* Metadata Row */}
                       <div className="flex items-center gap-2 mt-2 pt-1 border-t border-blue-200/40">
                         <span className="text-[11px] font-normal text-slate-500 flex items-center gap-1">
@@ -547,13 +542,12 @@ function MilestoneCard({
   return (
     <div
       onClick={onViewTopics}
-      className={`w-full max-w-sm sm:max-w-md p-5 rounded-2xl sm:rounded-3xl border transition-all duration-200 cursor-pointer relative overflow-hidden group hover:-translate-y-1 ${
-        isToday
-          ? "bg-blue-100/90 border-2 border-blue-400 shadow-md shadow-blue-500/10 ring-2 ring-blue-300/40"
-          : isCompleted
+      className={`w-full max-w-sm sm:max-w-md p-5 rounded-2xl sm:rounded-3xl border transition-all duration-200 cursor-pointer relative overflow-hidden group hover:-translate-y-1 ${isToday
+        ? "bg-blue-100/90 border-2 border-blue-400 shadow-md shadow-blue-500/10 ring-2 ring-blue-300/40"
+        : isCompleted
           ? "bg-blue-50/70 backdrop-blur-md border-emerald-200/90 shadow-2xs hover:shadow-md hover:bg-emerald-50/50 hover:border-emerald-300"
           : "bg-blue-50/70 backdrop-blur-md border-blue-200/70 shadow-2xs hover:bg-blue-100/80 hover:border-blue-300"
-      }`}
+        }`}
     >
       {/* Title & Description */}
       <h3 className="text-base sm:text-lg font-semibold text-slate-900 group-hover:text-blue-700 transition-colors tracking-tight leading-snug">
