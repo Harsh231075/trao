@@ -56,15 +56,12 @@ export default function Sidebar() {
             <div>
               {/* Header */}
               <div className="flex items-center justify-between pb-5 border-b border-white/10">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-white text-blue-600 flex items-center justify-center font-black text-xl shadow-md">
-                    <span>T</span>
-                  </div>
-                  <div>
-                    <h2 className="font-extrabold text-base text-white tracking-tight">Trao</h2>
-                    <p className="text-[10px] text-blue-300">AI Prep Kit Platform</p>
-                  </div>
-                </div>
+                <Link href="/" onClick={() => setIsMobileOpen(false)} className="flex items-baseline font-black tracking-tighter group">
+                  <span className="text-3xl sm:text-4xl font-black text-white">Trao</span>
+                  <span className="text-2xl sm:text-3xl font-extrabold text-[#eefc57] tracking-tight ml-0.5">
+                    .ai
+                  </span>
+                </Link>
                 <button
                   onClick={() => setIsMobileOpen(false)}
                   className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors"
@@ -106,14 +103,21 @@ export default function Sidebar() {
 
       {/* Desktop Rail Sidebar */}
       <aside className="hidden sm:flex w-16 sm:w-18 md:w-20 shrink-0 h-full max-h-full flex-col items-center py-4 text-white select-none relative z-20 overflow-visible">
-        {/* Brand Logo at Top */}
-        <div className="w-full flex items-center justify-center px-2 shrink-0">
+        {/* Brand Logo at Top - Modern Tech Logo Mark */}
+        <div className="w-full flex items-center justify-center px-1 shrink-0">
           <Link
             href="/"
-            className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-white text-blue-600 flex items-center justify-center font-black text-xl shadow-md hover:scale-105 transition-transform shrink-0"
-            title="Trao - The AI Interview Prep Kit"
+            className="group flex flex-col items-center justify-center transition-all duration-200 py-1"
+            title="Trao.ai - AI Interview Prep Kit Platform"
           >
-            <span className="font-extrabold text-xl sm:text-2xl tracking-tighter text-blue-600">T</span>
+            <div className="flex items-baseline font-black tracking-tighter">
+              <span className="text-xl sm:text-xl font-black text-white group-hover:text-blue-100 transition-colors drop-shadow-sm">
+                Trao
+              </span>
+              <span className="text-xl sm:text-2xl font-extrabold text-blue-500 tracking-tight ml-0.5 group-hover:text-amber-300 transition-colors">
+                .ai
+              </span>
+            </div>
           </Link>
         </div>
 

@@ -555,24 +555,7 @@ function MilestoneCard({
           : "bg-blue-50/70 backdrop-blur-md border-blue-200/70 shadow-2xs hover:bg-blue-100/80 hover:border-blue-300"
       }`}
     >
-      {/* Top Badges Row */}
-      <div className="flex items-center justify-between gap-2 mb-3">
-        <span className={`text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full border shadow-2xs ${catInfo.badgeClass}`}>
-          {catInfo.name}
-        </span>
-
-        {isCompleted ? (
-          <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1">
-            <CheckCircle2 className="w-3 h-3 text-emerald-600 stroke-[2.5]" /> Completed
-          </span>
-        ) : isToday ? (
-          <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-blue-600 text-white shadow-xs">
-            TODAY'S FOCUS
-          </span>
-        ) : null}
-      </div>
-
-      {/* Title & Description with clean typography */}
+      {/* Title & Description */}
       <h3 className="text-base sm:text-lg font-semibold text-slate-900 group-hover:text-blue-700 transition-colors tracking-tight leading-snug">
         {day.focus}
       </h3>
@@ -580,28 +563,28 @@ function MilestoneCard({
         {description}
       </p>
 
-      {/* Details Bar (Duration + Topics Count) */}
-      <div className="flex items-center gap-4 text-xs font-medium text-slate-600 mt-4 pt-3 border-t border-blue-200/50">
-        <span className="flex items-center gap-1.5 text-slate-600">
-          <Clock className="w-3.5 h-3.5 text-blue-600" />
-          {day.minutes} min
-        </span>
-        <span className="text-slate-300">•</span>
-        <span className="flex items-center gap-1.5 text-slate-600">
-          <BookOpen className="w-3.5 h-3.5 text-blue-600" />
-          {subPointsCount} topics / questions
-        </span>
-      </div>
+      {/* Footer Row: Meta Details (Duration + Topics Count) & View Topics CTA */}
+      <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-medium text-slate-600 mt-4 pt-3 border-t border-blue-200/40">
+        <div className="flex items-center gap-2">
+          <span className="flex items-center gap-1.5 text-slate-600">
+            <Clock className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+            ~ {day.minutes} min
+          </span>
+          <span className="text-slate-300 font-normal">•</span>
+          <span className="flex items-center gap-1.5 text-slate-600">
+            <BookOpen className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+            {subPointsCount} topics / questions
+          </span>
+        </div>
 
-      {/* Action CTA Button */}
-      <div className="mt-4 flex items-center justify-end">
+        {/* Action CTA Button */}
         <button
           type="button"
           onClick={(e) => {
             e.stopPropagation();
             onViewTopics();
           }}
-          className="px-3.5 py-1.5 rounded-xl bg-white/90 hover:bg-blue-600 hover:text-white border border-blue-200/80 text-blue-700 font-semibold text-xs transition-all shadow-2xs group-hover:border-blue-400 flex items-center gap-1.5 cursor-pointer"
+          className="px-3 py-1.5 rounded-xl bg-white/90 hover:bg-blue-600 hover:text-white border border-blue-200/80 text-blue-700 font-semibold text-xs transition-all shadow-2xs group-hover:border-blue-400 flex items-center gap-1 cursor-pointer shrink-0"
         >
           <span>View Topics</span>
           <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
