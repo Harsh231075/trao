@@ -188,26 +188,26 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
   const progressPercentage = Math.round((Math.max(1, activeStageScreen) / 5) * 100);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/60 backdrop-blur-md animate-in fade-in duration-200">
-      {/* Main Modal Outer Card - Lighter Vibrant Blue (#3B82F6 / bg-blue-500) */}
-      <div className="bg-blue-500 rounded-3xl max-w-5xl w-full border border-blue-300/40 shadow-xl text-white overflow-hidden relative flex flex-col md:flex-row min-h-[560px]">
-        
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/60 backdrop-blur-sm animate-in fade-in duration-200">
+      {/* Main Modal Outer Card - Rich Deeper Medium Blue Theme (bg-[#b2d0fa]) */}
+      <div className="bg-[#b2d0fa] backdrop-blur-xl rounded-3xl max-w-5xl w-full border border-[#96bee8] shadow-2xl text-slate-900 overflow-hidden relative flex flex-col md:flex-row min-h-[560px]">
+
         {/* Top Right Close Button */}
         <button
           onClick={handleClose}
-          className="absolute top-5 right-5 p-2 rounded-xl text-blue-100 hover:text-white hover:bg-white/10 transition-all z-30 cursor-pointer"
+          className="absolute top-5 right-5 p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-[#a0c2f6] transition-all z-30 cursor-pointer"
           title="Close modal"
         >
           <X className="w-5 h-5" />
         </button>
 
         {/* ─── LEFT SIDEBAR: VERTICAL STEPPER (CLEAN NO LOGO) ─── */}
-        <div className="bg-blue-600/60 border-b md:border-b-0 md:border-r border-blue-400/30 p-6 sm:p-8 w-full md:w-72 shrink-0 flex flex-col justify-center relative z-10">
-          
+        <div className="bg-[#a0c2f6] border-b md:border-b-0 md:border-r border-[#96bee8] p-6 sm:p-8 w-full md:w-72 shrink-0 flex flex-col justify-center relative z-10">
+
           {/* Vertical 5-Step Timeline */}
           <div className="relative space-y-7 my-auto">
             {/* Connecting Vertical Line */}
-            <div className="absolute left-[17px] top-4 bottom-4 w-0.5 bg-blue-300/40 -z-10" />
+            <div className="absolute left-[17px] top-4 bottom-4 w-0.5 bg-blue-400/80 -z-10" />
 
             {VERTICAL_STEPS.map((stg) => {
               const isPassed = activeStageScreen > stg.step || isCompleted;
@@ -220,13 +220,12 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
                 <div key={stg.step} className="flex items-start gap-3.5 group">
                   {/* Circle Node Indicator */}
                   <div
-                    className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs shrink-0 transition-all duration-200 ${
-                      isPassed
-                        ? "bg-white text-blue-600 shadow-sm"
+                    className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs shrink-0 transition-all duration-200 ${isPassed
+                        ? "bg-emerald-500 text-white shadow-xs"
                         : isCurrent || isFormScreen
-                        ? "bg-white text-blue-600 ring-4 ring-white/30 shadow-md scale-105"
-                        : "bg-blue-700/60 border border-blue-300/30 text-blue-100"
-                    }`}
+                          ? "bg-blue-600 text-white ring-4 ring-blue-300/50 shadow-md scale-105"
+                          : "bg-blue-100/90 border border-blue-300/80 text-slate-600"
+                      }`}
                   >
                     {isPassed ? (
                       <Check className="w-4 h-4 stroke-[3]" />
@@ -238,13 +237,12 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
                   {/* Step Title & Subtext */}
                   <div>
                     <h4
-                      className={`text-sm font-bold tracking-tight transition-colors ${
-                        isActiveOrPassed ? "text-white" : "text-blue-100/70"
-                      }`}
+                      className={`text-sm font-bold tracking-tight transition-colors ${isActiveOrPassed ? "text-slate-900" : "text-slate-600"
+                        }`}
                     >
                       {stg.title}
                     </h4>
-                    <p className="text-[11px] text-blue-100/90 font-medium leading-tight mt-0.5">
+                    <p className="text-[11px] text-slate-700 font-medium leading-tight mt-0.5">
                       {stg.desc}
                     </p>
                   </div>
@@ -255,32 +253,32 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
         </div>
 
         {/* ─── RIGHT MAIN CONTENT AREA ─── */}
-        <div className="flex-1 p-6 sm:p-10 flex flex-col justify-between relative z-10 bg-blue-500">
+        <div className="flex-1 p-6 sm:p-10 flex flex-col justify-between relative z-10 bg-[#b2d0fa] backdrop-blur-md">
 
           {/* ─── SCREEN 0: FORM INPUT ─── */}
           {!createdKitId && activeStageScreen === 0 && (
             <div className="space-y-6 my-auto">
               <div>
-                <div className="inline-block px-3 py-1 rounded-full bg-blue-600 border border-blue-300/40 text-white text-xs font-bold mb-3">
+                {/* <div className="inline-block px-3 py-1 rounded-full bg-blue-600 text-white border border-blue-500 text-xs font-bold mb-3 shadow-2xs">
                   AI Kit Generator
-                </div>
-                <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white">Create Your Custom Prep Kit</h2>
-                <p className="text-xs sm:text-sm text-blue-100 mt-1 font-medium">
+                </div> */}
+                <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">Create Your Custom Prep Kit</h2>
+                <p className="text-xs sm:text-sm text-slate-800 mt-1 font-medium">
                   Provide your job details &amp; company website. AI will execute a 5-step generation process.
                 </p>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 {error && (
-                  <div className="flex items-center gap-2 px-4 py-3 bg-red-500/20 border border-red-300/40 rounded-xl text-white text-xs font-semibold">
-                    <AlertCircle className="w-4 h-4 shrink-0 text-red-100" />
+                  <div className="flex items-center gap-2 px-4 py-3 bg-rose-100 border border-rose-200 rounded-xl text-rose-800 text-xs font-semibold">
+                    <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
                     {error}
                   </div>
                 )}
 
                 {/* Company Website */}
                 <div>
-                  <label className="block text-xs font-bold text-white uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-slate-900 uppercase tracking-wider mb-1.5">
                     Company Website / Careers URL
                   </label>
                   <input
@@ -289,13 +287,13 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
                     onChange={(e) => setWebsite(e.target.value)}
                     placeholder="https://company.com"
                     required
-                    className="w-full px-4 py-3 text-sm bg-blue-600/70 border border-blue-300/40 rounded-xl focus:outline-none focus:ring-2 focus:ring-white focus:border-white transition-all text-white placeholder:text-blue-100/70 font-medium"
+                    className="w-full px-4 py-3 text-sm bg-[#c4defc] border border-[#8ebbf8] rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 transition-all text-slate-900 placeholder:text-slate-500 font-medium shadow-2xs"
                   />
                 </div>
 
                 {/* Days Available */}
                 <div>
-                  <label className="block text-xs font-bold text-white uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-slate-900 uppercase tracking-wider mb-1.5">
                     Days Available to Prepare
                   </label>
                   <input
@@ -304,13 +302,13 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
                     max="90"
                     value={daysUntil}
                     onChange={(e) => setDaysUntil(e.target.value)}
-                    className="w-full px-4 py-3 text-sm bg-blue-600/70 border border-blue-300/40 rounded-xl focus:outline-none focus:ring-2 focus:ring-white focus:border-white transition-all text-white font-medium"
+                    className="w-full px-4 py-3 text-sm bg-[#c4defc] border border-[#8ebbf8] rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 transition-all text-slate-900 font-medium shadow-2xs"
                   />
                 </div>
 
                 {/* Job Description */}
                 <div>
-                  <label className="block text-xs font-bold text-white uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-slate-900 uppercase tracking-wider mb-1.5">
                     Paste Job Description
                   </label>
                   <textarea
@@ -319,7 +317,7 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
                     onChange={(e) => setJobDescription(e.target.value)}
                     placeholder="Paste full JD text including required technical stack, responsibilities, and qualifications..."
                     required
-                    className="w-full px-4 py-3 text-sm bg-blue-600/70 border border-blue-300/40 rounded-xl focus:outline-none focus:ring-2 focus:ring-white focus:border-white resize-none transition-all text-white placeholder:text-blue-100/70 font-medium"
+                    className="w-full px-4 py-3 text-sm bg-[#c4defc] border border-[#8ebbf8] rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 resize-none transition-all text-slate-900 placeholder:text-slate-500 font-medium shadow-2xs"
                   />
                 </div>
 
@@ -328,14 +326,14 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
                   <button
                     type="button"
                     onClick={handleClose}
-                    className="px-4 py-2.5 text-xs font-bold text-blue-100 hover:text-white transition-colors cursor-pointer"
+                    className="px-4 py-2.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-6 py-3 bg-white hover:bg-blue-50 text-blue-600 font-extrabold text-sm rounded-xl shadow-md transition-all disabled:opacity-70 cursor-pointer"
+                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm rounded-xl shadow-md shadow-blue-500/20 transition-all disabled:opacity-70 cursor-pointer"
                   >
                     {isSubmitting ? "Starting AI Pipeline..." : "Start Creating Kit"}
                   </button>
@@ -347,25 +345,25 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
           {/* ─── IN-MODAL SCREEN-BY-SCREEN PIPELINE STAGES (SCREENS 1 TO 5) ─── */}
           {isPipelineActive && (
             <div className="space-y-6 my-auto flex flex-col justify-between h-full animate-in fade-in duration-300">
-              
+
               {/* Header Title */}
               <div>
-                <div className="text-blue-100 text-xs font-bold mb-1">
+                <div className="text-blue-600 text-xs font-bold mb-1">
                   Creating Your Interview Kit (Live Real-Time Sync)
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
-                  We&apos;re analyzing the job and <span className="underline decoration-white/40">generating</span> your personalized content.
+                <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
+                  We&apos;re analyzing the job and <span className="underline decoration-blue-400/40">generating</span> your personalized content.
                 </h3>
-                <p className="text-xs sm:text-sm text-blue-100 mt-1 font-medium">
+                <p className="text-xs sm:text-sm text-slate-500 mt-1 font-medium">
                   Executing Stage {activeStageScreen} of 5 on backend engine...
                 </p>
               </div>
 
               {/* ── NON-OVERLAPPING CLEAN LAYOUT: 3D AI CHIP + 4 FEATURE CARDS ── */}
-              <div className="flex flex-col sm:flex-row items-center gap-5 my-2 p-4 bg-blue-600/50 rounded-2xl border border-blue-300/30">
-                
+              <div className="flex flex-col sm:flex-row items-center gap-5 my-2 p-4 bg-blue-50/80 rounded-2xl border border-blue-200/80">
+
                 {/* 3D AI Chip Preview Card (Dedicated Non-Overlapping Slot) */}
-                <div className="w-28 h-28 sm:w-32 sm:h-32 relative rounded-2xl overflow-hidden border border-white/40 shadow-lg shrink-0">
+                <div className="w-28 h-28 sm:w-32 sm:h-32 relative rounded-2xl overflow-hidden border border-blue-200/80 shadow-md shrink-0">
                   <Image
                     src="/images/ai_core_chip_3d.jpg"
                     alt="AI Core Chip"
@@ -376,31 +374,27 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
 
                 {/* 4 Feature Cards (2x2 Grid, Clean & High-Contrast) */}
                 <div className="grid grid-cols-2 gap-2.5 flex-1 w-full">
-                  <div className={`border rounded-xl p-3 shadow-xs flex items-center gap-2 transition-all ${
-                    activeStageScreen === 1 ? "bg-white text-blue-600 font-black scale-105" : "bg-blue-700/80 border-blue-300/40 text-white font-bold"
-                  }`}>
-                    <Search className={`w-4 h-4 shrink-0 ${activeStageScreen === 1 ? "text-blue-600" : "text-blue-200"}`} />
+                  <div className={`border rounded-xl p-3 shadow-2xs flex items-center gap-2 transition-all ${activeStageScreen === 1 ? "bg-blue-600 text-white font-black scale-105 shadow-md" : "bg-white border-blue-200/80 text-slate-700 font-semibold"
+                    }`}>
+                    <Search className={`w-4 h-4 shrink-0 ${activeStageScreen === 1 ? "text-white" : "text-blue-600"}`} />
                     <span className="text-xs">Analyzing job description</span>
                   </div>
 
-                  <div className={`border rounded-xl p-3 shadow-xs flex items-center gap-2 transition-all ${
-                    activeStageScreen === 3 ? "bg-white text-blue-600 font-black scale-105" : "bg-blue-700/80 border-blue-300/40 text-white font-bold"
-                  }`}>
-                    <Brain className={`w-4 h-4 shrink-0 ${activeStageScreen === 3 ? "text-blue-600" : "text-blue-200"}`} />
+                  <div className={`border rounded-xl p-3 shadow-2xs flex items-center gap-2 transition-all ${activeStageScreen === 3 ? "bg-blue-600 text-white font-black scale-105 shadow-md" : "bg-white border-blue-200/80 text-slate-700 font-semibold"
+                    }`}>
+                    <Brain className={`w-4 h-4 shrink-0 ${activeStageScreen === 3 ? "text-white" : "text-blue-600"}`} />
                     <span className="text-xs">Generating questions</span>
                   </div>
 
-                  <div className={`border rounded-xl p-3 shadow-xs flex items-center gap-2 transition-all ${
-                    activeStageScreen === 2 ? "bg-white text-blue-600 font-black scale-105" : "bg-blue-700/80 border-blue-300/40 text-white font-bold"
-                  }`}>
-                    <FileText className={`w-4 h-4 shrink-0 ${activeStageScreen === 2 ? "text-blue-600" : "text-blue-200"}`} />
+                  <div className={`border rounded-xl p-3 shadow-2xs flex items-center gap-2 transition-all ${activeStageScreen === 2 ? "bg-blue-600 text-white font-black scale-105 shadow-md" : "bg-white border-blue-200/80 text-slate-700 font-semibold"
+                    }`}>
+                    <FileText className={`w-4 h-4 shrink-0 ${activeStageScreen === 2 ? "text-white" : "text-blue-600"}`} />
                     <span className="text-xs">Extracting requirements</span>
                   </div>
 
-                  <div className={`border rounded-xl p-3 shadow-xs flex items-center gap-2 transition-all ${
-                    activeStageScreen === 5 ? "bg-white text-blue-600 font-black scale-105" : "bg-blue-700/80 border-blue-300/40 text-white font-bold"
-                  }`}>
-                    <BarChart3 className={`w-4 h-4 shrink-0 ${activeStageScreen === 5 ? "text-blue-600" : "text-blue-200"}`} />
+                  <div className={`border rounded-xl p-3 shadow-2xs flex items-center gap-2 transition-all ${activeStageScreen === 5 ? "bg-blue-600 text-white font-black scale-105 shadow-md" : "bg-white border-blue-200/80 text-slate-700 font-semibold"
+                    }`}>
+                    <BarChart3 className={`w-4 h-4 shrink-0 ${activeStageScreen === 5 ? "text-white" : "text-blue-600"}`} />
                     <span className="text-xs">Creating study schedule</span>
                   </div>
                 </div>
@@ -409,31 +403,31 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
               {/* Progress Bar & Percentage */}
               <div className="space-y-3">
                 <div className="flex items-center gap-4">
-                  <div className="flex-1 h-3 bg-blue-700/60 rounded-full p-0.5 border border-blue-300/40 overflow-hidden">
+                  <div className="flex-1 h-3 bg-blue-100 rounded-full p-0.5 border border-blue-200 overflow-hidden">
                     <div
-                      className="h-full bg-white rounded-full transition-all duration-500 ease-out shadow-sm"
+                      className="h-full bg-blue-600 rounded-full transition-all duration-500 ease-out shadow-sm"
                       style={{ width: `${progressPercentage}%` }}
                     />
                   </div>
-                  <span className="text-sm font-black text-white shrink-0">
+                  <span className="text-sm font-black text-blue-700 shrink-0">
                     {progressPercentage}%
                   </span>
                 </div>
 
                 {/* Dynamic Floating Status Pill (Real-Time Backend Status) */}
                 <div className="text-center">
-                  <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-600/90 border border-blue-300/40 text-white text-xs font-semibold shadow-sm">
-                    <Loader2 className="w-3.5 h-3.5 animate-spin text-white" />
+                  <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold shadow-2xs">
+                    <Loader2 className="w-3.5 h-3.5 animate-spin text-blue-600" />
                     <span>{STAGE_STATUS_TEXT[activeStageScreen - 1] || STAGE_STATUS_TEXT[0]}</span>
                   </span>
                 </div>
               </div>
 
               {/* Bottom Tip Card ("Did you know?") */}
-              <div className="bg-blue-600/70 border border-blue-300/40 rounded-xl p-4 flex items-start gap-3.5 shadow-md">
+              <div className="bg-blue-50/80 border border-blue-200/80 rounded-xl p-4 flex items-start gap-3.5 shadow-2xs">
                 <div>
-                  <h5 className="text-xs font-bold text-white">Did you know?</h5>
-                  <p className="text-[11px] text-blue-100 mt-0.5 leading-relaxed font-medium">
+                  <h5 className="text-xs font-bold text-slate-900">Did you know?</h5>
+                  <p className="text-[11px] text-slate-600 mt-0.5 leading-relaxed font-medium">
                     Our AI analyzes your job description, company context, and industry trends to create highly relevant and up-to-date interview content.
                   </p>
                 </div>
@@ -444,40 +438,40 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
           {/* ─── SCREEN 6: CELEBRATION / COMPLETED SCREEN ─── */}
           {isCompleted && (
             <div className="py-8 flex flex-col items-center justify-center text-center space-y-6 my-auto animate-in zoom-in-95 duration-300">
-              <div className="w-20 h-20 rounded-2xl bg-white text-blue-600 flex items-center justify-center shadow-xl">
+              <div className="w-20 h-20 rounded-2xl bg-emerald-500 text-white flex items-center justify-center shadow-xl shadow-emerald-500/20">
                 <Check className="w-10 h-10 stroke-[3]" />
               </div>
 
               <div>
-                <span className="text-[11px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full bg-blue-600/80 text-white border border-blue-300/40 inline-block mb-3">
+                <span className="text-[11px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 inline-block mb-3">
                   Kit Generation Complete
                 </span>
-                <h3 className="text-3xl font-black text-white tracking-tight">Your Interview Kit is Ready</h3>
-                <p className="text-xs sm:text-sm text-blue-100 mt-1 max-w-md font-medium">
+                <h3 className="text-3xl font-black text-slate-900 tracking-tight">Your Interview Kit is Ready</h3>
+                <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-md font-medium">
                   All 5 stages processed! Tailored technical &amp; behavioural questions, flashcards, and schedule are structured for you.
                 </p>
               </div>
 
               {/* Summary Metrics */}
               {kitDetails?.kit_data && (
-                <div className="grid grid-cols-3 gap-3 w-full max-w-md bg-blue-600/70 border border-blue-300/40 rounded-xl p-4 text-center shadow-md">
+                <div className="grid grid-cols-3 gap-3 w-full max-w-md bg-blue-50/80 border border-blue-200/80 rounded-xl p-4 text-center shadow-2xs">
                   <div>
-                    <p className="text-2xl font-black text-white">
+                    <p className="text-2xl font-black text-blue-700">
                       {Object.values(kitDetails.kit_data.questions || {}).reduce((s: number, a: any) => s + (Array.isArray(a) ? a.length : 0), 0)}
                     </p>
-                    <p className="text-[10px] font-bold text-blue-100 uppercase tracking-wider">Questions</p>
+                    <p className="text-[10px] font-bold text-slate-600 uppercase tracking-wider">Questions</p>
                   </div>
                   <div>
-                    <p className="text-2xl font-black text-white">
+                    <p className="text-2xl font-black text-blue-700">
                       {(kitDetails.kit_data.flashcards || []).length}
                     </p>
-                    <p className="text-[10px] font-bold text-blue-100 uppercase tracking-wider">Flashcards</p>
+                    <p className="text-[10px] font-bold text-slate-600 uppercase tracking-wider">Flashcards</p>
                   </div>
                   <div>
-                    <p className="text-2xl font-black text-white">
+                    <p className="text-2xl font-black text-blue-700">
                       {kitDetails.days_available || 7} Days
                     </p>
-                    <p className="text-[10px] font-bold text-blue-100 uppercase tracking-wider">Schedule</p>
+                    <p className="text-[10px] font-bold text-slate-600 uppercase tracking-wider">Schedule</p>
                   </div>
                 </div>
               )}
@@ -487,7 +481,7 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
                 <button
                   type="button"
                   onClick={handleClose}
-                  className="flex-1 py-3.5 px-4 bg-blue-600/80 hover:bg-blue-700 text-white font-bold text-sm rounded-xl transition-all cursor-pointer border border-blue-300/40"
+                  className="flex-1 py-3.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm rounded-xl transition-all cursor-pointer border border-slate-200/80"
                 >
                   Close Window
                 </button>
@@ -498,7 +492,7 @@ export default function CreateKitModal({ isOpen, onClose, onCreated }: CreateKit
                     handleClose();
                     router.push(`/kits/${id}`);
                   }}
-                  className="flex-1 py-3.5 px-4 bg-white hover:bg-blue-50 text-blue-600 font-extrabold text-sm rounded-xl shadow-md transition-all cursor-pointer"
+                  className="flex-1 py-3.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm rounded-xl shadow-md shadow-blue-500/20 transition-all cursor-pointer"
                 >
                   Open Prep Kit
                 </button>
