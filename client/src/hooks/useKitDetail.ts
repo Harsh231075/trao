@@ -155,17 +155,36 @@ export function useKitDetail(kitId: string) {
     }
   };
 
-  const reorderQuestion = async (category: string, qid: string, direction: "up" | "down") => {
+  const reorderQuestionsByIndices = async (category: string, fromIndex: number, toIndex: number) => {
     const catQuestions = kit?.kit_data?.questions?.[category] || [];
-    const idx = catQuestions.findIndex((q: any) => q.id === qid);
-    if (idx === -1) return;
-
-    const newIdx = direction === "up" ? idx - 1 : idx + 1;
-    if (newIdx < 0 || newIdx >= catQuestions.length) return;
+    if (
+      fromIndex < 0 ||
+      fromIndex >= catQuestions.length ||
+      toIndex < 0 ||
+      toIndex >= catQuestions.length ||
+      fromIndex === toIndex
+    ) {
+      return;
+    }
 
     const newOrder = [...catQuestions];
-    const [moved] = newOrder.splice(idx, 1);
-    newOrder.splice(newIdx, 0, moved);
+    const [moved] = newOrder.splice(fromIndex, 1);
+    newOrder.splice(toIndex, 0, moved);
+
+    // Optimistically update local kit state for instantaneous UI responsiveness
+    setKit((prev: any) => {
+      if (!prev || !prev.kit_data) return prev;
+      return {
+        ...prev,
+        kit_data: {
+          ...prev.kit_data,
+          questions: {
+            ...prev.kit_data.questions,
+            [category]: newOrder,
+          },
+        },
+      };
+    });
 
     const question_ids = newOrder.map((q: any) => q.id);
     try {
@@ -173,6 +192,7 @@ export function useKitDetail(kitId: string) {
       await fetchKit();
     } catch (err: any) {
       alert(err.message || "Failed to reorder questions");
+      await fetchKit();
     }
   };
 
@@ -254,7 +274,7 @@ export function useKitDetail(kitId: string) {
     saveNewQuestion,
     deleteQuestion,
     moveQuestionCategory,
-    reorderQuestion,
+    reorderQuestionsByIndices,
 
     // Flashcards
     editingFlashcard,

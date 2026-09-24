@@ -22,8 +22,7 @@ import {
   Edit3,
   Trash2,
   Plus,
-  ArrowUp,
-  ArrowDown,
+  GripVertical,
   X,
   Save,
   Wrench,
@@ -69,7 +68,7 @@ export default function KitDetailPage() {
     saveNewQuestion,
     deleteQuestion,
     moveQuestionCategory,
-    reorderQuestion,
+    reorderQuestionsByIndices,
 
     // Flashcards Builder
     editingFlashcard,
@@ -93,6 +92,10 @@ export default function KitDetailPage() {
     setBriefWhatTheyDo,
     saveCompanyBriefEdit,
   } = useKitDetail(kitId);
+
+  // Drag and Drop state for intuitive question reordering
+  const [draggedItem, setDraggedItem] = React.useState<{ category: string; index: number } | null>(null);
+  const [dragOverItem, setDragOverItem] = React.useState<{ category: string; index: number } | null>(null);
 
   if (isLoading) {
     return (
@@ -421,117 +424,142 @@ export default function KitDetailPage() {
                     </button>
                   </div>
                 ) : (
-                  catQuestions.map((q: any, i: number) => (
-                    <div key={q.id || i} className="py-3 border-b border-blue-200/40 last:border-0 space-y-2">
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <p className="text-sm font-bold text-slate-900 leading-snug">{q.text}</p>
+                  catQuestions.map((q: any, i: number) => {
+                    const isDragging = draggedItem?.category === cat && draggedItem?.index === i;
+                    const isDragOver = dragOverItem?.category === cat && dragOverItem?.index === i;
+
+                    return (
+                      <div
+                        key={q.id || i}
+                        draggable
+                        onDragStart={(e) => {
+                          setDraggedItem({ category: cat, index: i });
+                          e.dataTransfer.effectAllowed = "move";
+                        }}
+                        onDragOver={(e) => {
+                          e.preventDefault();
+                          if (draggedItem && draggedItem.category === cat && draggedItem.index !== i) {
+                            setDragOverItem({ category: cat, index: i });
+                          }
+                        }}
+                        onDragLeave={() => setDragOverItem(null)}
+                        onDragEnd={() => {
+                          setDraggedItem(null);
+                          setDragOverItem(null);
+                        }}
+                        onDrop={(e) => {
+                          e.preventDefault();
+                          if (draggedItem && draggedItem.category === cat) {
+                            reorderQuestionsByIndices(cat, draggedItem.index, i);
+                          }
+                          setDraggedItem(null);
+                          setDragOverItem(null);
+                        }}
+                        className={`py-3 px-3.5 rounded-2xl border transition-all space-y-2 ${
+                          isDragging
+                            ? "opacity-40 border-dashed border-blue-400 bg-blue-100/50 scale-[0.98]"
+                            : isDragOver
+                            ? "border-blue-500 ring-2 ring-blue-400/80 bg-blue-100/90 shadow-md"
+                            : "border-blue-200/50 hover:border-blue-300/80 bg-white/70 hover:bg-white/90 shadow-2xs"
+                        }`}
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          {/* Drag Handle */}
+                          <div
+                            className="pt-0.5 text-slate-400 hover:text-blue-600 cursor-grab active:cursor-grabbing shrink-0 transition-colors"
+                            title="Drag to reorder"
+                          >
+                            <GripVertical className="w-4 h-4" />
                           </div>
 
-                          {q.answer_outline && (
-                            <div className="text-xs text-slate-800 mt-2 leading-relaxed bg-blue-100/60 p-3 rounded-xl border border-blue-200/60 shadow-2xs">
-                              <span className="font-bold text-blue-900">Answer Outline: </span>
-                              {q.answer_outline}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <p className="text-sm font-bold text-slate-900 leading-snug">{q.text}</p>
                             </div>
-                          )}
-                        </div>
 
-                        {/* Right Actions & Badges */}
-                        <div className="flex flex-col items-end gap-2 shrink-0">
-                          <div className="flex items-center gap-1.5 flex-wrap justify-end">
-                            {q.difficulty && (
-                              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
-                                q.difficulty === 1 ? "bg-emerald-50 text-emerald-700 border-emerald-200"
-                                  : q.difficulty === 2 ? "bg-amber-50 text-amber-700 border-amber-200"
-                                  : "bg-rose-50 text-rose-700 border-rose-200"
-                              }`}>
-                                {q.difficulty === 1 ? "Easy" : q.difficulty === 2 ? "Medium" : "Hard"}
-                              </span>
-                            )}
-                            
-                            {/* Source Tags */}
-                            {q.source === "user" ? (
-                              <span className="text-[10px] font-extrabold text-emerald-800 bg-emerald-100 border border-emerald-300 px-2 py-0.5 rounded-full flex items-center gap-1">
-                                ✋ Handcrafted
-                              </span>
-                            ) : q.source === "user_edited" ? (
-                              <span className="text-[10px] font-extrabold text-violet-800 bg-violet-100 border border-violet-300 px-2 py-0.5 rounded-full flex items-center gap-1">
-                                ✏️ Edited
-                              </span>
-                            ) : (
-                              <span className="text-[10px] font-bold text-blue-700 bg-blue-100 border border-blue-200 px-2 py-0.5 rounded-full">
-                                🤖 AI Draft
-                              </span>
+                            {q.answer_outline && (
+                              <div className="text-xs text-slate-800 mt-2 leading-relaxed bg-blue-100/60 p-3 rounded-xl border border-blue-200/60 shadow-2xs">
+                                <span className="font-bold text-blue-900">Answer Outline: </span>
+                                {q.answer_outline}
+                              </div>
                             )}
                           </div>
 
-                          {/* Quick Action Controls */}
-                          <div className="flex items-center gap-1 bg-white/80 p-1 rounded-xl border border-blue-200/60 shadow-2xs">
-                            {/* Move Up */}
-                            <button
-                              type="button"
-                              onClick={() => reorderQuestion(cat, q.id, "up")}
-                              disabled={i === 0}
-                              className="p-1 text-slate-500 hover:text-blue-700 disabled:opacity-30 rounded-lg hover:bg-blue-100/60"
-                              title="Move Up"
-                            >
-                              <ArrowUp className="w-3.5 h-3.5" />
-                            </button>
-                            {/* Move Down */}
-                            <button
-                              type="button"
-                              onClick={() => reorderQuestion(cat, q.id, "down")}
-                              disabled={i === catQuestions.length - 1}
-                              className="p-1 text-slate-500 hover:text-blue-700 disabled:opacity-30 rounded-lg hover:bg-blue-100/60"
-                              title="Move Down"
-                            >
-                              <ArrowDown className="w-3.5 h-3.5" />
-                            </button>
+                          {/* Right Actions & Badges */}
+                          <div className="flex flex-col items-end gap-2 shrink-0">
+                            <div className="flex items-center gap-1.5 flex-wrap justify-end">
+                              {q.difficulty && (
+                                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+                                  q.difficulty === 1 ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                                    : q.difficulty === 2 ? "bg-amber-50 text-amber-700 border-amber-200"
+                                    : "bg-rose-50 text-rose-700 border-rose-200"
+                                }`}>
+                                  {q.difficulty === 1 ? "Easy" : q.difficulty === 2 ? "Medium" : "Hard"}
+                                </span>
+                              )}
+                              
+                              {/* Source Tags */}
+                              {q.source === "user" ? (
+                                <span className="text-[10px] font-extrabold text-emerald-800 bg-emerald-100 border border-emerald-300 px-2 py-0.5 rounded-full flex items-center gap-1">
+                                  ✋ Handcrafted
+                                </span>
+                              ) : q.source === "user_edited" ? (
+                                <span className="text-[10px] font-extrabold text-violet-800 bg-violet-100 border border-violet-300 px-2 py-0.5 rounded-full flex items-center gap-1">
+                                  ✏️ Edited
+                                </span>
+                              ) : (
+                                <span className="text-[10px] font-bold text-blue-700 bg-blue-100 border border-blue-200 px-2 py-0.5 rounded-full">
+                                  🤖 AI Draft
+                                </span>
+                              )}
+                            </div>
 
-                            {/* Category Selector */}
-                            <select
-                              value={cat}
-                              onChange={(e) => moveQuestionCategory(q.id, e.target.value)}
-                              className="text-[10px] font-bold bg-blue-50 text-blue-800 border border-blue-200 rounded-lg px-1.5 py-0.5 focus:outline-none"
-                              title="Move Category"
-                            >
-                              <option value="technical">Technical</option>
-                              <option value="behavioural">Behavioural</option>
-                              <option value="system_design">System Design</option>
-                              <option value="company_fit">Company Fit</option>
-                            </select>
+                            {/* Quick Action Controls */}
+                            <div className="flex items-center gap-1 bg-white/90 p-1 rounded-xl border border-blue-200/60 shadow-2xs">
+                              {/* Category Selector */}
+                              <select
+                                value={cat}
+                                onChange={(e) => moveQuestionCategory(q.id, e.target.value)}
+                                className="text-[10px] font-bold bg-blue-50 text-blue-800 border border-blue-200 rounded-lg px-1.5 py-0.5 focus:outline-none cursor-pointer"
+                                title="Move Category"
+                              >
+                                <option value="technical">Technical</option>
+                                <option value="behavioural">Behavioural</option>
+                                <option value="system_design">System Design</option>
+                                <option value="company_fit">Company Fit</option>
+                              </select>
 
-                            {/* Edit */}
-                            <button
-                              type="button"
-                              onClick={() => setEditingQuestion({
-                                id: q.id,
-                                category: cat,
-                                text: q.text,
-                                answer_outline: q.answer_outline || "",
-                                difficulty: q.difficulty || 2,
-                              })}
-                              className="p-1 text-blue-700 hover:text-blue-900 rounded-lg hover:bg-blue-100/80"
-                              title="Edit Question"
-                            >
-                              <Edit3 className="w-3.5 h-3.5" />
-                            </button>
+                              {/* Edit */}
+                              <button
+                                type="button"
+                                onClick={() => setEditingQuestion({
+                                  id: q.id,
+                                  category: cat,
+                                  text: q.text,
+                                  answer_outline: q.answer_outline || "",
+                                  difficulty: q.difficulty || 2,
+                                })}
+                                className="p-1 text-blue-700 hover:text-blue-900 rounded-lg hover:bg-blue-100/80 cursor-pointer"
+                                title="Edit Question"
+                              >
+                                <Edit3 className="w-3.5 h-3.5" />
+                              </button>
 
-                            {/* Delete */}
-                            <button
-                              type="button"
-                              onClick={() => deleteQuestion(q.id)}
-                              className="p-1 text-red-500 hover:text-red-700 rounded-lg hover:bg-red-50"
-                              title="Delete Question"
-                            >
-                              <Trash2 className="w-3.5 h-3.5" />
-                            </button>
+                              {/* Delete */}
+                              <button
+                                type="button"
+                                onClick={() => deleteQuestion(q.id)}
+                                className="p-1 text-red-500 hover:text-red-700 rounded-lg hover:bg-red-50 cursor-pointer"
+                                title="Delete Question"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))
+                    );
+                  })
                 )}
               </div>
             )}
