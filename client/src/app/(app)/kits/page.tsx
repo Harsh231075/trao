@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-
 import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import CreateKitModal from "@/components/CreateKitModal";
+import ConfirmModal from "@/components/ConfirmModal";
 import api from "@/lib/api";
 import {
   Plus,
@@ -29,23 +29,13 @@ function extractDomain(url: string): string {
   try { return new URL(url).hostname.replace("www.", ""); } catch { return url; }
 }
 
-const logoBgs = [
-  { bg: "bg-red-50", color: "text-red-500" },
-  { bg: "bg-emerald-50", color: "text-emerald-600" },
-  { bg: "bg-indigo-50", color: "text-indigo-600" },
-  { bg: "bg-blue-50", color: "text-blue-600" },
-  { bg: "bg-violet-50", color: "text-violet-600" },
-  { bg: "bg-amber-50", color: "text-amber-600" },
-  { bg: "bg-teal-50", color: "text-teal-600" },
-  { bg: "bg-pink-50", color: "text-pink-600" },
-];
-
 export default function InterviewKitsPage() {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState("All");
   const [kits, setKits] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [deleteKit, setDeleteKit] = useState<{ id: string; name: string } | null>(null);
 
   const fetchKits = useCallback(async () => {
     try {
@@ -68,14 +58,21 @@ export default function InterviewKitsPage() {
     return () => clearInterval(i);
   }, [kits, fetchKits]);
 
-  const handleDelete = async (e: React.MouseEvent, id: string) => {
+  const handleDeleteClick = (e: React.MouseEvent, kit: any) => {
     e.stopPropagation();
-    if (!confirm("Delete this interview kit?")) return;
+    const companyName = kit._computed?.company_name || extractDomain(kit.company_url);
+    setDeleteKit({ id: kit._id, name: companyName });
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!deleteKit) return;
+    const targetId = deleteKit.id;
+    setDeleteKit(null);
     try {
-      await api.delete(`/kits/${id}`);
-      setKits(prev => prev.filter(k => k._id !== id));
+      await api.delete(`/kits/${targetId}`);
+      setKits((prev) => prev.filter((k) => k._id !== targetId));
     } catch (err: any) {
-      alert(err.message);
+      console.error("Failed to delete kit:", err);
     }
   };
 
@@ -99,7 +96,7 @@ export default function InterviewKitsPage() {
         </div>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-full shadow-sm hover:shadow-md transition-all self-start sm:self-auto"
+          className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-full shadow-sm hover:shadow-md transition-all self-start sm:self-auto cursor-pointer"
         >
           <Plus className="w-4 h-4 stroke-[2.5]" />
           <span>New Kit</span>
@@ -112,7 +109,7 @@ export default function InterviewKitsPage() {
           <button
             key={tab}
             onClick={() => setActiveFilter(tab)}
-            className={`px-3.5 py-1.5 text-xs font-semibold rounded-full transition-all whitespace-nowrap ${activeFilter === tab
+            className={`px-3.5 py-1.5 text-xs font-semibold rounded-full transition-all whitespace-nowrap cursor-pointer ${activeFilter === tab
               ? "bg-blue-600 text-white shadow-xs"
               : "bg-slate-100 text-slate-600 hover:bg-slate-200"
               }`}
@@ -138,7 +135,7 @@ export default function InterviewKitsPage() {
           {kits.length === 0 && (
             <button
               onClick={() => setIsModalOpen(true)}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-full transition-colors"
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-full transition-colors cursor-pointer"
             >
               <Plus className="w-3.5 h-3.5 inline mr-1" /> Create Your First Kit
             </button>
@@ -146,7 +143,7 @@ export default function InterviewKitsPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {filteredKits.map((kit, index) => {
+          {filteredKits.map((kit) => {
             const status = mapStatus(kit.status);
             const companyName = kit._computed?.company_name || extractDomain(kit.company_url);
             const roleTitle = kit._computed?.role_title || "Processing...";
@@ -169,8 +166,8 @@ export default function InterviewKitsPage() {
                     </div>
                     <button
                       type="button"
-                      onClick={(e) => handleDelete(e, kit._id)}
-                      className="text-slate-400 hover:text-red-500 p-1.5 rounded-xl hover:bg-white/80 transition-colors shrink-0 -mr-1 -mt-1"
+                      onClick={(e) => handleDeleteClick(e, kit)}
+                      className="text-slate-400 hover:text-red-500 p-1.5 rounded-xl hover:bg-white/80 transition-colors shrink-0 -mr-1 -mt-1 cursor-pointer"
                       title="Delete kit"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -221,6 +218,18 @@ export default function InterviewKitsPage() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onCreated={() => fetchKits()}
+      />
+
+      {/* Custom Confirmation Modal for Deleting Kits */}
+      <ConfirmModal
+        isOpen={!!deleteKit}
+        title="Delete Interview Kit"
+        message={`Are you sure you want to delete the prep kit for "${deleteKit?.name || "this kit"}"? All questions, flashcards, and schedules associated with it will be permanently removed.`}
+        confirmText="Delete Kit"
+        cancelText="Cancel"
+        variant="danger"
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setDeleteKit(null)}
       />
     </div>
   );
