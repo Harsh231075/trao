@@ -1,6 +1,6 @@
 import UserEdit from '../models/UserEdit.js';
 import { researchCompany, researchInterviews, compileResearchContext } from './pipeline/retrieval.js';
-import { generateCompanyBrief, generateQuestions } from './pipeline/generation.js';
+import { generateCompanyBrief, generateQuestions, generateFlashcards } from './pipeline/generation.js';
 import { buildSchedule } from './pipeline/scheduler.js';
 import { checkCoverage } from './pipeline/coverage.js';
 
@@ -13,6 +13,7 @@ import { checkCoverage } from './pipeline/coverage.js';
  * - 'behavioural'
  * - 'system_design'
  * - 'company_fit'
+ * - 'flashcards'
  * - 'schedule'
  */
 export async function regenerateSection(kit, section) {
@@ -26,14 +27,13 @@ export async function regenerateSection(kit, section) {
   const editedQuestionIds = new Set(
     edits.filter(e => e.content_type === 'question').map(e => e.content_id)
   );
+  const editedFlashcardIds = new Set(
+    edits.filter(e => e.content_type === 'flashcard').map(e => e.content_id)
+  );
   const isBriefEdited = edits.some(e => e.content_type === 'company_brief');
 
   // 2. Regenerate based on requested section
   if (section === 'company_brief') {
-    if (isBriefEdited) {
-      // User explicitly edited brief, but requested regeneration: we regenerate AI brief
-      // or if prompt requires preserving, note that user requested regen on this section
-    }
     const companyResearch = await researchCompany(kit.company_url);
     let companyName = '';
     try {
@@ -78,6 +78,20 @@ export async function regenerateSection(kit, section) {
       uncovered_requirement_ids: coverageResult.uncovered_requirement_ids,
       passes: kitData.coverage?.passes || 1,
     };
+  } else if (section === 'flashcards') {
+    const existingFlashcards = kitData.flashcards || [];
+
+    // Keep user-created and user-edited flashcards
+    const preservedFlashcards = existingFlashcards.filter(
+      fc => fc.source === 'user' || fc.source === 'user_edited' || editedFlashcardIds.has(fc.id)
+    );
+
+    const requirements = kitData.role?.requirements || [];
+    const companyBrief = kitData.company_brief || '';
+
+    const newlyGenerated = await generateFlashcards(requirements, companyBrief);
+
+    kitData.flashcards = [...preservedFlashcards, ...newlyGenerated];
   } else if (section === 'schedule') {
     const daysAvailable = kitData.source?.days_available || kit.days_available;
     const requirements = kitData.role?.requirements || [];

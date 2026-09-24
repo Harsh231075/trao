@@ -56,7 +56,7 @@ export async function restartGeneration(req, res, next) {
 export async function regenerateSection(req, res, next) {
   try {
     const { section } = req.body;
-    const validSections = ['company_brief', 'technical', 'behavioural', 'system_design', 'company_fit', 'schedule'];
+    const validSections = ['company_brief', 'technical', 'behavioural', 'system_design', 'company_fit', 'flashcards', 'schedule'];
     if (!validSections.includes(section)) {
       throw new AppError(`Invalid section. Must be one of: ${validSections.join(', ')}`, 400);
     }
