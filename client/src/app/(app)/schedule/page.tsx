@@ -9,17 +9,26 @@ import {
   Loader2,
   BookOpen,
   Target,
-  CheckCircle2,
-  BarChart3,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 
 export default function SchedulePage() {
   const [kits, setKits] = useState<any[]>([]);
   const [selectedKitId, setSelectedKitId] = useState<string>("");
+  const [selectedKit, setSelectedKit] = useState<any>(null);
   const [schedule, setSchedule] = useState<any[]>([]);
   const [daysAvailable, setDaysAvailable] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isScheduleLoading, setIsScheduleLoading] = useState(false);
+  const [expandedDays, setExpandedDays] = useState<Record<number, boolean>>({});
+
+  const toggleDayExpand = (dayNum: number) => {
+    setExpandedDays(prev => ({
+      ...prev,
+      [dayNum]: prev[dayNum] !== undefined ? !prev[dayNum] : false
+    }));
+  };
 
   // Fetch kits
   useEffect(() => {
@@ -33,14 +42,16 @@ export default function SchedulePage() {
     }).catch(() => setIsLoading(false));
   }, []);
 
-  // Fetch schedule when kit changes
+  // Fetch kit details and schedule when selected kit changes
   const fetchSchedule = useCallback(async () => {
     if (!selectedKitId) return;
     setIsScheduleLoading(true);
     try {
-      const data = await api.get(`/kits/${selectedKitId}/schedule`);
-      setSchedule(data.schedule || []);
-      setDaysAvailable(data.days_available || 0);
+      const data = await api.get(`/kits/${selectedKitId}`);
+      const kitData = data.kit || {};
+      setSelectedKit(kitData);
+      setSchedule(kitData.kit_data?.schedule || []);
+      setDaysAvailable(kitData.days_available || 0);
     } catch (err) {
       console.error(err);
     } finally {
@@ -49,6 +60,52 @@ export default function SchedulePage() {
   }, [selectedKitId]);
 
   useEffect(() => { fetchSchedule(); }, [fetchSchedule]);
+
+  // Computed dynamic active day based on kit creation date
+  const kitCreatedAt = selectedKit?.created_at ? new Date(selectedKit.created_at) : new Date();
+  const now = new Date();
+  const diffMs = Math.max(0, now.getTime() - kitCreatedAt.getTime());
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const activeDayNumber = Math.min(daysAvailable || 7, Math.max(1, diffDays + 1));
+
+  // Extract sub-points / key topics for a day
+  const getSubPointsForDay = (day: any) => {
+    const subPoints: string[] = [];
+    if (selectedKit?.kit_data?.questions) {
+      for (const catQs of Object.values(selectedKit.kit_data.questions)) {
+        if (Array.isArray(catQs)) {
+          for (const q of catQs) {
+            if (day.question_ids?.includes(q.id)) {
+              subPoints.push(q.text);
+            }
+          }
+        }
+      }
+    }
+    if (subPoints.length > 0) return subPoints;
+
+    const focusLower = (day.focus || "").toLowerCase();
+    if (focusLower.includes("technical")) {
+      return [
+        "Review core data structures, algorithms & space-time complexity.",
+        "Solve primary coding pattern questions assigned for this role."
+      ];
+    } else if (focusLower.includes("behavioural")) {
+      return [
+        "Draft STAR method responses (Situation, Task, Action, Result) for past project challenges.",
+        "Review company core values & engineering culture."
+      ];
+    } else if (focusLower.includes("system")) {
+      return [
+        "Design high-availability microservices & database partitioning.",
+        "Review caching strategies, load balancing & API rate limiting."
+      ];
+    }
+    return [
+      "Review essential MUST requirements & company technical stack.",
+      "Self-conduct practice response walkthrough."
+    ];
+  };
 
   // Computed stats
   const totalMinutes = schedule.reduce((sum, d) => sum + (d.minutes || 0), 0);
@@ -66,7 +123,7 @@ export default function SchedulePage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pb-12">
       <Header />
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-1">
@@ -75,7 +132,7 @@ export default function SchedulePage() {
             Day-by-Day Study Schedule
           </h1>
           <p className="text-sm text-slate-500 mt-0.5">
-            Arithmetic topic allocation across your preparation window.
+            Dynamic preparation roadmap with topic sub-points and daily target tracking.
           </p>
         </div>
       </div>
@@ -137,60 +194,87 @@ export default function SchedulePage() {
           <p className="text-sm text-slate-500">No schedule generated yet.</p>
         </div>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {schedule.map((day, i) => {
-            const isToday = i === 0; // Visual highlight for first day
+            const isToday = day.day === activeDayNumber;
+            const subPoints = getSubPointsForDay(day);
+            const isExpanded = expandedDays[day.day] ?? true;
+
             return (
               <div
                 key={i}
-                className={`bg-blue-50/70 backdrop-blur-md rounded-2xl border p-5 transition-all hover:bg-blue-100/80 hover:shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
-                  isToday ? "border-blue-300/90 shadow-md ring-1 ring-blue-200/50" : "border-blue-200/70 shadow-2xs"
-                }`}
+                className={`bg-blue-50/70 backdrop-blur-md rounded-2xl border p-5 transition-all hover:bg-blue-100/80 hover:shadow-md space-y-3 ${isToday
+                    ? "border-blue-400/90 shadow-md ring-2 ring-blue-300/40 bg-blue-100/60"
+                    : "border-blue-200/70 shadow-2xs"
+                  }`}
               >
-                <div className="flex items-start gap-4 flex-1 min-w-0">
-                  {/* Day Badge */}
-                  <div className={`w-14 h-14 rounded-2xl flex flex-col items-center justify-center shrink-0 ${
-                    isToday ? "bg-blue-600 text-white shadow-md" : "bg-blue-100/80 text-blue-900 border border-blue-200/80"
-                  }`}>
-                    <span className="text-[10px] font-bold uppercase leading-none">Day</span>
-                    <span className="text-xl font-black leading-none">{day.day}</span>
-                  </div>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div
+                    onClick={() => toggleDayExpand(day.day)}
+                    className="flex items-start gap-4 flex-1 min-w-0 cursor-pointer group"
+                  >
+                    {/* Day Badge */}
+                    <div className={`w-14 h-14 rounded-2xl flex flex-col items-center justify-center shrink-0 ${isToday ? "bg-blue-600 text-white shadow-md ring-2 ring-blue-400" : "bg-blue-100/80 text-blue-900 border border-blue-200/80"
+                      }`}>
+                      <span className="text-[10px] font-bold uppercase leading-none">Day</span>
+                      <span className="text-xl font-black leading-none">{day.day}</span>
+                    </div>
 
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="text-base font-bold text-slate-900">{day.focus}</h3>
-                      {isToday && (
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 border border-blue-200">
-                          TODAY
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h3 className="text-base font-extrabold text-slate-900 group-hover:text-blue-700 transition-colors">{day.focus}</h3>
+                        {isToday && (
+                          <span className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-blue-600 text-white shadow-2xs">
+                            TODAY'S FOCUS
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-4 text-xs font-bold text-slate-600 mt-1.5">
+                        <span className="flex items-center gap-1.5">
+                          <Clock className="w-3.5 h-3.5 text-blue-600" />
+                          {day.minutes} minutes
                         </span>
-                      )}
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-4 text-xs font-bold text-slate-600 mt-2">
-                      <span className="flex items-center gap-1.5">
-                        <Clock className="w-3.5 h-3.5 text-blue-600" />
-                        {day.minutes} minutes
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <Target className="w-3.5 h-3.5 text-blue-600" />
-                        {day.question_ids?.length || 0} questions
-                      </span>
+                        <span className="flex items-center gap-1.5">
+                          <Target className="w-3.5 h-3.5 text-blue-600" />
+                          {subPoints.length} topics / questions
+                        </span>
+                      </div>
                     </div>
                   </div>
+
+                  {/* Expand / Collapse Toggle Button */}
+                  <button
+                    type="button"
+                    onClick={() => toggleDayExpand(day.day)}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-100/80 hover:bg-blue-200/90 text-blue-800 text-xs font-bold transition-all shrink-0 self-start sm:self-center shadow-2xs border border-blue-200/60"
+                  >
+                    <span>{isExpanded ? "Collapse" : "Expand"}</span>
+                    {isExpanded ? (
+                      <ChevronUp className="w-4 h-4 text-blue-700" />
+                    ) : (
+                      <ChevronDown className="w-4 h-4 text-blue-700" />
+                    )}
+                  </button>
                 </div>
 
-                {/* Progress indicator */}
-                <div className="flex items-center gap-2 shrink-0">
-                  <div className="w-24 h-2 bg-blue-100/80 rounded-full overflow-hidden border border-blue-200/50">
-                    <div
-                      className="h-full bg-blue-600 rounded-full"
-                      style={{ width: `${Math.min(100, ((day.minutes || 0) / Math.max(...schedule.map((s: any) => s.minutes || 1))) * 100)}%` }}
-                    />
+                {/* Sub-points / What to study today */}
+                {isExpanded && (
+                  <div className="pt-3 border-t border-blue-200/50 space-y-2 animate-in fade-in slide-in-from-top-1 duration-200">
+                    <p className="text-[11px] font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
+                      <BookOpen className="w-3.5 h-3.5 text-blue-600" />
+                      What To Study Today (Roadmap Sub-points):
+                    </p>
+                    <ul className="space-y-1.5">
+                      {subPoints.map((sp, idx) => (
+                        <li key={idx} className="flex items-start gap-2 text-xs font-semibold text-slate-800 bg-white/80 p-2.5 rounded-xl border border-blue-200/50 shadow-2xs">
+                          <span className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-1.5 shrink-0" />
+                          <span className="flex-1 leading-snug">{sp}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <span className="text-[11px] font-bold text-slate-700 w-10 text-right">
-                    {day.minutes}m
-                  </span>
-                </div>
+                )}
               </div>
             );
           })}
