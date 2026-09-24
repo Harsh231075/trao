@@ -1,15 +1,14 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React from "react";
 import { useParams, useRouter } from "next/navigation";
 import Header from "@/components/Header";
-import api from "@/lib/api";
+import { useKitDetail } from "@/hooks/useKitDetail";
 import {
   ArrowLeft,
   CheckCircle2,
   Loader2,
   RefreshCw,
-  FileText,
   HelpCircle,
   BookOpen,
   Building2,
@@ -20,14 +19,11 @@ import {
   ChevronUp,
   Calendar,
   Clock,
-  Check,
   Edit3,
   Trash2,
   Plus,
   ArrowUp,
   ArrowDown,
-  MoveRight,
-  Pin,
   X,
   Save,
   Wrench,
@@ -47,223 +43,56 @@ export default function KitDetailPage() {
   const router = useRouter();
   const kitId = params.id as string;
 
-  const [kit, setKit] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
-    company_brief: true,
-    requirements: true,
-    technical: true,
-    behavioural: false,
-    system_design: false,
-    company_fit: false,
-    flashcards: false,
-    coverage: false,
-    schedule: false,
-  });
-  const [regenerating, setRegenerating] = useState<string | null>(null);
+  // Consume custom hook containing all business logic & state
+  const {
+    kit,
+    isLoading,
+    error,
+    expandedSections,
+    regenerating,
+    toggleSection,
+    handleRegenerate,
+    handleRestartPipeline,
+    
+    // Question Builder
+    editingQuestion,
+    setEditingQuestion,
+    addingQuestionCategory,
+    setAddingQuestionCategory,
+    newQText,
+    setNewQText,
+    newQOutline,
+    setNewQOutline,
+    newQDiff,
+    setNewQDiff,
+    saveQuestionEdit,
+    saveNewQuestion,
+    deleteQuestion,
+    moveQuestionCategory,
+    reorderQuestion,
 
-  // Builder Edit / Add Modal States
-  const [editingQuestion, setEditingQuestion] = useState<{
-    id: string;
-    category: string;
-    text: string;
-    answer_outline: string;
-    difficulty: number;
-  } | null>(null);
+    // Flashcards Builder
+    editingFlashcard,
+    setEditingFlashcard,
+    isAddingFlashcard,
+    setIsAddingFlashcard,
+    newFcFront,
+    setNewFcFront,
+    newFcBack,
+    setNewFcBack,
+    saveFlashcardEdit,
+    saveNewFlashcard,
+    deleteFlashcard,
 
-  const [addingQuestionCategory, setAddingQuestionCategory] = useState<string | null>(null);
-  const [newQText, setNewQText] = useState("");
-  const [newQOutline, setNewQOutline] = useState("");
-  const [newQDiff, setNewQDiff] = useState(2);
-
-  const [editingFlashcard, setEditingFlashcard] = useState<{
-    id: string;
-    front: string;
-    back: string;
-  } | null>(null);
-  const [isAddingFlashcard, setIsAddingFlashcard] = useState(false);
-  const [newFcFront, setNewFcFront] = useState("");
-  const [newFcBack, setNewFcBack] = useState("");
-
-  const [isEditingBrief, setIsEditingBrief] = useState(false);
-  const [briefSummary, setBriefSummary] = useState("");
-  const [briefWhatTheyDo, setBriefWhatTheyDo] = useState("");
-
-  const fetchKit = useCallback(async () => {
-    try {
-      const data = await api.get(`/kits/${kitId}`);
-      setKit(data.kit);
-      setError("");
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [kitId]);
-
-  useEffect(() => { fetchKit(); }, [fetchKit]);
-
-  // Fast polling while in progress (2.5s)
-  useEffect(() => {
-    if (!kit || ["completed", "partial", "failed"].includes(kit.status)) return;
-    const i = setInterval(fetchKit, 2500);
-    return () => clearInterval(i);
-  }, [kit, fetchKit]);
-
-  const toggleSection = (key: string) => {
-    setExpandedSections(prev => ({ ...prev, [key]: !prev[key] }));
-  };
-
-  const handleRegenerate = async (section: string) => {
-    setRegenerating(section);
-    try {
-      await api.post(`/kits/${kitId}/regenerate`, { section });
-      await fetchKit();
-    } catch (err: any) {
-      alert(err.message);
-    } finally {
-      setRegenerating(null);
-    }
-  };
-
-  const handleRestartPipeline = async () => {
-    try {
-      await api.post(`/kits/${kitId}/generate`);
-      await fetchKit();
-    } catch (err: any) {
-      alert(err.message);
-    }
-  };
-
-  // ─── BUILDER ACTIONS ───
-
-  const handleSaveQuestionEdit = async () => {
-    if (!editingQuestion) return;
-    try {
-      await api.patch(`/kits/${kitId}/questions/${editingQuestion.id}`, {
-        text: editingQuestion.text,
-        answer_outline: editingQuestion.answer_outline,
-        difficulty: editingQuestion.difficulty,
-      });
-      await fetchKit();
-      setEditingQuestion(null);
-    } catch (err: any) {
-      alert(err.message);
-    }
-  };
-
-  const handleSaveNewQuestion = async () => {
-    if (!addingQuestionCategory || !newQText.trim()) return;
-    try {
-      await api.post(`/kits/${kitId}/questions`, {
-        category: addingQuestionCategory,
-        text: newQText.trim(),
-        answer_outline: newQOutline.trim(),
-        difficulty: newQDiff,
-      });
-      await fetchKit();
-      setAddingQuestionCategory(null);
-      setNewQText("");
-      setNewQOutline("");
-      setNewQDiff(2);
-    } catch (err: any) {
-      alert(err.message);
-    }
-  };
-
-  const handleDeleteQuestion = async (qid: string) => {
-    if (!confirm("Delete this question from your prep kit?")) return;
-    try {
-      await api.delete(`/kits/${kitId}/questions/${qid}`);
-      await fetchKit();
-    } catch (err: any) {
-      alert(err.message);
-    }
-  };
-
-  const handleMoveCategory = async (qid: string, targetCategory: string) => {
-    try {
-      await api.patch(`/kits/${kitId}/questions/${qid}/move`, { target_category: targetCategory });
-      await fetchKit();
-    } catch (err: any) {
-      alert(err.message);
-    }
-  };
-
-  const handleReorderQuestion = async (category: string, qid: string, direction: "up" | "down") => {
-    const catQuestions = kit?.kit_data?.questions?.[category] || [];
-    const idx = catQuestions.findIndex((q: any) => q.id === qid);
-    if (idx === -1) return;
-
-    const newIdx = direction === "up" ? idx - 1 : idx + 1;
-    if (newIdx < 0 || newIdx >= catQuestions.length) return;
-
-    const newOrder = [...catQuestions];
-    const [moved] = newOrder.splice(idx, 1);
-    newOrder.splice(newIdx, 0, moved);
-
-    const question_ids = newOrder.map((q: any) => q.id);
-    try {
-      await api.put(`/kits/${kitId}/questions/reorder`, { category, question_ids });
-      await fetchKit();
-    } catch (err: any) {
-      alert(err.message);
-    }
-  };
-
-  const handleSaveFlashcardEdit = async () => {
-    if (!editingFlashcard) return;
-    try {
-      await api.patch(`/kits/${kitId}/flashcards/${editingFlashcard.id}`, {
-        front: editingFlashcard.front,
-        back: editingFlashcard.back,
-      });
-      await fetchKit();
-      setEditingFlashcard(null);
-    } catch (err: any) {
-      alert(err.message);
-    }
-  };
-
-  const handleSaveNewFlashcard = async () => {
-    if (!newFcFront.trim() || !newFcBack.trim()) return;
-    try {
-      await api.post(`/kits/${kitId}/flashcards`, {
-        front: newFcFront.trim(),
-        back: newFcBack.trim(),
-      });
-      await fetchKit();
-      setIsAddingFlashcard(false);
-      setNewFcFront("");
-      setNewFcBack("");
-    } catch (err: any) {
-      alert(err.message);
-    }
-  };
-
-  const handleDeleteFlashcard = async (fid: string) => {
-    if (!confirm("Delete this flashcard?")) return;
-    try {
-      await api.delete(`/kits/${kitId}/flashcards/${fid}`);
-      await fetchKit();
-    } catch (err: any) {
-      alert(err.message);
-    }
-  };
-
-  const handleSaveCompanyBriefEdit = async () => {
-    try {
-      await api.patch(`/kits/${kitId}/company-brief`, {
-        summary: briefSummary,
-        what_they_do: briefWhatTheyDo,
-      });
-      await fetchKit();
-      setIsEditingBrief(false);
-    } catch (err: any) {
-      alert(err.message);
-    }
-  };
+    // Company Brief
+    isEditingBrief,
+    setIsEditingBrief,
+    briefSummary,
+    setBriefSummary,
+    briefWhatTheyDo,
+    setBriefWhatTheyDo,
+    saveCompanyBriefEdit,
+  } = useKitDetail(kitId);
 
   if (isLoading) {
     return (
@@ -642,7 +471,7 @@ export default function KitDetailPage() {
                             {/* Move Up */}
                             <button
                               type="button"
-                              onClick={() => handleReorderQuestion(cat, q.id, "up")}
+                              onClick={() => reorderQuestion(cat, q.id, "up")}
                               disabled={i === 0}
                               className="p-1 text-slate-500 hover:text-blue-700 disabled:opacity-30 rounded-lg hover:bg-blue-100/60"
                               title="Move Up"
@@ -652,7 +481,7 @@ export default function KitDetailPage() {
                             {/* Move Down */}
                             <button
                               type="button"
-                              onClick={() => handleReorderQuestion(cat, q.id, "down")}
+                              onClick={() => reorderQuestion(cat, q.id, "down")}
                               disabled={i === catQuestions.length - 1}
                               className="p-1 text-slate-500 hover:text-blue-700 disabled:opacity-30 rounded-lg hover:bg-blue-100/60"
                               title="Move Down"
@@ -663,7 +492,7 @@ export default function KitDetailPage() {
                             {/* Category Selector */}
                             <select
                               value={cat}
-                              onChange={(e) => handleMoveCategory(q.id, e.target.value)}
+                              onChange={(e) => moveQuestionCategory(q.id, e.target.value)}
                               className="text-[10px] font-bold bg-blue-50 text-blue-800 border border-blue-200 rounded-lg px-1.5 py-0.5 focus:outline-none"
                               title="Move Category"
                             >
@@ -692,7 +521,7 @@ export default function KitDetailPage() {
                             {/* Delete */}
                             <button
                               type="button"
-                              onClick={() => handleDeleteQuestion(q.id)}
+                              onClick={() => deleteQuestion(q.id)}
                               className="p-1 text-red-500 hover:text-red-700 rounded-lg hover:bg-red-50"
                               title="Delete Question"
                             >
@@ -760,7 +589,7 @@ export default function KitDetailPage() {
                         <Edit3 className="w-3.5 h-3.5" />
                       </button>
                       <button
-                        onClick={() => handleDeleteFlashcard(fc.id)}
+                        onClick={() => deleteFlashcard(fc.id)}
                         className="p-1 text-red-500 hover:bg-red-50 rounded-lg"
                         title="Delete Flashcard"
                       >
@@ -888,7 +717,7 @@ export default function KitDetailPage() {
               </button>
               <button
                 type="button"
-                onClick={handleSaveQuestionEdit}
+                onClick={saveQuestionEdit}
                 className="px-4 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl flex items-center gap-1.5 shadow-2xs"
               >
                 <Save className="w-3.5 h-3.5" /> Save Edits
@@ -965,7 +794,7 @@ export default function KitDetailPage() {
               </button>
               <button
                 type="button"
-                onClick={handleSaveNewQuestion}
+                onClick={saveNewQuestion}
                 disabled={!newQText.trim()}
                 className="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl flex items-center gap-1.5 shadow-2xs disabled:opacity-50"
               >
@@ -1021,7 +850,7 @@ export default function KitDetailPage() {
               </button>
               <button
                 type="button"
-                onClick={handleSaveFlashcardEdit}
+                onClick={saveFlashcardEdit}
                 className="px-4 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl flex items-center gap-1.5 shadow-2xs"
               >
                 <Save className="w-3.5 h-3.5" /> Save Flashcard
@@ -1078,7 +907,7 @@ export default function KitDetailPage() {
               </button>
               <button
                 type="button"
-                onClick={handleSaveNewFlashcard}
+                onClick={saveNewFlashcard}
                 disabled={!newFcFront.trim() || !newFcBack.trim()}
                 className="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl flex items-center gap-1.5 shadow-2xs disabled:opacity-50"
               >
@@ -1134,7 +963,7 @@ export default function KitDetailPage() {
               </button>
               <button
                 type="button"
-                onClick={handleSaveCompanyBriefEdit}
+                onClick={saveCompanyBriefEdit}
                 className="px-4 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl flex items-center gap-1.5 shadow-2xs"
               >
                 <Save className="w-3.5 h-3.5" /> Save Brief

@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
 import Header from "@/components/Header";
-import api from "@/lib/api";
+import { useSchedule } from "@/hooks/useSchedule";
 import {
   Calendar as CalendarIcon,
   Clock,
@@ -14,102 +13,20 @@ import {
 } from "lucide-react";
 
 export default function SchedulePage() {
-  const [kits, setKits] = useState<any[]>([]);
-  const [selectedKitId, setSelectedKitId] = useState<string>("");
-  const [selectedKit, setSelectedKit] = useState<any>(null);
-  const [schedule, setSchedule] = useState<any[]>([]);
-  const [daysAvailable, setDaysAvailable] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isScheduleLoading, setIsScheduleLoading] = useState(false);
-  const [expandedDays, setExpandedDays] = useState<Record<number, boolean>>({});
-
-  const toggleDayExpand = (dayNum: number) => {
-    setExpandedDays(prev => ({
-      ...prev,
-      [dayNum]: prev[dayNum] !== undefined ? !prev[dayNum] : false
-    }));
-  };
-
-  // Fetch kits
-  useEffect(() => {
-    api.get("/kits").then(data => {
-      const completedKits = (data.kits || []).filter((k: any) => k.status === "completed");
-      setKits(completedKits);
-      if (completedKits.length > 0) {
-        setSelectedKitId(completedKits[0]._id);
-      }
-      setIsLoading(false);
-    }).catch(() => setIsLoading(false));
-  }, []);
-
-  // Fetch kit details and schedule when selected kit changes
-  const fetchSchedule = useCallback(async () => {
-    if (!selectedKitId) return;
-    setIsScheduleLoading(true);
-    try {
-      const data = await api.get(`/kits/${selectedKitId}`);
-      const kitData = data.kit || {};
-      setSelectedKit(kitData);
-      setSchedule(kitData.kit_data?.schedule || []);
-      setDaysAvailable(kitData.days_available || 0);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsScheduleLoading(false);
-    }
-  }, [selectedKitId]);
-
-  useEffect(() => { fetchSchedule(); }, [fetchSchedule]);
-
-  // Computed dynamic active day based on kit creation date
-  const kitCreatedAt = selectedKit?.created_at ? new Date(selectedKit.created_at) : new Date();
-  const now = new Date();
-  const diffMs = Math.max(0, now.getTime() - kitCreatedAt.getTime());
-  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-  const activeDayNumber = Math.min(daysAvailable || 7, Math.max(1, diffDays + 1));
-
-  // Extract sub-points / key topics for a day
-  const getSubPointsForDay = (day: any) => {
-    const subPoints: string[] = [];
-    if (selectedKit?.kit_data?.questions) {
-      for (const catQs of Object.values(selectedKit.kit_data.questions)) {
-        if (Array.isArray(catQs)) {
-          for (const q of catQs) {
-            if (day.question_ids?.includes(q.id)) {
-              subPoints.push(q.text);
-            }
-          }
-        }
-      }
-    }
-    if (subPoints.length > 0) return subPoints;
-
-    const focusLower = (day.focus || "").toLowerCase();
-    if (focusLower.includes("technical")) {
-      return [
-        "Review core data structures, algorithms & space-time complexity.",
-        "Solve primary coding pattern questions assigned for this role."
-      ];
-    } else if (focusLower.includes("behavioural")) {
-      return [
-        "Draft STAR method responses (Situation, Task, Action, Result) for past project challenges.",
-        "Review company core values & engineering culture."
-      ];
-    } else if (focusLower.includes("system")) {
-      return [
-        "Design high-availability microservices & database partitioning.",
-        "Review caching strategies, load balancing & API rate limiting."
-      ];
-    }
-    return [
-      "Review essential MUST requirements & company technical stack.",
-      "Self-conduct practice response walkthrough."
-    ];
-  };
-
-  // Computed stats
-  const totalMinutes = schedule.reduce((sum, d) => sum + (d.minutes || 0), 0);
-  const totalQuestions = schedule.reduce((sum, d) => sum + (d.question_ids?.length || 0), 0);
+  const {
+    kits,
+    selectedKitId,
+    setSelectedKitId,
+    schedule,
+    isLoading,
+    isScheduleLoading,
+    expandedDays,
+    toggleDayExpand,
+    activeDayNumber,
+    getSubPointsForDay,
+    totalMinutes,
+    totalQuestions,
+  } = useSchedule();
 
   if (isLoading) {
     return (
@@ -145,7 +62,7 @@ export default function SchedulePage() {
             <select
               value={selectedKitId}
               onChange={(e) => setSelectedKitId(e.target.value)}
-              className="px-4 py-2 text-sm bg-blue-50/70 backdrop-blur-md border border-blue-200/70 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 font-bold shadow-2xs"
+              className="px-4 py-2 text-sm bg-blue-50/70 backdrop-blur-md border border-blue-200/70 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 font-bold shadow-2xs cursor-pointer"
             >
               {kits.map(k => (
                 <option key={k._id} value={k._id}>
@@ -204,8 +121,8 @@ export default function SchedulePage() {
               <div
                 key={i}
                 className={`bg-blue-50/70 backdrop-blur-md rounded-2xl border p-5 transition-all hover:bg-blue-100/80 hover:shadow-md space-y-3 ${isToday
-                    ? "border-blue-400/90 shadow-md ring-2 ring-blue-300/40 bg-blue-100/60"
-                    : "border-blue-200/70 shadow-2xs"
+                  ? "border-blue-400/90 shadow-md ring-2 ring-blue-300/40 bg-blue-100/60"
+                  : "border-blue-200/70 shadow-2xs"
                   }`}
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -247,7 +164,7 @@ export default function SchedulePage() {
                   <button
                     type="button"
                     onClick={() => toggleDayExpand(day.day)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-100/80 hover:bg-blue-200/90 text-blue-800 text-xs font-bold transition-all shrink-0 self-start sm:self-center shadow-2xs border border-blue-200/60"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-100/80 hover:bg-blue-200/90 text-blue-800 text-xs font-bold transition-all shrink-0 self-start sm:self-center shadow-2xs border border-blue-200/60 cursor-pointer"
                   >
                     <span>{isExpanded ? "Collapse" : "Expand"}</span>
                     {isExpanded ? (
